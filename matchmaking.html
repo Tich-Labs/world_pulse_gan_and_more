@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="worldpulse">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WorldPulse — Share Your Project</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/custom.css">
+</head>
+<body class="bg-base-100">
+  <nav class="navbar navbar-custom sticky top-0 z-50 shadow-md">
+    <div class="flex-1">
+      <a href="index.html"><img src="logo.svg" alt="WorldPulse" class="navbar-logo"></a>
+    </div>
+    <div class="flex-none gap-4">
+      <a class="btn btn-sm btn-ghost text-primary" href="index.html">Dashboard</a>
+      <a class="btn btn-sm btn-ghost text-primary" href="matchmaking.html">Connect</a>
+      <a class="btn btn-sm btn-ghost text-primary" href="community-hub.html">Community Hub</a>
+      <a class="btn btn-sm btn-ghost text-primary" href="documentation.html">Docs</a>
+      <a class="btn btn-sm btn-primary" href="index.html#profile">Profile</a>
+    </div>
+  </nav>
+  
+  <main class="page-content page-content-full">
+    <div class="container-desktop px-2 py-8">
+    <div class="mb-8 text-center">
+      <h1 class="text-3xl md:text-4xl font-bold text-primary mb-2">👥 Community Matchmaking</h1>
+      <p class="text-muted">Connect with advisors and peers to grow your project</p>
+    </div>
+
+    <div class="grid md:grid-cols-5 gap-6 mb-12">
+      <!-- Project Form -->
+      <div class="md:col-span-3">
+        <div class="card-custom">
+          <h2 class="text-2xl font-bold text-primary mb-6 text-center">Share Your Project</h2>
+          
+          <!-- Progress Indicator -->
+          <div class="mb-8">
+            <div class="step-indicator">
+              <div class="step active" id="step-1-indicator">
+                <div class="step-number">1</div>
+                <div class="step-label">Who You Are</div>
+              </div>
+              <div class="step" id="step-2-indicator">
+                <div class="step-number">2</div>
+                <div class="step-label">Challenge</div>
+              </div>
+              <div class="step" id="step-3-indicator">
+                <div class="step-number">3</div>
+                <div class="step-label">What You've Tried</div>
+              </div>
+              <div class="step" id="step-4-indicator">
+                <div class="step-number">4</div>
+                <div class="step-label">Support Needed</div>
+              </div>
+              <div class="step" id="step-5-indicator">
+                <div class="step-number">5</div>
+                <div class="step-label">Ideal Outcome</div>
+              </div>
+              <div class="step" id="step-6-indicator">
+                <div class="step-number">6</div>
+                <div class="step-label">Team</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Progress Bar -->
+          <div class="mb-6 p-4 bg-base-200 rounded-xl">
+            <div class="flex justify-between mb-2">
+              <span id="step-label" class="font-semibold text-primary text-sm">Step 1: Who You Are</span>
+              <span class="text-sm text-muted" id="step-count">1 / 6</span>
+            </div>
+            <div class="progress-container">
+              <div id="step-progress" class="progress-bar" style="width: 16%;"></div>
+            </div>
+          </div>
+          
+          <form id="project-form" class="space-y-6">
+            
+            <!-- Step 1: Who You Are -->
+            <div id="step-1" class="step-content">
+              <h2 class="text-xl font-bold text-primary mb-4">Tell us about yourself and your project</h2>
+              
+              <div class="space-y-4">
+                <div class="form-group">
+                  <label class="font-semibold text-primary block mb-2">Your name <span class="text-red-500">*</span></label>
+                  <input type="text" id="name" class="input-custom w-full" placeholder="What's your name?" required />
+                </div>
+                
+                <div class="form-group">
+                  <label class="font-semibold text-primary block mb-2">Where are you based? <span class="text-red-500">*</span></label>
+                  <input type="text" id="location" class="input-custom w-full" placeholder="City, Country" required />
+                </div>
+                
+                <div class="form-group">
+                  <label class="font-semibold text-primary block mb-2">Tell us about your project <span class="text-red-500">*</span></label>
+                  <textarea id="project_description" class="input-custom w-full h-24" placeholder="What's your project about? Who are you helping?" required></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: Your Challenge -->
+            <div id="step-2" class="step-content hidden">
+              <h2 class="text-xl font-bold text-primary mb-4">Your Challenge</h2>
+              
+              <div class="space-y-4">
+                <div class="form-group">
+                  <label class="font-semibold text-primary block mb-2">What's one thing you're trying to accomplish but haven't seen the results you hoped for? <span class="text-red-500">*</span></label>
+                  <textarea id="accomplishment_goal" class="input-custom w-full h-20" placeholder="Be specific—what are you working toward?" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                  <label class="font-semibold text-primary block mb-2">Why does this matter to you? <span class="text-red-500">*</span></label>
+                  <textarea id="why_matters" class="input-custom w-full h-20" placeholder="What's at stake? Why is this important?" required></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: What You've Tried -->
+            <div id="step-3" class="step-content hidden">
+              <h2 class="text-xl font-bold text-primary mb-4">What You've Tried</h2>
+              
+              <div class="space-y-4">
+                <div class="form-group">
+                  <label class="font-semibold text-primary block mb-2">What have you tried so far to solve this? <span class="text-red-500">*</span></label>
+                  <textarea id="attempts_so_far" class="input-custom w-full h-20" placeholder="What steps have you already taken?" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                  <label class="font-semibold text-primary block mb-2">What worked? What didn't? <span class="text-red-500">*</span></label>
+                  <textarea id="what_worked" class="input-custom w-full h-20" placeholder="What gave you the best results? What fell flat?" required></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4: What Kind of Support -->
+            <div id="step-4" class="step-content hidden">
+              <h2 class="text-xl font-bold text-primary mb-4">What Kind of Peer Support Would Help?</h2>
+              <p class="text-muted mb-4">Select all that apply:</p>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <label class="flex items-start gap-3 p-3 border border-base-300 rounded-xl cursor-pointer hover:bg-base-200 transition">
+                  <input type="checkbox" class="support-checkbox mt-1" value="Strategic advice" />
+                  <div>
+                    <span class="font-semibold block text-primary">Strategic advice</span>
+                    <span class="text-sm text-muted">High-level guidance on direction</span>
+                  </div>
+                </label>
+                
+                <label class="flex items-start gap-3 p-3 border border-base-300 rounded-xl cursor-pointer hover:bg-base-200 transition">
+                  <input type="checkbox" class="support-checkbox mt-1" value="Practical tips" />
+                  <div>
+                    <span class="font-semibold block text-primary">Practical tips</span>
+                    <span class="text-sm text-muted">Implementation help & tactics</span>
+                  </div>
+                </label>
+                
+                <label class="flex items-start gap-3 p-3 border border-base-300 rounded-xl cursor-pointer hover:bg-base-200 transition">
+                  <input type="checkbox" class="support-checkbox mt-1" value="Moral support" />
+                  <div>
+                    <span class="font-semibold block text-primary">Moral support</span>
+                    <span class="text-sm text-muted">Encouragement & accountability</span>
+                  </div>
+                </label>
+                
+                <label class="flex items-start gap-3 p-3 border border-base-300 rounded-xl cursor-pointer hover:bg-base-200 transition">
+                  <input type="checkbox" class="support-checkbox mt-1" value="Resource connections" />
+                  <div>
+                    <span class="font-semibold block text-primary">Resource connections</span>
+                    <span class="text-sm text-muted">Introductions & networking</span>
+                  </div>
+                </label>
+                
+                <label class="flex items-start gap-3 p-3 border border-base-300 rounded-xl cursor-pointer hover:bg-base-200 transition">
+                  <input type="checkbox" class="support-checkbox mt-1" value="Skill building" />
+                  <div>
+                    <span class="font-semibold block text-primary">Skill building</span>
+                    <span class="text-sm text-muted">Teaching & training</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Step 5: Ideal Outcome -->
+            <div id="step-5" class="step-content hidden">
+              <h2 class="text-xl font-bold text-primary mb-4">Your Ideal Outcome</h2>
+              
+              <div class="space-y-4">
+                <div class="form-group">
+                  <label class="font-semibold text-primary block mb-2">If you got that support, what would success look like? <span class="text-red-500">*</span></label>
+                  <textarea id="ideal_outcome" class="input-custom w-full h-20" placeholder="Describe your ideal outcome..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                  <label class="font-semibold text-primary block mb-2">When would you like to achieve this by? <span class="text-red-500">*</span></label>
+                  <input type="date" id="timeline" class="input-custom w-full" required />
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 6: Team Composition -->
+            <div id="step-6" class="step-content hidden">
+              <h2 class="text-xl font-bold text-primary mb-4">Are you working on this solo or with a team?</h2>
+              
+              <div class="space-y-3 mb-6">
+                <label class="flex items-center gap-3 p-3 border border-base-300 rounded-xl cursor-pointer hover:bg-base-200 transition">
+                  <input type="radio" name="team_composition" value="Solo" required />
+                  <span class="font-semibold text-primary">Working Solo</span>
+                </label>
+                
+                <label class="flex items-center gap-3 p-3 border border-base-300 rounded-xl cursor-pointer hover:bg-base-200 transition">
+                  <input type="radio" name="team_composition" value="Small Team (2-3)" required />
+                  <span class="font-semibold text-primary">Small Team (2-3 people)</span>
+                </label>
+                
+                <label class="flex items-center gap-3 p-3 border border-base-300 rounded-xl cursor-pointer hover:bg-base-200 transition">
+                  <input type="radio" name="team_composition" value="Larger Team (4+)" required />
+                  <span class="font-semibold text-primary">Larger Team (4+ people)</span>
+                </label>
+              </div>
+
+              <div class="p-4 bg-base-200 rounded-xl border border-base-300">
+                <p class="text-sm text-text-primary">
+                  <strong>What happens next?</strong> We'll share your project with our community of peer advisors. Within 48 hours, experienced people in your area will reach out to offer guidance and support.
+                </p>
+              </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="flex justify-between gap-3 pt-6">
+              <button type="button" class="btn btn-secondary-custom" onclick="previousStep()" id="prev-btn">
+                ← Previous
+              </button>
+              <button type="button" class="btn btn-primary-custom" onclick="nextStep()" id="next-btn">
+                Next →
+              </button>
+              <button type="submit" class="btn btn-cta-custom hidden" id="submit-btn">
+                Submit Project ✓
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Recent Projects Directory -->
+      <div class="md:col-span-2">
+        <div class="sticky top-24">
+          <h2 class="text-2xl font-bold text-primary mb-4">💡 Recent Projects</h2>
+          <div id="projects-list" class="space-y-3">
+            <div class="empty-state">
+              <div class="empty-icon">📋</div>
+              <div class="empty-title">No projects yet</div>
+              <div class="empty-description">Share your project to get started!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let currentStep = 1;
+    const totalSteps = 6;
+
+    const stepLabels = {
+      1: "Step 1: Who You Are",
+      2: "Step 2: Your Challenge",
+      3: "Step 3: What You've Tried",
+      4: "Step 4: Support Needed",
+      5: "Step 5: Your Ideal Outcome",
+      6: "Step 6: Team Composition"
+    };
+
+    function updateProgress() {
+      currentStep = Math.min(Math.max(currentStep, 1), totalSteps);
+      document.getElementById('step-count').textContent = `${currentStep} / ${totalSteps}`;
+      document.getElementById('step-label').textContent = stepLabels[currentStep];
+      document.getElementById('step-progress').style.width = `${(currentStep / totalSteps) * 100}%`;
+
+      // Update step indicators
+      for (let i = 1; i <= totalSteps; i++) {
+        const indicator = document.getElementById(`step-${i}-indicator`);
+        if (indicator) {
+          indicator.classList.remove('active', 'completed');
+          if (i < currentStep) {
+            indicator.classList.add('completed');
+          } else if (i === currentStep) {
+            indicator.classList.add('active');
+          }
+        }
+      }
+
+      // Show/hide steps
+      for (let i = 1; i <= totalSteps; i++) {
+        const el = document.getElementById(`step-${i}`);
+        if (el) el.classList.toggle('hidden', i !== currentStep);
+      }
+
+      // Update buttons
+      document.getElementById('prev-btn').classList.toggle('hidden', currentStep === 1);
+      document.getElementById('next-btn').classList.toggle('hidden', currentStep === totalSteps);
+      document.getElementById('submit-btn').classList.toggle('hidden', currentStep !== totalSteps);
+    }
+
+    function nextStep() {
+      if (validateStep(currentStep)) {
+        currentStep++;
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function previousStep() {
+      currentStep--;
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function validateStep(step) {
+      if (step === 1) {
+        const name = document.getElementById('name').value;
+        const location = document.getElementById('location').value;
+        const description = document.getElementById('project_description').value;
+        
+        if (!name || !location || !description) {
+          showFieldError('name', 'This field is required');
+          showFieldError('location', 'This field is required');
+          showFieldError('project_description', 'This field is required');
+          return false;
+        }
+        clearFieldError('name');
+        clearFieldError('location');
+        clearFieldError('project_description');
+        return true;
+      }
+      if (step === 2) {
+        const accomplishment = document.getElementById('accomplishment_goal').value;
+        const matters = document.getElementById('why_matters').value;
+        
+        if (!accomplishment || !matters) {
+          showFieldError('accomplishment_goal', 'This field is required');
+          showFieldError('why_matters', 'This field is required');
+          return false;
+        }
+        clearFieldError('accomplishment_goal');
+        clearFieldError('why_matters');
+        return true;
+      }
+      if (step === 3) {
+        const attempts = document.getElementById('attempts_so_far').value;
+        const worked = document.getElementById('what_worked').value;
+        
+        if (!attempts || !worked) {
+          showFieldError('attempts_so_far', 'This field is required');
+          showFieldError('what_worked', 'This field is required');
+          return false;
+        }
+        clearFieldError('attempts_so_far');
+        clearFieldError('what_worked');
+        return true;
+      }
+      if (step === 4) {
+        const checkboxes = document.querySelectorAll('.support-checkbox:checked');
+        if (checkboxes.length === 0) {
+          showNotification('Please select at least one type of support needed', 'error');
+          return false;
+        }
+        return true;
+      }
+      if (step === 5) {
+        const outcome = document.getElementById('ideal_outcome').value;
+        const timeline = document.getElementById('timeline').value;
+        
+        if (!outcome || !timeline) {
+          showFieldError('ideal_outcome', 'This field is required');
+          showFieldError('timeline', 'This field is required');
+          return false;
+        }
+        clearFieldError('ideal_outcome');
+        clearFieldError('timeline');
+        return true;
+      }
+      if (step === 6) {
+        const radio = document.querySelector('input[name="team_composition"]:checked');
+        if (!radio) {
+          showNotification('Please select your team composition', 'error');
+          return false;
+        }
+        return true;
+      }
+      return true;
+    }
+
+    function showFieldError(fieldId, message) {
+      const field = document.getElementById(fieldId);
+      field.classList.add('error');
+      
+      // Remove existing error message
+      const existingError = field.parentNode.querySelector('.error-message');
+      if (existingError) {
+        existingError.remove();
+      }
+      
+      // Add new error message
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'error-message text-error text-sm mt-1';
+      errorDiv.textContent = message;
+      field.parentNode.appendChild(errorDiv);
+    }
+
+    function clearFieldError(fieldId) {
+      const field = document.getElementById(fieldId);
+      field.classList.remove('error');
+      
+      // Remove error message
+      const errorDiv = field.parentNode.querySelector('.error-message');
+      if (errorDiv) {
+        errorDiv.remove();
+      }
+    }
+
+    document.getElementById('project-form').addEventListener('submit', e => {
+      e.preventDefault();
+      
+      const supportTypes = Array.from(document.querySelectorAll('.support-checkbox:checked'))
+        .map(cb => cb.value);
+      
+      const project = {
+        id: Date.now(),
+        name: document.getElementById('name').value,
+        location: document.getElementById('location').value,
+        description: document.getElementById('project_description').value,
+        accomplishment: document.getElementById('accomplishment_goal').value,
+        whyMatters: document.getElementById('why_matters').value,
+        attempts: document.getElementById('attempts_so_far').value,
+        whatWorked: document.getElementById('what_worked').value,
+        idealOutcome: document.getElementById('ideal_outcome').value,
+        timeline: document.getElementById('timeline').value,
+        supportNeeded: supportTypes,
+        teamComposition: document.querySelector('input[name="team_composition"]:checked').value,
+        submittedAt: new Date().toISOString()
+      };
+
+      const projects = JSON.parse(localStorage.getItem('worldpulse_projects') || '[]');
+      projects.unshift(project);
+      localStorage.setItem('worldpulse_projects', JSON.stringify(projects));
+
+      showNotification('✓ Project submitted! Advisors in your area will reach out soon.', 'success');
+      document.getElementById('project-form').reset();
+      currentStep = 1;
+      updateProgress();
+      loadProjects();
+    });
+
+    function loadProjects() {
+      const projects = JSON.parse(localStorage.getItem('worldpulse_projects') || '[]');
+      const el = document.getElementById('projects-list');
+      
+      if (projects.length === 0) {
+        el.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">📋</div>
+            <div class="empty-title">No projects yet</div>
+            <div class="empty-description">Be the first to share your project!</div>
+          </div>
+        `;
+        return;
+      }
+
+      el.innerHTML = projects.slice(0, 8).map(proj => `
+        <div class="card-custom animate-fadeInUp">
+          <div>
+            <h3 class="font-bold text-primary">${proj.accomplishment || proj.description.substring(0, 40)}${proj.description.length > 40 ? '...' : ''}</h3>
+            <p class="text-sm text-muted">by ${proj.name} • ${proj.location}</p>
+            <p class="text-sm text-text-primary mt-2">${proj.description.substring(0, 80)}${proj.description.length > 80 ? '...' : ''}</p>
+            <div class="flex flex-wrap gap-1 mt-2">
+              ${proj.supportNeeded.slice(0, 2).map(s => `<span class="badge-custom">${s}</span>`).join('')}
+            </div>
+            <button class="btn btn-sm btn-primary-custom w-full mt-3">Offer Help</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Notification function
+    function showNotification(message, type = 'info') {
+      // Remove any existing notifications
+      document.querySelectorAll('.alert').forEach(alert => alert.remove());
+      
+      const alertClass = `alert alert-${type} animate-fadeInUp`;
+      const iconMap = {
+        'success': '✓',
+        'error': '✗',
+        'warning': '!',
+        'info': 'ℹ'
+      };
+      
+      const alertHTML = `
+        <div class="${alertClass}">
+          <span class="alert-icon">${iconMap[type] || 'ℹ'}</span>
+          <span>${message}</span>
+          <button class="btn btn-sm btn-ghost ml-auto" onclick="this.parentElement.remove()">✕</button>
+        </div>
+      `;
+      
+      // Add notification to the top of the main element
+      document.querySelector('main').insertAdjacentHTML('afterbegin', alertHTML);
+      
+      // Auto-remove after 5 seconds
+      setTimeout(() => {
+        const alert = document.querySelector('.alert');
+        if (alert) {
+          alert.style.opacity = '0';
+          setTimeout(() => alert.remove(), 300);
+        }
+      }, 5000);
+    }
+
+    updateProgress();
+    loadProjects();
+  </script>
+
+  <div id="shared-footer"></div>
+  <script src="js/load-footer.js"></script>
+</body>
+</html>

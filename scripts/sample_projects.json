@@ -1,0 +1,20 @@
+[
+  {
+    "userId": "user_123",
+    "name": "Smallholder Farmers Market Access",
+    "location": "Brazil",
+    "project_description": "Help 500+ smallholder farmers access better markets by creating cooperative logistics and training on post-harvest handling.",
+    "personal_connection": "Local NGO partnership",
+    "accomplishment_goal": "Increase farmer incomes by 30%",
+    "why_matters": "Improves livelihoods and food security",
+    "attempts_so_far": "Piloted with 2 communities, faced transport constraints",
+    "what_worked": "Community leaders engaged well",
+    "what_didnt_work": "No reliable transport partner",
+    "support_needed": ["logistics","funding","partnerships"],
+    "breakthrough_outcome": "Signed agreement with 1 buyer",
+    "outcome_statement": "Secure recurring buyers for produce",
+    "timeline": "2026-12-31",
+    "team_composition": "5 core staff + volunteers",
+    "team_size": "6"
+  }
+]

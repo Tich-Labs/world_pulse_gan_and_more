@@ -1,0 +1,108 @@
+        <!-- Profile Page -->
+        <div id="page-profile" class="page-content page-content-full hidden">
+            <div class="container-desktop mx-auto p-4 py-12">
+                <h1 class="text-4xl font-bold text-primary mb-2">👤 Create Your Profile</h1>
+                <p class="text-muted mb-8">Choose your role in the WorldPulse community</p>
+                
+                <!-- Login Options -->
+                <div class="card-custom p-6 mb-8">
+                    <h2 class="text-xl font-bold text-primary mb-4 text-center">Sign in to continue</h2>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="btn btn-primary-custom flex-1" onclick="signInWithEmail()">
+                            <span class="text-xl">📧</span> Continue with Email
+                        </button>
+                        <button class="btn btn-secondary-custom flex-1" onclick="signInWithGoogle()">
+                            <span class="text-xl">🔍</span> Continue with Google
+                        </button>
+                    </div>
+                    <div class="text-center mt-4">
+                        <p class="text-sm text-muted">Or fill out the form below to continue without an account</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="profile-type-card" data-type="seeker" onclick="setRegistrationType('seeker')">
+                        <span class="profile-type-icon">🤝</span>
+                        <h3 class="profile-type-title">Advice Seeker</h3>
+                        <p class="profile-type-desc">Need guidance? Join as someone seeking advice</p>
+                        <div class="profile-type-stats">
+                            <div>
+                                <div class="stat-value">0</div>
+                                <div class="stat-label">Requests</div>
+                            </div>
+                            <div>
+                                <div class="stat-value">0</div>
+                                <div class="stat-label">Connections</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-type-card" data-type="advisor" onclick="setRegistrationType('advisor')">
+                        <span class="profile-type-icon">🎓</span>
+                        <h3 class="profile-type-title">Peer Advisor</h3>
+                        <p class="profile-type-desc">Want to help? Join as an advisor</p>
+                        <div class="profile-type-stats">
+                            <div>
+                                <div class="stat-value">0</div>
+                                <div class="stat-label">Sessions</div>
+                            </div>
+                            <div>
+                                <div class="stat-value">0</div>
+                                <div class="stat-label">Mentees</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-custom">
+                    <form id="profile-form" class="space-y-6">
+                        <div>
+                            <label class="font-semibold text-primary block mb-2">Full Name *</label>
+                            <input type="text" class="input-custom w-full" id="profile-name" placeholder="Your full name" required>
+                        </div>
+                        
+                        <div>
+                            <label class="font-semibold text-primary block mb-2">About Yourself</label>
+                            <textarea class="input-custom w-full h-24" id="profile-bio" placeholder="Tell us about yourself, your background, and interests..."></textarea>
+                        </div>
+
+                        <div>
+                            <label class="font-semibold text-primary block mb-2">Primary Focus Area</label>
+                            <select class="input-custom w-full" id="profile-focus">
+                                <option value="">Select area</option>
+                                <option value="tech">Technology</option>
+                                <option value="business">Business</option>
+                                <option value="health">Health</option>
+                                <option value="education">Education</option>
+                                <option value="social_impact">Social Impact</option>
+                                <option value="finance">Finance</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div id="advisor-fields" style="display: none;">
+                            <div>
+                                <label class="font-semibold text-primary block mb-2">Areas of Expertise *</label>
+                                <input type="text" class="input-custom w-full" id="profile-expertise" placeholder="e.g., Digital Marketing, Software Development, Healthcare Innovation">
+                            </div>
+
+                            <div>
+                                <label class="font-semibold text-primary block mb-2">Availability</label>
+                                <select class="input-custom w-full" id="profile-availability">
+                                    <option value="flexible">Flexible</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="biweekly">Bi-weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                    <option value="as_needed">As needed</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <button type="button" id="profile-submit-btn" class="btn btn-primary-custom flex-1" disabled>Complete Registration</button>
+                            <button type="button" class="btn btn-secondary-custom flex-1" onclick="switchPage('dashboard')">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>

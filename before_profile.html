@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="worldpulse">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="WorldPulse - Empowering global communities through mentorship, ideas, and impact stories">
+    <title>WorldPulse - Community Impact Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="./css/custom.css">
+</head>
+<body class="bg-base-100">
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom sticky top-0 z-50 shadow-md">
+        <div class="flex-1">
+            <a href="index.html"><img src="logo.svg" alt="WorldPulse" class="navbar-logo"></a>
+        </div>
+        <div class="flex-none gap-4">
+            <a class="btn btn-sm btn-ghost text-primary font-medium" href="index.html">Dashboard</a>
+            <a class="btn btn-sm btn-ghost text-primary font-medium" href="matchmaking.html">Connect</a>            
+            <a class="btn btn-sm btn-ghost text-primary font-medium" href="community-hub.html">Community Hub</a>
+            <a class="btn btn-sm btn-ghost text-primary font-medium" href="documentation.html">Documentation</a>
+            <a class="btn btn-sm btn-primary" href="index.html#profile">Profile</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="min-h-screen">
+        <!-- Dashboard Page -->
+        <div id="page-dashboard" class="page-content page-content-full">
+            <section class="hero-custom">
+                <div class="container-desktop mx-auto">
+                    <div class="max-w-2xl">
+                        <h1 class="text-5xl font-bold mb-4">Welcome to WorldPulse</h1>
+                        <p class="text-xl text-gray-100 mb-8">Empowering global communities through peer advisory, ideas, and impact stories</p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <a href="matchmaking.html" class="btn btn-primary-custom flex items-center justify-center gap-2" role="button" aria-label="Get advice from peers or offer your expertise">
+                                <span class="text-lg">🤝</span> Give or Get Advice
+                            </a>
+                            <a href="community-hub.html" class="btn btn-secondary-custom text-white border-white flex items-center justify-center gap-2" role="button" aria-label="Vote on community content and features">
+                                <span class="text-lg">🗳️</span> Vote & Share
+                            </a>
+                        </div>
+                        <p class="text-gray-100 mt-4 text-center">Connect with peers, share ideas, and shape our platform together</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="container mx-auto max-w-6xl p-4 mt-12">
+                <!-- Metrics Row -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+                    <div class="card-custom text-center">
+                        <div class="text-4xl font-bold text-primary mb-2" id="metric-members">0</div>
+                        <p class="text-muted">Active Members</p>
+                    </div>
+                    <div class="card-custom text-center">
+                        <div class="text-4xl font-bold text-accent mb-2" id="metric-ideas">0</div>
+                        <p class="text-muted">Ideas Submitted</p>
+                    </div>
+                    <div class="card-custom text-center">
+                        <div class="text-4xl font-bold text-cta mb-2" id="metric-stories">0</div>
+                        <p class="text-muted">Impact Stories</p>
+                    </div>
+                    <div class="card-custom text-center">
+                        <div class="text-4xl font-bold text-primary mb-2" id="metric-training">0</div>
+                        <p class="text-muted">Trainings Offered</p>
+                    </div>
+                </div>
+
+                <!-- Featured Content -->
+                <div class="grid grid-cols-1 md:grid-cols-1 gap-8 mb-12">
+                    <div class="card-custom">
+                        <h2 class="text-2xl font-bold text-primary mb-4">🔥 Trending Ideas</h2>
+                        <div id="trending-ideas" class="space-y-3">
+                            <p class="text-muted text-sm">Loading trending ideas...</p>
+                        </div>
+                        <div id="trending-stories" class="space-y-3 mt-4">
+                            <p class="text-muted text-sm">Loading trending stories...</p>
+                        </div>
+                        <button class="btn btn-cta-custom w-full mt-4" onclick="window.location.href='community-hub.html'">View All Ideas</button>
+                    </div>
+                </div>
+
+                <!-- Quick Access Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                    <a href="matchmaking.html" class="card-custom cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-primary/10 p-4 rounded-xl group-hover:bg-primary/20 transition-colors duration-300">
+                                <span class="text-2xl">🤝</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">Community Matchmaking</h3>
+                                <p class="text-muted mb-4">Connect with mentors, peers, and collaborators in our vibrant community</p>
+                                <div class="badge badge-accent flex items-center gap-1">
+                                    <span class="animate-pulse">✨</span> Find Connections
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="community-hub.html" class="card-custom cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-accent/10 p-4 rounded-xl group-hover:bg-accent/20 transition-colors duration-300">
+                                <span class="text-2xl">🗳️</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">Roadmap Voting</h3>
+                                <p class="text-muted mb-4">Shape the future of WorldPulse by voting on features and ideas</p>
+                                <div class="badge badge-accent flex items-center gap-1">
+                                    <span class="animate-pulse">💡</span> Vote Now
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="training.html" class="card-custom cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-cta/10 p-4 rounded-xl group-hover:bg-cta/20 transition-colors duration-300">
+                                <span class="text-2xl">🎓</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">Learning Hub</h3>
+                                <p class="text-muted mb-4">Request training, share knowledge, and build skills together</p>
+                                <div class="badge badge-accent flex items-center gap-1">
+                                    <span class="animate-pulse">🚀</span> Grow Skills
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="awards.html" class="card-custom cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-warning/10 p-4 rounded-xl group-hover:bg-warning/20 transition-colors duration-300">
+                                <span class="text-2xl">🌟</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">Impact Stories</h3>
+                                <p class="text-muted mb-4">Celebrate and discover inspiring stories from our community</p>
+                                <div class="badge badge-accent flex items-center gap-1">
+                                    <span class="animate-pulse">❤️</span> Share Impact
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="documentation.html" class="card-custom cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-info/10 p-4 rounded-xl group-hover:bg-info/20 transition-colors duration-300">
+                                <span class="text-2xl">📋</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">Resources</h3>
+                                <p class="text-muted mb-4">Guides, tips, and everything you need to get the most from WorldPulse</p>
+                                <div class="badge badge-accent flex items-center gap-1">
+                                    <span class="animate-pulse">📖</span> Learn More
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Community Matchmaking Page (Advice Form + Directory) -->
+        <div id="page-matchmaking" class="page-content page-content-full hidden">
+            <div class="container mx-auto max-w-6xl p-4 py-12">
+                <h1 class="text-4xl font-bold text-primary mb-8">👥 Community Matchmaking — Advice Requests</h1>
+
+                <div class="grid md:grid-cols-3 gap-8 mb-12">
+                    <!-- Advice Form -->
+                    <div class="md:col-span-1">
+                        <div class="card-custom">
+                            <h2 class="text-2xl font-bold text-primary mb-4">Share Your Story & Request Advice</h2>
+                            <form id="advice-form" class="space-y-4" onsubmit="submitAdvice(event)">
+                                <div>
+                                    <label class="font-semibold text-primary block mb-2">Full name</label>
+                                    <input id="advice-name" type="text" class="input-custom w-full" placeholder="Your name" required />
+                                </div>
+                                <div>
+                                    <label class="font-semibold text-primary block mb-2">Project / Title</label>
+                                    <input id="advice-title" type="text" class="input-custom w-full" placeholder="Short project title" required />
+                                </div>
+                                <div>
+                                    <label class="font-semibold text-primary block mb-2">Location</label>
+                                    <input id="advice-location" type="text" class="input-custom w-full" placeholder="City, Country" />
+                                </div>
+                                <div>
+                                    <label class="font-semibold text-primary block mb-2">Problem Summary</label>
+                                    <textarea id="advice-problem" class="input-custom w-full h-24" placeholder="In 2–3 sentences, what's the main problem?" required></textarea>
+                                </div>
+                                <div>
+                                    <label class="font-semibold text-primary block mb-2">What you've tried</label>
+                                    <textarea id="advice-tried" class="input-custom w-full h-20" placeholder="List attempts and results"></textarea>
+                                </div>
+                                <div>
+                                    <label class="font-semibold text-primary block mb-2">Support needed</label>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center gap-3"><input type="checkbox" name="support" value="strategic" /> <span>Strategic advice</span></label>
+                                        <label class="flex items-center gap-3"><input type="checkbox" name="support" value="practical" /> <span>Practical tips</span></label>
+                                        <label class="flex items-center gap-3"><input type="checkbox" name="support" value="connections" /> <span>Resource connections</span></label>
+                                        <label class="flex items-center gap-3"><input type="checkbox" name="support" value="skills" /> <span>Skill building / training</span></label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="font-semibold text-primary block mb-2">Ideal outcome & timeline</label>
+                                    <input id="advice-outcome" type="text" class="input-custom w-full" placeholder="What success looks like (and when)" />
+                                </div>
+                                <div>
+                                    <label class="font-semibold text-primary block mb-2">Visibility</label>
+                                    <select id="advice-visibility" class="input-custom w-full">
+                                        <option value="public">Public — visible to all advisors</option>
+                                        <option value="private">Private — mentors request access</option>
+                                    </select>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button type="submit" class="btn btn-primary-custom flex-1">Publish Request</button>
+                                    <button type="button" class="btn btn-secondary-custom flex-1" onclick="document.getElementById('advice-form').reset()">Reset</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Directory -->
+                    <div class="md:col-span-2">
+                        <div class="card-custom">
+                            <h2 class="text-2xl font-bold text-primary mb-4">Advice Requests Directory</h2>
+                            <div id="advices-list" class="space-y-4">
+                                <p class="text-center text-muted py-8">No requests yet — published requests will appear here.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Roadmap Voting Page -->
+        <div id="page-roadmap" class="page-content page-content-full hidden">
+            <div class="container mx-auto max-w-6xl p-4 py-12">
+                <h1 class="text-4xl font-bold text-primary mb-2">🗳️ Roadmap Voting</h1>
+                <p class="text-muted mb-8">Vote on features and ideas you want to see developed. Your voice shapes WorldPulse.</p>
+                
+                <div class="grid-cols-responsive">
+                    <div id="ideas-list">
+                        <p class="text-center text-muted py-8">Loading ideas...</p>
+                    </div>
+                </div>
+                
+                <div class="mt-12">
+                    <button class="btn btn-cta-custom" onclick="showModal('submitIdea')">+ Submit New Idea</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Training & Events Page -->
+        <div id="page-training" class="page-content page-content-full hidden">
+            <div class="container mx-auto max-w-6xl p-4 py-12">
+                <h1 class="text-4xl font-bold text-primary mb-8">📚 Training & Events</h1>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="card-custom">
+                        <h2 class="text-2xl font-bold text-primary mb-4">Request Training</h2>
+                        <form id="training-form" class="space-y-4" onsubmit="submitTrainingRequest(event)">
+                            <div>
+                                <label class="font-semibold text-primary block mb-2">Training Topic</label>
+                                <input type="text" class="input-custom w-full" placeholder="e.g., Digital Marketing" required>
+                            </div>
+                            <div>
+                                <label class="font-semibold text-primary block mb-2">Description</label>
+                                <textarea class="input-custom w-full h-24" placeholder="Tell us what you'd like to learn..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary-custom w-full">Submit Request</button>
+                        </form>
+                    </div>
+
+                    <div class="card-custom">
+                        <h2 class="text-2xl font-bold text-primary mb-4">Offer Training</h2>
+                        <form id="training-offering-form" class="space-y-4" onsubmit="submitTrainingOffering(event)">
+                            <div>
+                                <label class="font-semibold text-primary block mb-2">Topic/Expertise</label>
+                                <input type="text" class="input-custom w-full" placeholder="e.g., Digital Marketing" required>
+                            </div>
+                            <div>
+                                <label class="font-semibold text-primary block mb-2">Description</label>
+                                <textarea class="input-custom w-full h-20" placeholder="What can you teach?" required></textarea>
+                            </div>
+                            <div>
+                                <label class="font-semibold text-primary block mb-2">Availability</label>
+                                <select class="input-custom w-full" required>
+                                    <option value="">Select availability</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="biweekly">Bi-weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                    <option value="flexible">Flexible</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-accent-custom w-full">Offer Training</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="mt-12">
+                    <h2 class="text-2xl font-bold text-primary mb-4">Training Requests</h2>
+                    <div id="training-requests" class="grid-cols-responsive">
+                        <p class="text-muted text-sm col-span-full">No training requests yet</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Story Awards Page -->
+        <div id="page-awards" class="page-content page-content-full hidden">
+            <div class="container mx-auto max-w-6xl p-4 py-12">
+                <h1 class="text-4xl font-bold text-primary mb-2">🏆 Featured Stories</h1>
+                <p class="text-muted mb-8">Vote on the most impactful stories from our community</p>
+                
+                <div class="grid-cols-responsive">
+                    <div id="stories-list" class="space-y-6">
+                        <p class="text-center text-muted py-8">Loading stories...</p>
+                    </div>
+                </div>
+                
+                <div class="mt-12 text-center">
+                    <button class="btn btn-cta-custom" onclick="showModal('submitStory')">✍️ Share Your Story</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documentation Page -->
+        <div id="page-documentation" class="page-content page-content-full hidden">
+            <div class="container mx-auto max-w-6xl p-4 py-12">
+                <h1 class="text-4xl font-bold text-primary mb-8">📖 Documentation</h1>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="card-custom">
+                        <h2 class="text-2xl font-bold text-primary mb-4">Getting Started</h2>
+                        <ul class="space-y-3 text-muted">
+                            <li class="flex items-start">
+                                <span class="text-primary mr-3">✓</span>
+                                <span><strong>Create Your Profile:</strong> Set up your profile to get started with WorldPulse</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-primary mr-3">✓</span>
+                                <span><strong>Find a Mentor:</strong> Browse our community and connect with mentors</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-primary mr-3">✓</span>
+                                <span><strong>Submit Ideas:</strong> Share your ideas and vote on features you'd like to see</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-primary mr-3">✓</span>
+                                <span><strong>Join Training:</strong> Request or offer training sessions to build your skills</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card-custom">
+                        <h2 class="text-2xl font-bold text-primary mb-4">Key Features</h2>
+                        <ul class="space-y-3 text-muted">
+                            <li class="flex items-start">
+                                <span class="text-accent mr-3">●</span>
+                                <span><strong>Community Matchmaking:</strong> Connect with mentors, peers, and collaborators</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-accent mr-3">●</span>
+                                <span><strong>Roadmap Voting:</strong> Vote on features and shape the platform's future</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-accent mr-3">●</span>
+                                <span><strong>Training & Events:</strong> Request or offer training in your area of expertise</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-accent mr-3">●</span>
+                                <span><strong>Story Awards:</strong> Share and celebrate impactful community stories</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card-custom">
+                        <h2 class="text-2xl font-bold text-primary mb-4">Best Practices</h2>
+                        <ul class="space-y-3 text-muted text-sm">
+                            <li>• Be respectful and inclusive in all interactions</li>
+                            <li>• Provide detailed information in your profile</li>
+                            <li>• Give constructive feedback on ideas and stories</li>
+                            <li>• Share your knowledge and help others grow</li>
+                            <li>• Keep your profile updated</li>
+                        </ul>
+                    </div>
+
+                    <div class="card-custom">
+                        <h2 class="text-2xl font-bold text-primary mb-4">FAQs</h2>
+                        <div class="space-y-3 text-sm">
+                            <div>
+                                <p class="font-semibold text-primary mb-1">How do I connect with a mentor?</p>
+                                <p class="text-muted text-xs">Visit the Connect page, filter by role, and click on a mentor's profile to learn more.</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-primary mb-1">Can I suggest new features?</p>
+                                <p class="text-muted text-xs">Yes! Visit the Roadmap page to submit new ideas and vote on existing ones.</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-primary mb-1">How do I request training?</p>
+                                <p class="text-muted text-xs">Go to Training & Events and fill out the training request form with your desired topic.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="worldpulse">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WorldPulse — Story Awards</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/custom.css">
+</head>
+<body class="bg-base-100">
+  <nav class="navbar navbar-custom sticky top-0 z-50 shadow-md">
+    <div class="flex-1">
+      <a href="index.html"><img src="logo.svg" alt="WorldPulse" class="navbar-logo"></a>
+    </div>
+    <div class="flex-none gap-4">
+      <a class="btn btn-sm btn-ghost text-primary" href="index.html">Dashboard</a>
+      <a class="btn btn-sm btn-ghost text-primary" href="matchmaking.html">Connect</a>
+      <a class="btn btn-sm btn-ghost text-primary" href="community-hub.html">Community Hub</a>
+      <a class="btn btn-sm btn-ghost text-primary" href="documentation.html">Docs</a>
+      <a class="btn btn-sm btn-primary" href="matchmaking.html">Profile</a>
+    </div>
+  </nav>
+
+  <main class="page-content page-content-full">
+    <div class="container-desktop max-w-4xl lg:max-w-6xl mx-auto p-4 lg:p-8">
+    <h1 class="text-4xl font-bold text-primary mb-2">🏆 Story Awards</h1>
+    <p class="mb-8 text-muted text-lg">Vote for the impact stories that inspire you most.</p>
+
+    <section>
+      <h2 class="text-2xl font-bold text-primary mb-6">Featured Stories</h2>
+      <div id="stories-list" class="grid md:grid-cols-2 gap-6">Loading...</div>
+    </section>
+
+    <!-- Story Modal -->
+    <dialog id="story-modal" class="modal">
+      <div class="modal-box max-w-2xl card-custom">
+        <h3 class="font-bold text-2xl text-primary mb-2" id="modal-title"></h3>
+        <p class="text-sm text-muted mb-4" id="modal-author"></p>
+        <p class="text-base whitespace-pre-wrap text-text-primary mb-6" id="modal-content"></p>
+        <div class="modal-action">
+          <form method="dialog">
+            <button class="btn btn-primary-custom">Close</button>
+          </form>
+        </div>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
+  </main>
+
+  <script>
+    // Sample stories data
+    const sampleStories = [
+      {
+        "id": 1,
+        "title": "I felt small, yet I knew something...",
+        "author": "Global Advocate",
+        "content": "A powerful reflection on personal empowerment and finding strength in moments of uncertainty.",
+        "votes": 0,
+        "timestamp": "2024-12-04T00:00:00Z",
+        "url": "https://www.worldpulse.org/story/i-felt-small-yet-i-knew-something-74730",
+        "tags": ["personal", "empowerment"]
+      },
+      {
+        "id": 2,
+        "title": "The trauma she endured: Silent tears never noticed",
+        "author": "Resilience Speaker",
+        "content": "A courageous account of overcoming trauma and breaking the silence surrounding mental health.",
+        "votes": 0,
+        "timestamp": "2024-12-04T00:00:00Z",
+        "url": "https://www.worldpulse.org/story/the-trauma-she-endurance-a-silent-tears-never-noticed-74731",
+        "tags": ["trauma", "resilience"]
+      },
+      {
+        "id": 3,
+        "title": "School pledge on ending child marriages",
+        "author": "Education Champion",
+        "content": "An inspiring initiative bringing communities together to protect children's futures through education.",
+        "votes": 0,
+        "timestamp": "2024-12-04T00:00:00Z",
+        "url": "https://www.worldpulse.org/story/school-pledge-on-ending-child-marriages--74761",
+        "tags": ["child protection", "education"]
+      },
+      {
+        "id": 4,
+        "title": "A silent pain",
+        "author": "Healing Activist",
+        "content": "Exploring the hidden struggles many face and the importance of speaking up for support.",
+        "votes": 0,
+        "timestamp": "2024-12-04T00:00:00Z",
+        "url": "https://www.worldpulse.org/story/a-silent-pain-74788",
+        "tags": ["personal", "struggle"]
+      },
+      {
+        "id": 5,
+        "title": "Peace is the dignity of every girl",
+        "author": "Girls' Rights Advocate",
+        "content": "Celebrating the inherent dignity and rights of girls worldwide in the pursuit of peace.",
+        "votes": 0,
+        "timestamp": "2024-12-04T00:00:00Z",
+        "url": "https://www.worldpulse.org/story/peace-is-the-dignity-of-every-girl-74792",
+        "tags": ["girls", "peace", "dignity"]
+      },
+      {
+        "id": 6,
+        "title": "When men do it, we are told to endure",
+        "author": "Justice Seeker",
+        "content": "Challenging gender inequalities and the double standards women face in society.",
+        "votes": 0,
+        "timestamp": "2024-12-04T00:00:00Z",
+        "url": "https://www.worldpulse.org/story/when-men-do-it-we-are-told-to-endure-74876",
+        "tags": ["gender", "justice", "endurance"]
+      },
+      {
+        "id": 7,
+        "title": "The eternal flame: A World Pulse Heroes Remembrance Day",
+        "author": "Community Leader",
+        "content": "Proposing a meaningful way to honor and remember the heroes making a difference worldwide.",
+        "votes": 0,
+        "timestamp": "2024-12-04T00:00:00Z",
+        "url": "https://www.worldpulse.org/story/the-eternal-flame-proposing-a-world-pulse-heroes-remembrance-day-74889",
+        "tags": ["commemoration", "heroes", "remembrance"]
+      },
+      {
+        "id": 8,
+        "title": "Why I joined World Pulse",
+        "author": "Community Member",
+        "content": "A personal account of why World Pulse became instrumental in connecting and empowering.",
+        "votes": 0,
+        "timestamp": "2024-12-04T00:00:00Z",
+        "url": "https://www.worldpulse.org/story/why-i-joined-world-pulse-74963",
+        "tags": ["community", "motivation", "connection"]
+      },
+      {
+        "id": 9,
+        "title": "Between silence and strength: The stigma toward divorced women in the Philippines",
+        "author": "Women's Advocate",
+        "content": "Addressing the stigma and discrimination faced by divorced and separated women in society.",
+        "votes": 0,
+        "timestamp": "2024-12-04T00:00:00Z",
+        "url": "https://www.worldpulse.org/story/between-silence-and-strength-the-stigma-toward-divorced-and-separated-filipinas-in-philip-74959",
+        "tags": ["divorce", "stigma", "Philippines", "women"]
+      }
+    ];
+
+    // Load sample stories on first visit
+    function initializeStories() {
+      let existingStories = JSON.parse(localStorage.getItem('worldpulse_stories') || '[]');
+      
+      // Check if we already have the sample stories
+      const hasSampleStories = existingStories.some(s => s.id <= 9);
+      
+      if (!hasSampleStories && existingStories.length === 0) {
+        localStorage.setItem('worldpulse_stories', JSON.stringify(sampleStories));
+      }
+    }
+
+    function loadStories(){
+      const s = JSON.parse(localStorage.getItem('worldpulse_stories')||'[]');
+      const el=document.getElementById('stories-list');
+      if(s.length===0) el.innerHTML='<p class="text-muted text-center py-8 col-span-2">No stories yet</p>';
+      else el.innerHTML = s.map((st,i)=>`<div class="card-custom"><h3 class="font-semibold text-lg text-primary">${st.title}</h3><div class="text-sm text-muted">by ${st.author}</div><p class="mt-3 text-sm text-text-primary line-clamp-3">${st.content}</p><div class="mt-4 flex justify-between items-center gap-2"><div class="text-lg font-bold text-accent">${st.votes||0} votes</div><div class="flex gap-2"><button class="btn btn-sm btn-primary-custom" data-read="${i}" ${st.url ? `data-url="${st.url}"` : ''}>📖 Read</button><button class="btn btn-sm btn-cta-custom" data-vote="${i}">⭐ Vote</button></div></div></div>`).join('');
+      
+      // Read button handlers
+      el.querySelectorAll('button[data-read]').forEach(b=>b.addEventListener('click', e=>{const idx=+e.target.dataset.read; const story=s[idx]; if(story.url && e.target.dataset.url) { window.open(e.target.dataset.url, '_blank'); } else { document.getElementById('modal-title').textContent=story.title; document.getElementById('modal-author').textContent='by '+story.author; document.getElementById('modal-content').textContent=story.content; document.getElementById('story-modal').showModal(); }}));
+      
+      // Vote button handlers
+      el.querySelectorAll('button[data-vote]').forEach(b=>b.addEventListener('click', e=>{const idx=+e.target.dataset.vote; s[idx].votes=(s[idx].votes||0)+1; localStorage.setItem('worldpulse_stories', JSON.stringify(s)); loadStories();}));
+    }
+
+    initializeStories();
+    loadStories();
+  </script>
+
+  <div id="shared-footer"></div>
+  <script src="js/load-footer.js"></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="worldpulse">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WorldPulse — Training & Events</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/custom.css">
+</head>
+<body class="bg-base-100">
+  <nav class="navbar navbar-custom sticky top-0 z-50 shadow-md">
+    <div class="flex-1">
+      <a href="index.html"><img src="logo.svg" alt="WorldPulse" class="navbar-logo"></a>
+    </div>
+    <div class="flex-none gap-4">
+      <a class="btn btn-sm btn-ghost text-primary" href="index.html">Dashboard</a>
+      <a class="btn btn-sm btn-ghost text-primary" href="matchmaking.html">Connect</a>
+      <a class="btn btn-sm btn-ghost text-primary" href="community-hub.html">Community Hub</a>
+      <a class="btn btn-sm btn-ghost text-primary" href="messaging.html">Messages</a>
+      <a class="btn btn-sm btn-ghost text-primary" href="documentation.html">Docs</a>
+      <a class="btn btn-sm btn-primary" href="index.html#profile">Profile</a>
+    </div>
+  </nav>
+  <main class="page-content page-content-full">
+    <div class="container-desktop max-w-4xl lg:max-w-6xl mx-auto p-4 lg:p-8">
+      <h1 class="text-4xl font-bold text-primary mb-8">📚 Training & Events</h1>
+      
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="card-custom">
+          <h2 class="text-2xl font-bold text-primary mb-4">Request Training</h2>
+          <form id="training-form" class="space-y-4" onsubmit="submitTrainingRequest(event)">
+            <div>
+              <label class="font-semibold text-primary block mb-2">Training Topic</label>
+              <input type="text" id="req-topic" class="input-custom w-full" placeholder="e.g., Digital Marketing" required>
+            </div>
+            <div>
+              <label class="font-semibold text-primary block mb-2">Description</label>
+              <textarea id="req-desc" class="input-custom w-full h-24" placeholder="Tell us what you'd like to learn..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary-custom w-full">Submit Request</button>
+          </form>
+        </div>
+
+        <div class="card-custom">
+          <h2 class="text-2xl font-bold text-primary mb-4">Offer Training</h2>
+          <form id="training-offering-form" class="space-y-4" onsubmit="submitTrainingOffering(event)">
+            <div>
+              <label class="font-semibold text-primary block mb-2">Topic/Expertise</label>
+              <input type="text" id="offering-topic" class="input-custom w-full" placeholder="e.g., Digital Marketing" required>
+            </div>
+            <div>
+              <label class="font-semibold text-primary block mb-2">Description</label>
+              <textarea id="offering-desc" class="input-custom w-full h-20" placeholder="What can you teach?" required></textarea>
+            </div>
+            <div>
+              <label class="font-semibold text-primary block mb-2">Availability</label>
+              <select id="offering-availability" class="input-custom w-full" required>
+                <option value="">Select availability</option>
+                <option value="weekly">Weekly</option>
+                <option value="biweekly">Bi-weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="flexible">Flexible</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-accent-custom w-full">Offer Training</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="mt-12">
+        <h2 class="text-2xl font-bold text-primary mb-4">Training Requests</h2>
+        <div id="training-requests" class="grid-cols-responsive">
+          <p class="text-muted text-sm col-span-full">No training requests yet</p>
+        </div>
+      </div>
+
+      <div class="mt-12">
+        <h2 class="text-2xl font-bold text-primary mb-4">Available Trainings</h2>
+        <div id="offerings-list" class="grid-cols-responsive">
+          <p class="text-muted text-sm col-span-full">No training offerings yet</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Initialize the training page once main.js is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Small delay to ensure main.js is fully loaded
+      setTimeout(function() {
+        // Render training requests
+        if (typeof renderTrainingRequests === 'function') {
+          renderTrainingRequests();
+        }
+        
+        // Load training offerings if the function exists
+        if (typeof renderTrainingOfferings === 'function') {
+          renderTrainingOfferings();
+        }
+      }, 100);
+    });
+  </script>
+
+  <div id="shared-footer"></div>
+  <script src="js/load-footer.js"></script>
+</body>
+</html>

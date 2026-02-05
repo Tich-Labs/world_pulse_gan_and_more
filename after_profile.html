@@ -1,0 +1,292 @@
+                                <input type="checkbox" class="support-checkbox" value="Moral support"> 
+                                <div>
+                                    <span class="font-semibold block">Moral support</span>
+                                    <span class="text-muted text-sm">Encouragement & accountability</span>
+                                </div>
+                            </label>
+                            
+                            <label class="flex items-center gap-3 p-3 border border-gray-300 rounded cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" class="support-checkbox" value="Resource connections"> 
+                                <div>
+                                    <span class="font-semibold block">Resource connections</span>
+                                    <span class="text-muted text-sm">Introductions & networking</span>
+                                </div>
+                            </label>
+                            
+                            <label class="flex items-center gap-3 p-3 border border-gray-300 rounded cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" class="support-checkbox" value="Skill building"> 
+                                <div>
+                                    <span class="font-semibold block">Skill building</span>
+                                    <span class="text-muted text-sm">Teaching & training</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Ideal Outcome -->
+                    <div id="step-5" class="step-content hidden">
+                        <h2 class="text-2xl font-bold text-primary mb-4">Ideal Outcome</h2>
+                        
+                        <div class="form-group mb-4">
+                            <label class="font-semibold text-primary block mb-2">Breakthrough Outcome *</label>
+                            <textarea id="breakthrough_outcome" class="input-custom w-full h-20" 
+                                        placeholder="What would success look like?" 
+                                        required minlength="50"></textarea>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label class="font-semibold text-primary block mb-2">Success Statement *</label>
+                            <textarea id="outcome_statement" class="input-custom w-full h-32" 
+                                        placeholder="If I got [X], I believe I could [Y]. I'd know I reached that moment because I'd see [Z]." 
+                                        required minlength="50"></textarea>
+                            <p class="text-muted text-sm mt-2">Use the pattern: If I got [X], I could [Y], I'd see [Z]</p>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label class="font-semibold text-primary block mb-2">Target Timeline *</label>
+                            <input type="date" id="timeline" class="input-custom w-full" required>
+                        </div>
+                    </div>
+
+                    <!-- Step 6: Team Composition -->
+                    <div id="step-6" class="step-content hidden">
+                        <h2 class="text-2xl font-bold text-primary mb-4">Team Composition</h2>
+                        
+                        <div class="space-y-3 mb-8">
+                            <label class="flex items-center gap-3 p-3 border border-gray-300 rounded cursor-pointer">
+                                <input type="radio" name="team_composition" value="Solo" required> 
+                                <span class="font-semibold">Working Solo</span>
+                            </label>
+                            
+                            <label class="flex items-center gap-3 p-3 border border-gray-300 rounded cursor-pointer">
+                                <input type="radio" name="team_composition" value="Team (2-3)" required> 
+                                <span class="font-semibold">Small Team (2-3 people)</span>
+                            </label>
+                            
+                            <label class="flex items-center gap-3 p-3 border border-gray-300 rounded cursor-pointer">
+                                <input type="radio" name="team_composition" value="Team (4+)" required> 
+                                <span class="font-semibold">Larger Team (4+ people)</span>
+                            </label>
+                        </div>
+
+                        <div class="p-4 bg-blue-50 rounded">
+                            <p class="text-sm text-gray-700">
+                                <strong>What happens next?</strong> We'll match you with advisors 
+                                who have relevant expertise within 48 hours. You'll schedule a call 
+                                to discuss your project and get actionable guidance.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="flex justify-between mt-8 gap-4">
+                        <button type="button" class="btn btn-secondary" onclick="previousStep()" id="prev-btn">
+                            ← Previous
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep()" id="next-btn">
+                            Next →
+                        </button>
+                        <button type="submit" class="btn btn-accent hidden" id="submit-btn">
+                            Submit Project ✓
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Peer Advisory - My Projects Page -->
+        <div id="page-my-projects" class="page-content page-content-full hidden">
+            <div class="container mx-auto max-w-6xl p-4 py-12">
+                <h1 class="text-4xl font-bold text-primary mb-2">📋 My Projects</h1>
+                <p class="text-muted mb-8">View and manage your advisory requests</p>
+                
+                <div class="grid md:grid-cols-4 gap-4 mb-8">
+                    <div class="card-custom text-center">
+                        <div class="text-3xl font-bold text-primary" id="projects-total">0</div>
+                        <p class="text-muted text-sm">Total Projects</p>
+                    </div>
+                    <div class="card-custom text-center">
+                        <div class="text-3xl font-bold text-accent" id="projects-active">0</div>
+                        <p class="text-muted text-sm">Active</p>
+                    </div>
+                    <div class="card-custom text-center">
+                        <div class="text-3xl font-bold text-cta" id="projects-matched">0</div>
+                        <p class="text-muted text-sm">With Advisors</p>
+                    </div>
+                    <div class="card-custom text-center">
+                        <div class="text-3xl font-bold text-primary" id="projects-completed">0</div>
+                        <p class="text-muted text-sm">Completed</p>
+                    </div>
+                </div>
+
+                <div id="projects-list" class="space-y-4">
+                    <p class="text-center text-muted py-8">No projects yet. <a href="#" onclick="switchPage('submit-project')" class="text-primary font-semibold">Create one</a>!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Peer Advisory - Project Details Page -->
+        <div id="page-project-details" class="page-content page-content-full hidden">
+            <div class="container mx-auto max-w-4xl p-4 py-12">
+                <button class="btn btn-ghost mb-4" onclick="switchPage('my-projects')">← Back to Projects</button>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Project Info -->
+                    <div class="md:col-span-2">
+                        <div class="card-custom">
+                            <div id="project-details-content">
+                                <p class="text-muted">Loading project...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advisors Sidebar -->
+                    <div>
+                        <div class="card-custom">
+                            <h3 class="text-xl font-bold text-primary mb-4">👥 Matched Advisors</h3>
+                            <div id="project-advisors" class="space-y-3">
+                                <p class="text-muted text-sm">No advisors matched yet</p>
+                            </div>
+                        </div>
+
+                        <div class="card-custom mt-4">
+                            <h3 class="text-xl font-bold text-primary mb-4">⏱️ Status</h3>
+                            <div id="project-status" class="space-y-2 text-sm">
+                                <p>Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Peer Advisory - Feedback Form (Recipient) -->
+        <div id="page-feedback-recipient" class="page-content page-content-full hidden">
+            <div class="container mx-auto max-w-2xl p-4 py-12">
+                <h1 class="text-4xl font-bold text-primary mb-8">💬 Share Your Feedback</h1>
+                <p class="text-muted mb-8">Help us improve the advisory experience and recognize your advisor</p>
+                
+                <form id="recipient-feedback-form" class="card-custom" onsubmit="submitRecipientFeedback(event)">
+                    <div class="space-y-6">
+                        <!-- Expertise & Understanding -->
+                        <div>
+                            <h3 class="text-lg font-bold text-primary mb-4">Expertise & Understanding</h3>
+                            
+                            <div class="mb-4">
+                                <label class="font-semibold text-primary block mb-2">Did they understand your context? *</label>
+                                <div class="flex gap-2">
+                                    <input type="radio" name="understanding_context" value="1" required> Poor
+                                    <input type="radio" name="understanding_context" value="2"> Fair
+                                    <input type="radio" name="understanding_context" value="3"> Good
+                                    <input type="radio" name="understanding_context" value="4"> Great
+                                    <input type="radio" name="understanding_context" value="5"> Excellent
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="font-semibold text-primary block mb-2">How helpful was their advice? *</label>
+                                <div class="flex gap-2">
+                                    <input type="radio" name="helpfulness" value="1" required> Not helpful
+                                    <input type="radio" name="helpfulness" value="2"> Somewhat helpful
+                                    <input type="radio" name="helpfulness" value="3"> Helpful
+                                    <input type="radio" name="helpfulness" value="4"> Very helpful
+                                    <input type="radio" name="helpfulness" value="5"> Incredibly helpful
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="font-semibold text-primary block mb-2">Did they provide clarity?</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center gap-2">
+                                        <input type="radio" name="provided_clarity" value="yes"> Yes, clear and actionable
+                                    </label>
+                                    <label class="flex items-center gap-2">
+                                        <input type="radio" name="provided_clarity" value="no"> No, unclear
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Impact -->
+                        <div>
+                            <h3 class="text-lg font-bold text-primary mb-4">Impact</h3>
+                            
+                            <div class="mb-4">
+                                <label class="font-semibold text-primary block mb-2">Do you feel your project moved closer to success? *</label>
+                                <div class="flex gap-2">
+                                    <input type="radio" name="moved_closer" value="1" required> Not at all
+                                    <input type="radio" name="moved_closer" value="2"> Slightly
+                                    <input type="radio" name="moved_closer" value="3"> Moderately
+                                    <input type="radio" name="moved_closer" value="4"> Significantly
+                                    <input type="radio" name="moved_closer" value="5"> Completely
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="font-semibold text-primary block mb-2">What specific outcome did you achieve?</label>
+                                <textarea name="specific_result" class="input-custom w-full h-24" 
+                                          placeholder="Describe a specific result or insight you gained..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Overall Satisfaction -->
+                        <div>
+                            <h3 class="text-lg font-bold text-primary mb-4">Overall</h3>
+                            
+                            <div class="mb-4">
+                                <label class="font-semibold text-primary block mb-2">Overall satisfaction *</label>
+                                <div class="flex gap-2">
+                                    <input type="radio" name="overall_satisfaction" value="1" required> 1 - Not satisfied
+                                    <input type="radio" name="overall_satisfaction" value="2"> 2
+                                    <input type="radio" name="overall_satisfaction" value="3"> 3 - Neutral
+                                    <input type="radio" name="overall_satisfaction" value="4"> 4
+                                    <input type="radio" name="overall_satisfaction" value="5"> 5 - Very satisfied
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="font-semibold text-primary block mb-2">Would you recommend this advisor to others?</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center gap-2">
+                                        <input type="radio" name="recommend_program" value="yes"> Yes, definitely
+                                    </label>
+                                    <label class="flex items-center gap-2">
+                                        <input type="radio" name="recommend_program" value="no"> No
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Suggestions -->
+                        <div>
+                            <label class="font-semibold text-primary block mb-2">Any suggestions for improvement?</label>
+                            <textarea name="improvement_suggestions" class="input-custom w-full h-20" 
+                                      placeholder="Help us improve..."></textarea>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <button type="submit" class="btn btn-primary flex-1">Submit Feedback</button>
+                            <button type="button" class="btn btn-secondary flex-1" onclick="switchPage('my-projects')">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+
+    <script src="./js/main.js"></script>
+    <script src="./js/peer-advisory.js"></script>
+    <script src="./js/seed-data.js"></script>
+    
+    <script>
+        // Auto-seed data on first load if localStorage is empty
+        if (!localStorage.getItem('worldpulse_projects')) {
+            seedAllData();
+        }
+    </script>
+    <!-- Footer -->
+    <div id="shared-footer"></div>
+    <script src="js/load-footer.js"></script>
+</body>
+</html>
