@@ -469,18 +469,62 @@
       }
 
       el.innerHTML = projects.slice(0, 8).map(proj => `
-        <div class="card-custom animate-fadeInUp">
+        <div class="card-custom animate-fadeInUp" id="project-card-${proj.id}">
           <div>
             <h3 class="font-bold text-primary">${proj.accomplishment || proj.description.substring(0, 40)}${proj.description.length > 40 ? '...' : ''}</h3>
             <p class="text-sm text-muted">by ${proj.name} • ${proj.location}</p>
-            <p class="text-sm text-text-primary mt-2">${proj.description.substring(0, 80)}${proj.description.length > 80 ? '...' : ''}</p>
-            <div class="flex flex-wrap gap-1 mt-2">
-              ${proj.supportNeeded.slice(0, 2).map(s => `<span class="badge-custom">${s}</span>`).join('')}
+            <p class="text-sm text-text-primary mt-2" id="proj-summary-${proj.id}">${proj.description.substring(0, 80)}${proj.description.length > 80 ? '...' : ''}</p>
+
+            <div class="project-details text-sm text-text-primary mt-3 hidden" id="proj-details-${proj.id}">
+              <p><strong>Full description:</strong> ${proj.description}</p>
+              <p class="mt-2"><strong>Goal:</strong> ${proj.accomplishment}</p>
+              <p class="mt-2"><strong>Why it matters:</strong> ${proj.whyMatters || proj.why_matters || ''}</p>
+              <p class="mt-2"><strong>Attempts so far:</strong> ${proj.attempts}</p>
+              <p class="mt-2"><strong>What worked:</strong> ${proj.whatWorked}</p>
+              <p class="mt-2"><strong>Ideal outcome:</strong> ${proj.idealOutcome}</p>
+              <p class="mt-2"><strong>Timeline:</strong> ${proj.timeline}</p>
+              <p class="mt-2"><strong>Team:</strong> ${proj.teamComposition}</p>
+              <p class="mt-2"><strong>Support needed:</strong> ${proj.supportNeeded.join(', ')}</p>
             </div>
-            <button class="btn btn-sm btn-primary-custom w-full mt-3">Offer Help</button>
+
+            <div class="flex gap-2 mt-3">
+              <button class="btn btn-sm btn-ghost" onclick="toggleDetails('${proj.id}')" id="proj-toggle-${proj.id}">Read more</button>
+              <button class="btn btn-sm btn-primary-custom flex-1" onclick="offerHelp('${proj.id}')">Offer Help</button>
+            </div>
           </div>
         </div>
       `).join('');
+    }
+
+    function toggleDetails(id) {
+      const details = document.getElementById(`proj-details-${id}`);
+      const toggle = document.getElementById(`proj-toggle-${id}`);
+      if (!details) return;
+      const isHidden = details.classList.contains('hidden');
+      details.classList.toggle('hidden', !isHidden);
+      toggle.textContent = isHidden ? 'Read less' : 'Read more';
+    }
+
+    function offerHelp(id) {
+      // Find project in storage
+      const projects = JSON.parse(localStorage.getItem('worldpulse_projects') || '[]');
+      const proj = projects.find(p => String(p.id) === String(id));
+      if (!proj) return showNotification('Project not found', 'error');
+
+      // Create or append to local matches list
+      const matches = JSON.parse(localStorage.getItem('worldpulse_project_matches') || '[]');
+      const match = { id: 'match_' + Date.now(), projectId: proj.id, advisorName: 'You', status: 'proposed', createdAt: new Date().toISOString() };
+      matches.unshift(match);
+      localStorage.setItem('worldpulse_project_matches', JSON.stringify(matches));
+
+      // Offer options: message or propose
+      const choice = confirm('You will offer help to "' + (proj.name || proj.project_description || 'this project') + '".\n\nOK = Send message via Messaging page. Cancel = Just propose match.');
+      if (choice) {
+        // Open messaging page with project reference
+        window.location.href = `messaging.html?project=${encodeURIComponent(proj.id)}`;
+      } else {
+        showNotification('Match proposed — the project owner will be notified.', 'success');
+      }
     }
 
     // Notification function
