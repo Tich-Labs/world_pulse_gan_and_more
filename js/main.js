@@ -528,47 +528,49 @@ function updateTrendingContent() {
   console.log('appData.ideas length:', appData.ideas?.length || 0);
   console.log('appData.stories length:', appData.stories?.length || 0);
   
-  // Trending ideas (top 3 by votes)
+  // Trending combined feed (ideas, stories, training requests)
   const trendingIdeasElement = document.getElementById('trending-ideas');
   if (trendingIdeasElement) {
     console.log('Found trending-ideas element');
-    if (!appData.ideas || appData.ideas.length === 0) {
-      console.log('No ideas in appData, loading from localStorage');
-      // Try to load from localStorage directly as fallback
-      try {
-        const ideasFromStorage = JSON.parse(localStorage.getItem('worldpulse_ideas') || '[]');
-        console.log('ideas from localStorage:', ideasFromStorage.length);
-        appData.ideas = ideasFromStorage;
-      } catch (e) {
-        console.error('Error loading ideas from localStorage:', e);
-        appData.ideas = [];
-      }
+    // Ensure we have data (try localStorage fallback)
+    if ((!appData.ideas || appData.ideas.length === 0) && localStorage.getItem('worldpulse_ideas')) {
+      try { appData.ideas = JSON.parse(localStorage.getItem('worldpulse_ideas') || '[]'); } catch(e) { appData.ideas = []; }
     }
-    
-    const topIdeas = [...appData.ideas]
+    if ((!appData.stories || appData.stories.length === 0) && localStorage.getItem('worldpulse_stories')) {
+      try { appData.stories = JSON.parse(localStorage.getItem('worldpulse_stories') || '[]'); } catch(e) { appData.stories = []; }
+    }
+    if ((!appData.trainingRequests || appData.trainingRequests.length === 0) && localStorage.getItem('worldpulse_training_requests')) {
+      try { appData.trainingRequests = JSON.parse(localStorage.getItem('worldpulse_training_requests') || '[]'); } catch(e) { appData.trainingRequests = []; }
+    }
+
+    const ideaItems = (appData.ideas || []).map(i => ({ type: 'idea', title: i.title, description: i.description || '', votes: i.votes || 0 }));
+    const storyItems = (appData.stories || []).map(s => ({ type: 'story', title: s.title, description: s.content || '', votes: s.votes || 0 }));
+    const trainingItems = (appData.trainingRequests || []).map(t => ({ type: 'training', title: t.title || t.topic, description: t.description || '', votes: t.votes || 0 }));
+
+    const combined = [...ideaItems, ...storyItems, ...trainingItems]
       .sort((a, b) => (b.votes || 0) - (a.votes || 0))
-      .slice(0, 2); // Reduced to 2 to fit better in the layout
-    
-    console.log('topIdeas:', topIdeas);
-    
-    const ideasHTML = topIdeas.map(idea => `
-      <div class="idea-card mb-3">
-        <div class="idea-card-header">
-          <div>
-            <h3 class="idea-card-title">${idea.title}</h3>
-            <span class="idea-card-category">${idea.category || 'Feature'}</span>
+      .slice(0, 4);
+
+    const combinedHTML = combined.map(item => {
+      const icon = item.type === 'idea' ? '💡' : item.type === 'story' ? '📖' : '🎓';
+      const hrefAction = item.type === 'idea' ? "switchPage('roadmap')" : item.type === 'story' ? "switchPage('awards')" : "switchPage('training')";
+      return `
+        <div class="idea-card mb-3">
+          <div class="idea-card-header">
+            <div>
+              <h3 class="idea-card-title cursor-pointer" onclick="${hrefAction}">${icon} ${item.title}</h3>
+              <span class="idea-card-category">${item.type}</span>
+            </div>
+            <div class="idea-card-vote-count">
+              <div class="idea-card-votes">${item.votes || 0}</div>
+              <div class="idea-card-vote-label">votes</div>
+            </div>
           </div>
-          <div class="idea-card-vote-count">
-            <div class="idea-card-votes">${idea.votes || 0}</div>
-            <div class="idea-card-vote-label">votes</div>
-          </div>
-        </div>
-        <p class="idea-card-description">${idea.description ? idea.description.substring(0, 100) + (idea.description.length > 100 ? '...' : '') : 'No description'}</p>
-      </div>
-    `).join('');
-    
-    console.log('ideasHTML:', ideasHTML || 'empty');
-    trendingIdeasElement.innerHTML = ideasHTML || '<p class="text-muted text-sm">No ideas yet</p>';
+          <p class="idea-card-description">${item.description ? item.description.substring(0, 100) + (item.description.length > 100 ? '...' : '') : ''}</p>
+        </div>`;
+    }).join('');
+
+    trendingIdeasElement.innerHTML = combinedHTML || '<p class="text-muted text-sm">No trending items yet</p>';
   }
   
   // Trending stories (top 3 by votes)
@@ -598,7 +600,7 @@ function updateTrendingContent() {
       <div class="idea-card idea-type-story mb-3">
         <div class="idea-card-header">
           <div>
-            <h3 class="idea-card-title">${story.title}</h3>
+            <h3 class="idea-card-title cursor-pointer" onclick="switchPage('awards')">${story.title}</h3>
             <span class="idea-card-category">Story</span>
           </div>
           <div class="idea-card-vote-count">
@@ -619,6 +621,20 @@ function updateTrendingContent() {
       `;
     } else {
       trendingStoriesElement.innerHTML = '<h3 class="font-bold text-primary mb-2">Trending Stories</h3><p class="text-muted text-sm">No stories yet</p>';
+    }
+
+    // If there are no top ideas but there are stories, show stories in the main trending area
+    if ((!topIdeas || topIdeas.length === 0) && (topStories && topStories.length > 0)) {
+      if (trendingIdeasElement) {
+        trendingIdeasElement.innerHTML = `<h3 class="font-bold text-primary mb-2">Trending Stories</h3>${storiesHTML}`;
+      }
+      if (trendingStoriesElement) {
+        trendingStoriesElement.style.display = 'none';
+      }
+    } else {
+      if (trendingStoriesElement) {
+        trendingStoriesElement.style.display = '';
+      }
     }
   }
 }

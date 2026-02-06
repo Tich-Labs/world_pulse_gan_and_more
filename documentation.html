@@ -3,31 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="WorldPulse Documentation - Learn how to make the most of our community platform">
-    <title>Documentation - WorldPulse</title>
+    <meta name="description" content="World Pulse Plus Documentation - Learn how to make the most of our community platform">
+    <title>Documentation - World Pulse Plus</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="./css/custom.css">
 </head>
 <body class="bg-base-100">
-    <!-- Navigation -->
-    <nav class="navbar navbar-custom sticky top-0 z-50 shadow-md">
-        <div class="flex-1">
-            <a href="index.html"><img src="logo.svg" alt="WorldPulse" class="navbar-logo"></a>
-        </div>
-        <div class="flex-none gap-4">
-            <a class="btn btn-sm btn-ghost text-primary font-medium" href="index.html">Dashboard</a>
-            <a class="btn btn-sm btn-ghost text-primary font-medium" href="matchmaking.html">Connect</a>            
-            <a class="btn btn-sm btn-ghost text-primary font-medium" href="community-hub.html">Community Hub</a>
-            <a class="btn btn-sm btn-ghost text-primary font-medium" href="documentation.html">Documentation</a>
-            <a class="btn btn-sm btn-primary" href="index.html#profile">Profile</a>
-        </div>
-    </nav>
+    <div id="shared-navbar"></div>
 
     <!-- Documentation Page -->
     <div class="container mx-auto max-w-4xl p-4 py-12">
         <h1 class="text-4xl font-bold text-primary mb-2">📖 Documentation</h1>
-        <p class="text-muted mb-8">Learn how to make the most of WorldPulse features</p>
+        <p class="text-muted mb-8">Learn how to make the most of World Pulse Plus features</p>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="card-custom">
@@ -92,6 +80,7 @@
     </div>
 
     <div id="shared-footer"></div>
+    <script src="js/load-navbar.js"></script>
     <script src="js/load-footer.js"></script>
 </body>
 </html>

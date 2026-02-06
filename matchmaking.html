@@ -3,24 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>WorldPulse — Share Your Project</title>
+  <title>World Pulse Plus — Share Your Project</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="css/custom.css">
 </head>
 <body class="bg-base-100">
-  <nav class="navbar navbar-custom sticky top-0 z-50 shadow-md">
-    <div class="flex-1">
-      <a href="index.html"><img src="logo.svg" alt="WorldPulse" class="navbar-logo"></a>
-    </div>
-    <div class="flex-none gap-4">
-      <a class="btn btn-sm btn-ghost text-primary" href="index.html">Dashboard</a>
-      <a class="btn btn-sm btn-ghost text-primary" href="matchmaking.html">Connect</a>
-      <a class="btn btn-sm btn-ghost text-primary" href="community-hub.html">Community Hub</a>
-      <a class="btn btn-sm btn-ghost text-primary" href="documentation.html">Docs</a>
-      <a class="btn btn-sm btn-primary" href="index.html#profile">Profile</a>
-    </div>
-  </nav>
+  <div id="shared-navbar"></div>
   
   <main class="page-content page-content-full">
     <div class="container-desktop px-2 py-8">
@@ -473,6 +462,12 @@
           <div>
             <h3 class="font-bold text-primary">${proj.accomplishment || proj.description.substring(0, 40)}${proj.description.length > 40 ? '...' : ''}</h3>
             <p class="text-sm text-muted">by ${proj.name} • ${proj.location}</p>
+
+            <div class="flex gap-2 mt-3">
+              <button class="btn btn-md btn-success" onclick="toggleDetails('${proj.id}')" id="proj-toggle-${proj.id}">Read more</button>
+              <button class="btn btn-md btn-default flex-1" onclick="offerHelp('${proj.id}')">Offer Help</button>
+            </div>
+
             <p class="text-sm text-text-primary mt-2" id="proj-summary-${proj.id}">${proj.description.substring(0, 80)}${proj.description.length > 80 ? '...' : ''}</p>
 
             <div class="project-details text-sm text-text-primary mt-3 hidden" id="proj-details-${proj.id}">
@@ -487,10 +482,7 @@
               <p class="mt-2"><strong>Support needed:</strong> ${proj.supportNeeded.join(', ')}</p>
             </div>
 
-            <div class="flex gap-2 mt-3">
-              <button class="btn btn-sm btn-ghost" onclick="toggleDetails('${proj.id}')" id="proj-toggle-${proj.id}">Read more</button>
-              <button class="btn btn-sm btn-primary-custom flex-1" onclick="offerHelp('${proj.id}')">Offer Help</button>
-            </div>
+            
           </div>
         </div>
       `).join('');
@@ -565,7 +557,8 @@
     loadProjects();
   </script>
 
-  <div id="shared-footer"></div>
+    <div id="shared-footer"></div>
+  <script src="js/load-navbar.js"></script>
   <script src="js/load-footer.js"></script>
 </body>
 </html>

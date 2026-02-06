@@ -3,29 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>WorldPulse — Community Votes</title>
+  <title>WorldPulse — Community Votes (Placeholder)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="css/custom.css">
 </head>
 <body class="bg-base-100">
-  <nav class="navbar navbar-custom sticky top-0 z-50 shadow-md">
-    <div class="flex-1">
-      <a href="index.html"><img src="logo.svg" alt="WorldPulse" class="navbar-logo"></a>
-    </div>
-    <div class="flex-none gap-4">
-      <a class="btn btn-sm btn-ghost text-primary" href="index.html">Dashboard</a>
-      <a class="btn btn-sm btn-ghost text-primary" href="matchmaking.html">Connect</a>
-      <a class="btn btn-sm btn-ghost text-primary" href="messaging.html">Messages</a>
-      <a class="btn btn-sm btn-ghost text-primary" href="training.html">Training</a>
-      <a class="btn btn-sm btn-ghost text-primary" href="documentation.html">Docs</a>
-      <a class="btn btn-sm btn-primary" href="index.html#profile">Profile</a>
-    </div>
-  </nav>
+  <div id="shared-navbar"></div>
 
   <main class="page-content page-content-full">
     <div class="container-desktop mx-auto max-w-6xl p-4 py-12">
-      <h1 class="text-4xl font-bold text-primary mb-2">🗳️ Community Votes</h1>
+      <h1 class="text-4xl font-bold text-primary mb-2">🗳️ Community Votes (Placeholder)</h1>
       <p class="text-muted mb-8">Vote on stories, roadmap ideas, and training requests from the community</p>
 
       <!-- Filter & Search Bar -->
@@ -49,9 +37,145 @@
         </div>
       </div>
 
-      <!-- Items Grid -->
+      <!-- Items Grid (placeholder cards) -->
       <div id="items-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <p class="text-center text-muted py-8 col-span-full">Loading community items...</p>
+        <div class="card-custom group">
+          <div class="border-l-4 border-l-primary pl-4">
+            <div class="flex justify-between items-start mb-2">
+              <div>
+                <span class="badge-custom primary">💡 Idea</span>
+                <h3 class="text-lg font-bold text-primary mt-2">Peer Advisory Matching Algorithm</h3>
+              </div>
+              <div class="text-right">
+                <div class="text-xl font-bold text-primary">42</div>
+                <div class="text-xs text-muted">votes</div>
+              </div>
+            </div>
+            <p class="text-sm text-text-primary mb-3">Auto-match projects with advisors based on expertise, location and experience.</p>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-muted">Alex Rivera</span>
+              <span class="text-muted">2 days ago</span>
+            </div>
+            <div class="mt-3 pt-3 border-t border-gray-200">
+              <button class="btn btn-sm btn-primary-custom w-full">👍 Vote for Idea</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-custom group">
+          <div class="border-l-4 border-l-accent pl-4">
+            <div class="flex justify-between items-start mb-2">
+              <div>
+                <span class="badge-custom accent">📖 Story</span>
+                <h3 class="text-lg font-bold text-primary mt-2">Peace is the dignity of every girl</h3>
+              </div>
+              <div class="text-right">
+                <div class="text-xl font-bold text-accent">31</div>
+                <div class="text-xs text-muted">votes</div>
+              </div>
+            </div>
+            <p class="text-sm text-text-primary mb-3">Celebrating the inherent dignity and rights of girls worldwide in the pursuit of peace.</p>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-muted">Girls' Rights Advocate</span>
+              <span class="text-muted">3 days ago</span>
+            </div>
+            <div class="mt-3 pt-3 border-t border-gray-200">
+              <button class="btn btn-sm btn-cta-custom w-full">⭐ Vote for Story</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-custom group">
+          <div class="border-l-4 border-l-cta pl-4">
+            <div class="flex justify-between items-start mb-2">
+              <div>
+                <span class="badge-custom cta">📚 Training</span>
+                <h3 class="text-lg font-bold text-primary mt-2">Social Media Strategy for NGOs</h3>
+              </div>
+              <div class="text-right">
+                <div class="text-xl font-bold text-cta">24</div>
+                <div class="text-xs text-muted">votes</div>
+              </div>
+            </div>
+            <p class="text-sm text-text-primary mb-3">Help developing effective social media strategy to raise awareness about clean water initiative.</p>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-muted">Emma Thompson</span>
+              <span class="text-muted">5 days ago</span>
+            </div>
+            <div class="mt-3 pt-3 border-t border-gray-200">
+              <button class="btn btn-sm btn-accent-custom w-full">👍 Endorse Training</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-custom group">
+          <div class="border-l-4 border-l-primary pl-4">
+            <div class="flex justify-between items-start mb-2">
+              <div>
+                <span class="badge-custom primary">💡 Idea</span>
+                <h3 class="text-lg font-bold text-primary mt-2">Offline Mode for Low Connectivity</h3>
+              </div>
+              <div class="text-right">
+                <div class="text-xl font-bold text-primary">35</div>
+                <div class="text-xs text-muted">votes</div>
+              </div>
+            </div>
+            <p class="text-sm text-text-primary mb-3">Allow core features to work without internet and sync when connection returns.</p>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-muted">Tech Lead</span>
+              <span class="text-muted">1 week ago</span>
+            </div>
+            <div class="mt-3 pt-3 border-t border-gray-200">
+              <button class="btn btn-sm btn-primary-custom w-full">👍 Vote for Idea</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-custom group">
+          <div class="border-l-4 border-l-accent pl-4">
+            <div class="flex justify-between items-start mb-2">
+              <div>
+                <span class="badge-custom accent">📖 Story</span>
+                <h3 class="text-lg font-bold text-primary mt-2">When men do it, we are told to endure</h3>
+              </div>
+              <div class="text-right">
+                <div class="text-xl font-bold text-accent">22</div>
+                <div class="text-xs text-muted">votes</div>
+              </div>
+            </div>
+            <p class="text-sm text-text-primary mb-3">Challenging gender inequalities and the double standards women face in society.</p>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-muted">Justice Seeker</span>
+              <span class="text-muted">2 weeks ago</span>
+            </div>
+            <div class="mt-3 pt-3 border-t border-gray-200">
+              <button class="btn btn-sm btn-cta-custom w-full">⭐ Vote for Story</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-custom group">
+          <div class="border-l-4 border-l-cta pl-4">
+            <div class="flex justify-between items-start mb-2">
+              <div>
+                <span class="badge-custom cta">📚 Training</span>
+                <h3 class="text-lg font-bold text-primary mt-2">Impact Measurement Framework</h3>
+              </div>
+              <div class="text-right">
+                <div class="text-xl font-bold text-cta">31</div>
+                <div class="text-xs text-muted">votes</div>
+              </div>
+            </div>
+            <p class="text-sm text-text-primary mb-3">Guidance on metrics that matter and frameworks to measure real impact.</p>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-muted">Kofi Mensah</span>
+              <span class="text-muted">3 weeks ago</span>
+            </div>
+            <div class="mt-3 pt-3 border-t border-gray-200">
+              <button class="btn btn-sm btn-accent-custom w-full">👍 Endorse Training</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -353,6 +477,7 @@
   </script>
 
   <div id="shared-footer"></div>
+  <script src="js/load-navbar.js"></script>
   <script src="js/load-footer.js"></script>
 </body>
 </html>

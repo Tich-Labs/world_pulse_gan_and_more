@@ -9,18 +9,7 @@
   <link rel="stylesheet" href="css/custom.css">
 </head>
 <body class="bg-base-100">
-  <nav class="navbar navbar-custom sticky top-0 z-50 shadow-md">
-    <div class="flex-1">
-      <a href="index.html"><img src="logo.svg" alt="WorldPulse" class="navbar-logo"></a>
-    </div>
-    <div class="flex-none gap-4">
-      <a class="btn btn-sm btn-ghost text-primary" href="index.html">Dashboard</a>
-      <a class="btn btn-sm btn-ghost text-primary" href="matchmaking.html">Connect</a>
-      <a class="btn btn-sm btn-ghost text-primary" href="community-hub.html">Community Hub</a>
-      <a class="btn btn-sm btn-ghost text-primary" href="documentation.html">Docs</a>
-      <a class="btn btn-sm btn-primary" href="matchmaking.html">Profile</a>
-    </div>
-  </nav>
+  <div id="shared-navbar"></div>
 
   <main class="page-content page-content-full">
     <div class="container-desktop max-w-4xl lg:max-w-6xl mx-auto p-4 lg:p-8">
@@ -174,7 +163,8 @@
     loadStories();
   </script>
 
-  <div id="shared-footer"></div>
+    <div id="shared-footer"></div>
+  <script src="js/load-navbar.js"></script>
   <script src="js/load-footer.js"></script>
 </body>
 </html>

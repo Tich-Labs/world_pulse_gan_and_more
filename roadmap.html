@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="worldpulse">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WorldPulse — Roadmap Voting (Placeholder)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/custom.css">
+</head>
+<body class="bg-base-100">
+  <div id="shared-navbar"></div>
+
+  <main class="page-content page-content-full">
+    <div class="container-desktop max-w-4xl lg:max-w-6xl mx-auto p-4 lg:p-8">
+      <h1 class="text-4xl font-bold text-primary mb-2">🗳️ Roadmap Voting (Placeholder)</h1>
+      <p class="mb-8 text-muted text-lg">Vote on features and ideas you want to see developed. Your voice shapes World Pulse.</p>
+
+      <section>
+        <h2 class="text-2xl font-bold text-primary mb-6">Community Roadmap Ideas</h2>
+        <div id="ideas-list" class="grid md:grid-cols-2 gap-6">Loading...</div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (function roadMapHardcoded(){
+      const STORAGE_KEY = 'roadmap_page_ideas_v1';
+
+      const seed = [
+        { id: 1, name: 'Peer Advisory Matching Algorithm', submitter: 'Alex Rivera', type: 'Feature', userStory: 'As a seeker, I want automatic matches with advisors so I can get help faster.', votes: 42, timestamp: new Date().toISOString() },
+        { id: 2, name: 'Multilingual Support', submitter: 'Aisha Ibrahim', type: 'Localization', userStory: 'As a non-English speaker, I want the site in my language so I can participate fully.', votes: 38, timestamp: new Date().toISOString() },
+        { id: 3, name: 'Mobile-First Design', submitter: 'Dev Team', type: 'UX', userStory: 'As a mobile user in low-bandwidth areas, I need a streamlined mobile UI that loads quickly.', votes: 51, timestamp: new Date().toISOString() },
+        { id: 4, name: 'Video Introductions for Advisors', submitter: 'Sarah Chen', type: 'Feature', userStory: 'As a seeker, I want to watch short advisor intros to know who to contact.', votes: 19, timestamp: new Date().toISOString() },
+        { id: 5, name: 'Offline Mode', submitter: 'Tech Lead', type: 'Technical', userStory: 'As a user with intermittent connectivity, I want to use core features offline and sync later.', votes: 35, timestamp: new Date().toISOString() },
+        { id: 6, name: 'Advanced Search Filters', submitter: 'Product', type: 'Feature', userStory: 'As a seeker, I want to filter advisors by skill, location and availability.', votes: 28, timestamp: new Date().toISOString() },
+        { id: 7, name: 'Structured Mentorship Paths', submitter: 'Program Team', type: 'Program', userStory: 'As a user, I want guided mentorship tracks for common challenges so I can follow a roadmap.', votes: 22, timestamp: new Date().toISOString() },
+        { id: 8, name: 'Impact Measurement Toolkit', submitter: 'M&E Team', type: 'Feature', userStory: 'As a project lead, I want templates and dashboards to measure impact easily.', votes: 31, timestamp: new Date().toISOString() },
+        { id: 9, name: 'Donor Collaboration Space', submitter: 'Partnerships', type: 'Collaboration', userStory: 'As a funder, I want a private workspace to collaborate with grantees.', votes: 14, timestamp: new Date().toISOString() },
+        { id: 10, name: 'Accessibility Improvements', submitter: 'Accessibility Lead', type: 'UX', userStory: 'As a user with accessibility needs, I want WCAG-compliant options and adjustable text sizes.', votes: 17, timestamp: new Date().toISOString() }
+      ];
+
+      function load() {
+        let items;
+        try {
+          items = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+        } catch (e) { items = null; }
+        if (!items || !Array.isArray(items) || items.length === 0) {
+          items = seed;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+        }
+        render(items);
+      }
+
+      function render(items) {
+        const container = document.getElementById('ideas-list');
+        if (!container) return;
+        container.innerHTML = items.map(it => `
+          <div class="card-custom">
+            <div class="flex justify-between items-start mb-2">
+              <div>
+                <h3 class="text-lg font-bold text-primary">${escapeHtml(it.name)}</h3>
+                <div class="text-sm text-muted">Submitted by <strong>${escapeHtml(it.submitter)}</strong> • <span class="badge-custom">${escapeHtml(it.type)}</span></div>
+              </div>
+              <div class="text-right">
+                <div class="text-xl font-bold text-accent">${it.votes || 0}</div>
+                <div class="text-xs text-muted">votes</div>
+              </div>
+            </div>
+            <p class="text-sm text-text-primary mb-3">${escapeHtml(it.userStory)}</p>
+            <div class="mt-3 pt-3 border-t border-gray-200">
+              <button class="btn btn-md btn-default" data-id="${it.id}">👍 Vote</button>
+            </div>
+          </div>
+        `).join('');
+
+        // attach handlers
+        container.querySelectorAll('button[data-id]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = Number(btn.getAttribute('data-id'));
+            vote(id);
+          });
+        });
+      }
+
+      function vote(id) {
+        let items = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        const idx = items.findIndex(i => i.id === id);
+        if (idx === -1) return;
+        items[idx].votes = (items[idx].votes || 0) + 1;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+        render(items);
+      }
+
+      function escapeHtml(str) {
+        return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+      }
+
+      document.addEventListener('DOMContentLoaded', load);
+    })();
+  </script>
+
+  <div id="shared-footer"></div>
+  <script src="js/load-navbar.js"></script>
+  <script src="js/load-footer.js"></script>
+</body>
+</html>

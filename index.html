@@ -3,27 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="WorldPulse - Empowering global communities through mentorship, ideas, and impact stories">
-    <title>WorldPulse - Community Impact Platform</title>
+    <meta name="description" content="World Pulse Plus - Empowering global communities through mentorship, ideas, and impact stories">
+    <title>World Pulse Plus - Community Impact Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="./css/custom.css">
 </head>
 <body class="bg-base-100">
-    <!-- Navigation -->
-    <nav class="navbar navbar-custom sticky top-0 z-50 shadow-md">
-        <div class="flex-1">
-            <a href="index.html"><img src="logo.svg" alt="WorldPulse" class="navbar-logo"></a>
-        </div>
-        <div class="flex-none gap-4">
-            <a class="btn btn-sm btn-ghost text-primary font-medium" href="index.html">Dashboard</a>
-            <a class="btn btn-sm btn-ghost text-primary font-medium" href="matchmaking.html">Connect</a>            
-            <a class="btn btn-sm btn-ghost text-primary font-medium" href="messaging.html">Messages</a>
-            <a class="btn btn-sm btn-ghost text-primary font-medium" href="community-hub.html">Community Hub</a>
-            <a class="btn btn-sm btn-ghost text-primary font-medium" href="documentation.html">Documentation</a>
-            <a class="btn btn-sm btn-primary" href="index.html#profile">Profile</a>
-        </div>
-    </nav>
+    <!-- Shared Navigation -->
+    <div id="shared-navbar"></div>
 
     <!-- Main Content -->
     <main class="min-h-screen">
@@ -47,108 +35,83 @@
             </section>
 
             <div class="container mx-auto max-w-6xl p-4 mt-12">
-                <!-- Metrics Row -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-                    <div class="card-custom text-center">
-                        <div class="text-4xl font-bold text-primary mb-2" id="metric-members">0</div>
-                        <p class="text-muted">Active Members</p>
-                    </div>
-                    <div class="card-custom text-center">
-                        <div class="text-4xl font-bold text-accent mb-2" id="metric-ideas">0</div>
-                        <p class="text-muted">Ideas Submitted</p>
-                    </div>
-                    <div class="card-custom text-center">
-                        <div class="text-4xl font-bold text-cta mb-2" id="metric-stories">0</div>
-                        <p class="text-muted">Impact Stories</p>
-                    </div>
-                    <div class="card-custom text-center">
-                        <div class="text-4xl font-bold text-primary mb-2" id="metric-training">0</div>
-                        <p class="text-muted">Trainings Offered</p>
-                    </div>
-                </div>
-
-                <!-- Featured Content -->
-                <div class="grid grid-cols-1 md:grid-cols-1 gap-8 mb-12">
-                    <div class="card-custom">
-                        <h2 class="text-2xl font-bold text-primary mb-4">🔥 Trending Ideas</h2>
-                        <div id="trending-ideas" class="space-y-3">
-                            <p class="text-muted text-sm">Loading trending ideas...</p>
-                        </div>
-                        <div id="trending-stories" class="space-y-3 mt-4">
-                            <p class="text-muted text-sm">Loading trending stories...</p>
-                        </div>
-                        <button class="btn btn-cta-custom w-full mt-4" onclick="window.location.href='community-hub.html'">View All Ideas</button>
-                    </div>
+                <!-- (Metrics row removed — redundant) -->
                 </div>
 
                 <!-- Quick Access Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                    <a href="matchmaking.html" class="card-custom cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group">
-                        <div class="flex items-start gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 mt-12 px-4 md:px-6 lg:px-8">
+                    <a href="matchmaking.html" class="card-custom h-full cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group">
+                        <div class="flex items-start gap-4 h-full">
                             <div class="bg-primary/10 p-4 rounded-xl group-hover:bg-primary/20 transition-colors duration-300">
                                 <span class="text-2xl">🤝</span>
                             </div>
-                            <div class="flex-1">
-                                <h3 class="text-xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">Community Matchmaking</h3>
-                                <p class="text-muted mb-4">Connect with mentors, peers, and collaborators in our vibrant community</p>
-                                <div class="badge badge-accent flex items-center gap-1">
-                                    <span class="animate-pulse">✨</span> Find Connections
+                            <div class="flex-1 flex flex-col justify-between">
+                                <div>
+                                  <h3 class="text-xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">Community Matchmaking</h3>
+                                  <p class="text-muted mb-4">Connect advice seekers with experienced advisors for focused guidance and support.</p>
+                                </div>
+                                <div>
+                                  <button type="button" class="btn btn-sm btn-outline btn-accent flex items-center gap-1">
+                                      <span class="animate-pulse">✨</span>
+                                      <span class="text-sm">Connect Now</span>
+                                  </button>
                                 </div>
                             </div>
                         </div>
                     </a>
-                    <a href="community-hub.html" class="card-custom cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group">
-                        <div class="flex items-start gap-4">
+                    <a href="roadmap.html" class="card-custom h-full cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" role="button" aria-label="Open Roadmap Voting">
+                        <div class="flex items-start gap-4 h-full">
                             <div class="bg-accent/10 p-4 rounded-xl group-hover:bg-accent/20 transition-colors duration-300">
                                 <span class="text-2xl">🗳️</span>
                             </div>
-                            <div class="flex-1">
-                                <h3 class="text-xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">Roadmap Voting</h3>
-                                <p class="text-muted mb-4">Shape the future of WorldPulse by voting on features and ideas</p>
-                                <div class="badge badge-accent flex items-center gap-1">
-                                    <span class="animate-pulse">💡</span> Vote Now
+                            <div class="flex-1 flex flex-col justify-between">
+                                <div>
+                                  <h3 class="text-xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">Roadmap Voting</h3>
+                                  <p class="text-muted mb-4">Shape the future of World Pulse Plus by voting on features and ideas</p>
+                                </div>
+                                <div>
+                                  <button type="button" class="btn btn-sm btn-outline btn-accent flex items-center gap-1">
+                                      <span class="animate-pulse">💡</span>
+                                      <span class="text-sm">Vote Now</span>
+                                  </button>
                                 </div>
                             </div>
                         </div>
                     </a>
-                    <a href="training.html" class="card-custom cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group">
-                        <div class="flex items-start gap-4">
+                    <a href="training.html" class="card-custom h-full cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group">
+                        <div class="flex items-start gap-4 h-full">
                             <div class="bg-cta/10 p-4 rounded-xl group-hover:bg-cta/20 transition-colors duration-300">
                                 <span class="text-2xl">🎓</span>
                             </div>
-                            <div class="flex-1">
-                                <h3 class="text-xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">Learning Hub</h3>
-                                <p class="text-muted mb-4">Request training, share knowledge, and build skills together</p>
-                                <div class="badge badge-accent flex items-center gap-1">
-                                    <span class="animate-pulse">🚀</span> Grow Skills
+                            <div class="flex-1 flex flex-col justify-between">
+                                <div>
+                                  <h3 class="text-xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">Learning Hub</h3>
+                                  <p class="text-muted mb-4">Request training, share knowledge, and build skills together</p>
+                                </div>
+                                <div>
+                                  <button type="button" class="btn btn-sm btn-outline btn-accent flex items-center gap-1">
+                                      <span class="animate-pulse">🚀</span>
+                                      <span class="text-sm">Grow Skills</span>
+                                  </button>
                                 </div>
                             </div>
                         </div>
                     </a>
-                    <a href="awards.html" class="card-custom cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group">
-                        <div class="flex items-start gap-4">
+                    <a href="awards.html" class="card-custom h-full cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group">
+                        <div class="flex items-start gap-4 h-full">
                             <div class="bg-warning/10 p-4 rounded-xl group-hover:bg-warning/20 transition-colors duration-300">
                                 <span class="text-2xl">🌟</span>
                             </div>
-                            <div class="flex-1">
-                                <h3 class="text-xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">Impact Stories</h3>
-                                <p class="text-muted mb-4">Celebrate and discover inspiring stories from our community</p>
-                                <div class="badge badge-accent flex items-center gap-1">
-                                    <span class="animate-pulse">❤️</span> Share Impact
+                            <div class="flex-1 flex flex-col justify-between">
+                                <div>
+                                  <h3 class="text-xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">Impact Stories</h3>
+                                  <p class="text-muted mb-4">Celebrate and discover inspiring stories from our community</p>
                                 </div>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="documentation.html" class="card-custom cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group">
-                        <div class="flex items-start gap-4">
-                            <div class="bg-info/10 p-4 rounded-xl group-hover:bg-info/20 transition-colors duration-300">
-                                <span class="text-2xl">📋</span>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="text-xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">Resources</h3>
-                                <p class="text-muted mb-4">Guides, tips, and everything you need to get the most from WorldPulse</p>
-                                <div class="badge badge-accent flex items-center gap-1">
-                                    <span class="animate-pulse">📖</span> Learn More
+                                <div>
+                                  <button type="button" class="btn btn-sm btn-outline btn-accent flex items-center gap-1">
+                                      <span class="animate-pulse">❤️</span>
+                                      <span class="text-sm">Share Impact</span>
+                                  </button>
                                 </div>
                             </div>
                         </div>
@@ -233,11 +196,12 @@
         <div id="page-roadmap" class="page-content page-content-full hidden">
             <div class="container mx-auto max-w-6xl p-4 py-12">
                 <h1 class="text-4xl font-bold text-primary mb-2">🗳️ Roadmap Voting</h1>
-                <p class="text-muted mb-8">Vote on features and ideas you want to see developed. Your voice shapes WorldPulse.</p>
+                <p class="text-muted mb-8">Vote on features and ideas you want to see developed. Your voice shapes World Pulse Plus.</p>
                 
-                <div class="grid-cols-responsive">
-                    <div id="ideas-list">
-                        <p class="text-center text-muted py-8">Loading ideas...</p>
+                <div id="ideas-list" class="grid-cols-responsive min-h-[160px]">
+                    <div class="text-center w-full">
+                        <p class="text-sm text-muted mb-4">Loading ideas...</p>
+                        <button class="btn btn-sm btn-cta-custom" onclick="showModal('submitIdea')">+ Submit Idea</button>
                     </div>
                 </div>
                 
@@ -332,7 +296,7 @@
                         <ul class="space-y-3 text-muted">
                             <li class="flex items-start">
                                 <span class="text-primary mr-3">✓</span>
-                                <span><strong>Create Your Profile:</strong> Set up your profile to get started with WorldPulse</span>
+                                <span><strong>Create Your Profile:</strong> Set up your profile to get started with World Pulse Plus</span>
                             </li>
                             <li class="flex items-start">
                                 <span class="text-primary mr-3">✓</span>
@@ -684,12 +648,12 @@
         <div id="page-profile" class="page-content page-content-full hidden">
             <div class="container-desktop mx-auto p-4 py-12">
                 <h1 class="text-4xl font-bold text-primary mb-2">👤 Your Profile</h1>
-                <p class="text-muted mb-8">Manage your WorldPulse profile and track your advice sessions</p>
+                <p class="text-muted mb-8">Manage your World Pulse Plus profile and track your advice sessions</p>
                 
                 <!-- Login Options (shown if not authenticated) -->
                 <div id="login-section" class="card-custom p-6 mb-8">
                     <h2 class="text-xl font-bold text-primary mb-4 text-center">Sign in to Continue</h2>
-                    <p class="text-center text-muted mb-6">Create an account to join the WorldPulse community and track your engagement</p>
+                    <p class="text-center text-muted mb-6">Create an account to join the World Pulse Plus community and track your engagement</p>
                     <div class="flex flex-col sm:flex-row gap-4">
                         <button class="btn btn-primary-custom flex-1" onclick="signInWithEmail()">
                             <span class="text-xl">📧</span> Sign in with Email
@@ -954,8 +918,25 @@
             seedAllData();
         }
     </script>
+    <script>
+        // Fallback: ensure trending content updates after scripts run
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                try {
+                    if (typeof loadInitialDataFromLocalStorage === 'function') {
+                        // ensure local data is loaded into appData in case API checks failed early
+                        loadInitialDataFromLocalStorage();
+                    }
+                    if (typeof updateTrendingContent === 'function') updateTrendingContent();
+                } catch (e) {
+                    console.error('Trending fallback error:', e);
+                }
+            }, 600);
+        });
+    </script>
     <!-- Footer -->
     <div id="shared-footer"></div>
+    <script src="js/load-navbar.js"></script>
     <script src="js/load-footer.js"></script>
 </body>
 </html>
