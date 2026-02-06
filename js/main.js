@@ -1,5 +1,5 @@
 // Configuration
-const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbwakZS-RGygrzke6x2ntC5BL_XuYLZbvMi1AkbmEPmgvZoVTxeSCvTaqAzEIoUsphlk/exec'; // This needs to be updated with your deployed Apps Script URL
+const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbzoRQyN7lXzsuzUZZgvTlc7Zwg9Q62KqWzztaYoqMHHAXKuhb2nn4IGzcJBY2ZlYLkp/exec'; // Deployed Apps Script Web App URL
 
 // API Helper Function with better error handling and loading states
 async function callAPI(action, data = {}) {

@@ -1,0 +1,90 @@
+{
+  "ideas": [
+    {
+      "title": "Peer Advisory Matching Algorithm",
+      "description": "Auto-match projects with advisors based on expertise, location, and experience. Could dramatically speed up connections.",
+      "category": "Feature",
+      "userId": "Alex Rivera"
+    },
+    {
+      "title": "Multilingual Support",
+      "description": "Platform should support Arabic, Swahili, Mandarin, and Spanish to serve global communities",
+      "category": "Localization",
+      "userId": "Aisha Ibrahim"
+    },
+    {
+      "title": "Mobile-First Design",
+      "description": "Most users access via mobile in low-bandwidth areas. Redesign UI for mobile-first experience.",
+      "category": "UX",
+      "userId": "Dev Team"
+    },
+    {
+      "title": "Video Testimonials Feature",
+      "description": "Let advisors record short intro videos so seekers can connect with them better",
+      "category": "Feature",
+      "userId": "Sarah Chen"
+    },
+    {
+      "title": "Offline Mode for Low Connectivity",
+      "description": "Allow core features to work without internet, sync when connection returns",
+      "category": "Technical",
+      "userId": "Tech Lead"
+    }
+  ],
+  "stories": [
+    {
+      "title": "I felt small, yet I knew something...",
+      "author": "Global Advocate",
+      "content": "A powerful reflection on personal empowerment and finding strength in moments of uncertainty.",
+      "url": "https://www.worldpulse.org/story/i-felt-small-yet-i-knew-something-74730"
+    },
+    {
+      "title": "The trauma she endured: Silent tears never noticed",
+      "author": "Resilience Speaker",
+      "content": "A courageous account of overcoming trauma and breaking the silence surrounding mental health.",
+      "url": "https://www.worldpulse.org/story/the-trauma-she-endurance-a-silent-tears-never-noticed-74731"
+    },
+    {
+      "title": "School pledge on ending child marriages",
+      "author": "Education Champion",
+      "content": "An inspiring initiative bringing communities together to protect children's futures through education.",
+      "url": "https://www.worldpulse.org/story/school-pledge-on-ending-child-marriages--74761"
+    },
+    {
+      "title": "A silent pain",
+      "author": "Healing Activist",
+      "content": "Exploring the hidden struggles many face and the importance of speaking up for support.",
+      "url": "https://www.worldpulse.org/story/a-silent-pain-74788"
+    },
+    {
+      "title": "Peace is the dignity of every girl",
+      "author": "Girls' Rights Advocate",
+      "content": "Celebrating the inherent dignity and rights of girls worldwide in the pursuit of peace.",
+      "url": "https://www.worldpulse.org/story/peace-is-the-dignity-of-every-girl-74792"
+    },
+    {
+      "title": "When men do it, we are told to endure",
+      "author": "Justice Seeker",
+      "content": "Challenging gender inequalities and the double standards women face in society.",
+      "url": "https://www.worldpulse.org/story/when-men-do-it-we-are-told-to-endure-74876"
+    },
+    {
+      "title": "The eternal flame: A World Pulse Heroes Remembrance Day",
+      "author": "Community Leader",
+      "content": "Proposing a meaningful way to honor and remember the heroes making a difference worldwide.",
+      "url": "https://www.worldpulse.org/story/the-eternal-flame-proposing-a-world-pulse-heroes-remembrance-day-74889"
+    },
+    {
+      "title": "Why I joined World Pulse",
+      "author": "Community Member",
+      "content": "A personal account of why World Pulse became instrumental in connecting and empowering.",
+      "url": "https://www.worldpulse.org/story/why-i-joined-world-pulse-74963"
+    },
+    {
+      "title": "Between silence and strength: The stigma toward divorced women in the Philippines",
+      "author": "Women's Advocate",
+      "content": "Addressing the stigma and discrimination faced by divorced and separated women in society.",
+      "url": "https://www.worldpulse.org/story/between-silence-and-strength-the-stigma-toward-divorced-and-separated-filipinas-in-philip-74959"
+    }
+  ]
+}
