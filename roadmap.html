@@ -26,6 +26,7 @@
   <script>
     (function roadMapHardcoded(){
       const STORAGE_KEY = 'roadmap_page_ideas_v1';
+      const API_URL = 'https://script.google.com/macros/s/AKfycbzoRQyN7lXzsuzUZZgvTlc7Zwg9Q62KqWzztaYoqMHHAXKuhb2nn4IGzcJBY2ZlYLkp/exec';
 
       const seed = [
         { id: 1, name: 'Peer Advisory Matching Algorithm', submitter: 'Alex Rivera', type: 'Feature', userStory: 'As a seeker, I want automatic matches with advisors so I can get help faster.', votes: 42, timestamp: new Date().toISOString() },
@@ -83,10 +84,40 @@
         });
       }
 
-      function vote(id) {
+      async function vote(id) {
         let items = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
         const idx = items.findIndex(i => i.id === id);
         if (idx === -1) return;
+
+        // Try to record vote via backend; fall back to localStorage on failure
+        try {
+          const resp = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'voteIdea', ideaId: id })
+          });
+
+          if (resp.ok) {
+            const json = await resp.json().catch(() => null);
+            let newVotes = null;
+            if (json) {
+              // Apps Script `success()` wraps returned value as { success: true, data: ... }
+              if (json.data && typeof json.data.votes === 'number') newVotes = json.data.votes;
+              else if (typeof json.votes === 'number') newVotes = json.votes;
+            }
+
+            if (newVotes !== null) {
+              items[idx].votes = newVotes;
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+              render(items);
+              return;
+            }
+          }
+        } catch (e) {
+          // network or parse failure — fall through to local increment
+        }
+
+        // Fallback: increment locally
         items[idx].votes = (items[idx].votes || 0) + 1;
         localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
         render(items);
