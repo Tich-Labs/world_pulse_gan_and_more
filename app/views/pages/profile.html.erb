@@ -1,0 +1,81 @@
+<% content_for :title, "My Profile - World Pulse Plus" %>
+
+<div class="profile-page">
+  <div class="container mx-auto py-8 px-4">
+    <% if current_user %>
+      <div class="profile-header">
+        <div class="profile-avatar">
+          <span class="avatar-initial"><%= current_user.name.first.upcase %></span>
+        </div>
+        <div class="profile-info">
+          <h1><%= current_user.name %></h1>
+          <p class="text-muted"><%= current_user.email %></p>
+          <% if current_user.location %>
+            <p class="location">📍 <%= current_user.location %></p>
+          <% end %>
+        </div>
+        <div class="profile-actions">
+          <a href="/messaging" class="btn-primary-custom">Messages 💬</a>
+          <%= button_to "Sign Out", session_path, method: :delete, class: "btn-signout" %>
+        </div>
+      </div>
+
+      <div class="profile-grid">
+        <div class="card-custom">
+          <h3>About Me</h3>
+          <% if current_user.bio.present? %>
+            <p><%= current_user.bio %></p>
+          <% else %>
+            <p class="text-muted">No bio added yet.</p>
+          <% end %>
+        </div>
+
+        <div class="card-custom">
+          <h3>Expertise</h3>
+          <% if current_user.expertise.present? %>
+            <div class="expertise-tags">
+              <% current_user.expertise.split(",").each do |skill| %>
+                <span class="expertise-tag"><%= skill.strip %></span>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-muted">No expertise added yet.</p>
+          <% end %>
+        </div>
+
+        <div class="card-custom">
+          <h3>My Impact</h3>
+          <div class="impact-stats">
+            <div class="stat">
+              <span class="stat-number">0</span>
+              <span class="stat-label">Projects Helped</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">0</span>
+              <span class="stat-label">Connections Made</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <% if params[:action_type] == 'help' && params[:project_id].present? %>
+        <% project = Project.find_by(id: params[:project_id]) %>
+        <% if project %>
+          <div class="help-request-banner">
+            <h2>You're helping: <%= project.name %></h2>
+            <p><%= project.description.truncate(120) %></p>
+            <p class="location">📍 <%= project.location %></p>
+          </div>
+        <% end %>
+        <div class="auth-centered">
+          <div class="auth-tabs">
+            <a href="/users/new?project_id=<%= params[:project_id] %>" class="auth-tab <%= params[:tab] != 'login' ? 'active' : '' %>">Create Account</a>
+            <a href="/session/new?project_id=<%= params[:project_id] %>&tab=login" class="auth-tab <%= params[:tab] == 'login' ? 'active' : '' %>">Sign In</a>
+          </div>
+        </div>
+      <% else %>
+        <script>window.location.href = '/users/new';</script>
+      <% end %>
+    <% end %>
+  </div>
+</div>

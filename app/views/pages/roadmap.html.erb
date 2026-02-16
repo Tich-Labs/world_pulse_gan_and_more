@@ -1,0 +1,191 @@
+<% content_for :title, "Roadmap Voting - World Pulse Plus" %>
+<% content_for :head do %>
+  <meta name="turbo" content="false">
+<% end %>
+
+<div class="roadmap-page">
+  <div class="container mx-auto py-8 px-4">
+    <div class="page-header">
+      <div class="header-text">
+        <h1>🗳️ Roadmap Voting</h1>
+        <p class="text-muted">Vote on features and ideas you want to see developed. Your voice shapes World Pulse.</p>
+      </div>
+    </div>
+
+    <section>
+      <h2 class="text-2xl font-bold text-primary mb-6">Community Roadmap Ideas</h2>
+      
+      <div class="flex flex-col sm:flex-row gap-4 mb-8">
+        <div class="flex-1">
+          <input type="text" id="search-input" class="input-custom w-full" placeholder="Search ideas..." />
+        </div>
+        <div class="sm:w-48">
+          <select id="filter-type" class="input-custom w-full">
+            <option value="">All Types</option>
+            <option value="Feature">Feature</option>
+            <option value="UX">UX</option>
+            <option value="Localization">Localization</option>
+            <option value="Technical">Technical</option>
+            <option value="Program">Program</option>
+            <option value="Collaboration">Collaboration</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="ideas-list" class="grid md:grid-cols-2 gap-6">
+        <div class="col-span-full text-center py-8">
+          <span class="loading loading-spinner loading-lg"></span>
+          <p class="mt-4 text-muted">Loading ideas...</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+(function() {
+  const API_IDEAS_URL = '/roadmap/ideas';
+  const API_VOTE_URL = '/roadmap/vote';
+  let allIdeas = [];
+  let currentSearch = '';
+  let currentFilter = '';
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+  }
+
+  function filterIdeas() {
+    let filtered = allIdeas;
+    
+    if (currentSearch) {
+      const search = currentSearch.toLowerCase();
+      filtered = filtered.filter(it => 
+        it.name.toLowerCase().includes(search) || 
+        it.user_story.toLowerCase().includes(search) ||
+        it.submitter.toLowerCase().includes(search)
+      );
+    }
+    
+    if (currentFilter) {
+      filtered = filtered.filter(it => it.idea_type === currentFilter);
+    }
+    
+    render(filtered);
+  }
+
+  function render(items) {
+    const container = document.getElementById('ideas-list');
+    if (!container) return;
+
+    if (!items || items.length === 0) {
+      container.innerHTML = `
+        <div class="col-span-full text-center py-8">
+          <div class="text-4xl mb-4">📋</div>
+          <p class="text-muted">No roadmap ideas yet. Check back soon!</p>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = items.map(it => `
+      <div class="story-card">
+        <div class="story-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
+            <path d="M12 2L14.39 5.42 18.5 4.5 16.54 9.58 21 11.08 18.5 14.5 20.5 18.08 16.42 19.5 15.19 23.5 12 21.08 8.81 23.5 7.58 19.5 3.5 18.08 5.5 14.5 3 11.08 7.46 9.58 5.5 4.5 9.61 5.42 12 2z" fill="#6573ed"/>
+          </svg>
+        </div>
+        <div class="story-card-content">
+          <div class="story-card-title">${escapeHtml(it.name)}</div>
+          <p class="story-card-description">${escapeHtml(it.user_story)}</p>
+        </div>
+        <hr class="story-card-divider">
+        <div class="story-card-footer">
+          <div class="story-card-meta">
+            <span class="story-card-author">by ${escapeHtml(it.submitter)}</span>
+            <span class="badge-custom">${escapeHtml(it.idea_type)}</span>
+          </div>
+          <div class="story-card-actions">
+            <span class="story-card-votes">⭐ ${it.votes || 0} votes</span>
+            <button class="roadmap-vote-btn" data-id="${it.id}">Vote</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    container.querySelectorAll('.roadmap-vote-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = Number(btn.getAttribute('data-id'));
+        vote(id, btn);
+      });
+    });
+  }
+
+  async function loadIdeas() {
+    try {
+      const resp = await fetch(API_IDEAS_URL);
+      const data = await resp.json();
+      allIdeas = data;
+      filterIdeas();
+    } catch (e) {
+      console.error('Failed to load ideas:', e);
+      const container = document.getElementById('ideas-list');
+      container.innerHTML = `
+        <div class="col-span-full text-center py-8">
+          <div class="text-4xl mb-4">⚠️</div>
+          <p class="text-muted">Failed to load ideas. Please refresh the page.</p>
+        </div>
+      `;
+    }
+  }
+
+  async function vote(id, btn) {
+    const originalText = btn.textContent;
+    btn.textContent = 'Voting...';
+    btn.disabled = true;
+
+    try {
+      const resp = await fetch(API_VOTE_URL + '/' + id, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = await resp.json();
+
+      if (data.success) {
+        btn.textContent = '✓ Voted!';
+        const voteCountEl = btn.closest('.story-card').querySelector('.story-card-votes');
+        voteCountEl.textContent = '⭐ ' + data.votes + ' votes';
+        
+        setTimeout(() => {
+          btn.textContent = 'Vote';
+          btn.disabled = false;
+        }, 1500);
+      } else {
+        btn.textContent = originalText;
+        btn.disabled = false;
+        alert('Error: ' + (data.error || 'Failed to vote'));
+      }
+    } catch (e) {
+      console.error('Vote failed:', e);
+      btn.textContent = originalText;
+      btn.disabled = false;
+      alert('Failed to vote. Please try again.');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', loadIdeas);
+
+  document.getElementById('search-input').addEventListener('input', function(e) {
+    currentSearch = e.target.value;
+    filterIdeas();
+  });
+
+  document.getElementById('filter-type').addEventListener('change', function(e) {
+    currentFilter = e.target.value;
+    filterIdeas();
+  });
+})();
+</script>

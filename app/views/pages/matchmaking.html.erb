@@ -1,0 +1,425 @@
+<% content_for :title, "Community Matchmaking - World Pulse Plus" %>
+
+<div class="matchmaking-page">
+  <div class="container mx-auto py-8 px-4">
+    <div class="page-header">
+      <div class="header-text">
+        <h1>👥 Community Matchmaking</h1>
+        <p class="text-muted">Connect with advisors and peers to grow your project</p>
+      </div>
+      <button class="btn-primary-custom" onclick="openModal()">
+        + Share Your Project
+      </button>
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="projects-grid-section">
+      <h2>Recent Projects</h2>
+      <% if @projects.any? %>
+        <div class="grid md:grid-cols-2 gap-6">
+          <% @projects.each do |project| %>
+            <div class="project-card">
+              <div class="project-header">
+                <div class="project-avatar">
+                  <%= project.name.first.upcase %>
+                </div>
+                <div class="project-info">
+                  <h3><%= project.name %></h3>
+                  <span class="project-location">📍 <%= project.location %></span>
+                </div>
+              </div>
+              <p class="project-description"><%= truncate(project.description, length: 120) %></p>
+              <div class="project-support">
+                <% project.support_types_array.first(3).each do |type| %>
+                  <span class="support-pill"><%= type %></span>
+                <% end %>
+              </div> <!-- .project-support -->
+
+              <div class="project-actions">
+                <button type="button" class="read-more-btn" data-project-id="<%= project.id %>">Read more ↓</button>
+                <button type="button" class="help-btn" onclick="provideHelp(<%= project.id %>)">Provide help</button>
+              </div>
+
+              <div id="project-details-<%= project.id %>" class="project-full-details hidden">
+                <div class="detail-section">
+                  <h4>Full description</h4>
+                  <p><%= project.description %></p>
+                </div>
+                <div class="detail-section">
+                  <h4>Support needed</h4>
+                  <p><%= project.support_types_array.join(', ') %></p>
+                </div>
+              </div>
+            </div> <!-- .project-card -->
+            <% end %> <!-- @projects.each -->
+          </div> <!-- .grid -->
+        <% else %>
+          <p>No projects found.</p>
+        <% end %>
+      </div>
+      
+      <!-- Project Submission Modal -->
+      <div id="projectModal" class="modal hidden">
+        <div class="modal-overlay" onclick="closeModal()"></div>
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Share Your Project</h2>
+            <button class="modal-close" onclick="closeModal()">×</button>
+          </div>
+          <div class="step-indicator">
+            <span id="step-1-indicator" class="step active"></span>
+            <span id="step-2-indicator" class="step"></span>
+            <span id="step-3-indicator" class="step"></span>
+            <span id="step-4-indicator" class="step"></span>
+            <span id="step-5-indicator" class="step"></span>
+            <span id="step-6-indicator" class="step"></span>
+            <span id="step-count" class="hidden">1 / 6</span>
+            <div id="step-progress" class="hidden"></div>
+            <span id="step-label" class="hidden">Step 1: Who You Are</span>
+          </div>
+          
+          <form id="project-form" class="modal-form">
+                
+                <!-- Step 1: Who You Are -->
+                <div id="step-1" class="step-content">
+                  <h3>Who You Are</h3>
+                  
+                  <div class="form-group">
+                    <label for="name">Your Name <span class="required">*</span></label>
+                    <input type="text" id="name" name="project[name]" class="input-custom" placeholder="Enter your name" required />
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="email">Email <span class="required">*</span></label>
+                    <input type="email" id="email" name="project[email]" class="input-custom" placeholder="your@email.com" required />
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="project_name">Project Name <span class="required">*</span></label>
+                    <input type="text" id="project_name" name="project[project_name]" class="input-custom" placeholder="What is your project called?" required />
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="location">Location <span class="required">*</span></label>
+                    <input type="text" id="location" name="project[location]" class="input-custom" placeholder="City, Country" required />
+                  </div>
+                </div>
+
+                <!-- Step 2: Your Challenge -->
+                <div id="step-2" class="step-content hidden">
+                  <h3>Your Challenge</h3>
+                  
+                  <div class="form-group">
+                    <label for="project_description">Describe your project <span class="required">*</span></label>
+                    <textarea id="project_description" name="project[description]" class="input-custom" placeholder="What does your project do? Who does it help?" required></textarea>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="accomplishment_goal">What's one thing you're trying to accomplish but haven't seen the results you hoped for? <span class="required">*</span></label>
+                    <textarea id="accomplishment_goal" name="project[accomplishment_goal]" class="input-custom" placeholder="Be specific—what are you working toward?" required></textarea>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="why_matters">Why does this matter to you? <span class="required">*</span></label>
+                    <textarea id="why_matters" name="project[why_matters]" class="input-custom" placeholder="What's at stake? Why is this important?" required></textarea>
+                  </div>
+                </div>
+
+                <!-- Step 3: What You've Tried -->
+                <div id="step-3" class="step-content hidden">
+                  <h3>What You've Tried</h3>
+                  
+                  <div class="form-group">
+                    <label for="attempts_so_far">What have you tried so far to solve this? <span class="required">*</span></label>
+                    <textarea id="attempts_so_far" name="project[attempts_so_far]" class="input-custom" placeholder="What steps have you already taken?" required></textarea>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="what_worked">What worked? What didn't? <span class="required">*</span></label>
+                    <textarea id="what_worked" name="project[what_worked]" class="input-custom" placeholder="What gave you the best results? What fell flat?" required></textarea>
+                  </div>
+                </div>
+
+                <!-- Step 4: What Kind of Support -->
+                <div id="step-4" class="step-content hidden">
+                  <h3>What Kind of Peer Support Would Help?</h3>
+                  <p class="text-muted mb-4">Select all that apply:</p>
+                  
+                  <div class="support-grid">
+                    <label class="support-option">
+                      <input type="checkbox" name="project[support_types][]" value="Strategic advice" />
+                      <div>
+                        <span class="support-title">Strategic advice</span>
+                        <span class="support-desc">High-level guidance on direction</span>
+                      </div>
+                    </label>
+                    
+                    <label class="support-option">
+                      <input type="checkbox" name="project[support_types][]" value="Practical tips" />
+                      <div>
+                        <span class="support-title">Practical tips</span>
+                        <span class="support-desc">Implementation help & tactics</span>
+                      </div>
+                    </label>
+                    
+                    <label class="support-option">
+                      <input type="checkbox" name="project[support_types][]" value="Moral support" />
+                      <div>
+                        <span class="support-title">Moral support</span>
+                        <span class="support-desc">Encouragement & accountability</span>
+                      </div>
+                    </label>
+                    
+                    <label class="support-option">
+                      <input type="checkbox" name="project[support_types][]" value="Resource connections" />
+                      <div>
+                        <span class="support-title">Resource connections</span>
+                        <span class="support-desc">Introductions & networking</span>
+                      </div>
+                    </label>
+                    
+                    <label class="support-option">
+                      <input type="checkbox" name="project[support_types][]" value="Skill building" />
+                      <div>
+                        <span class="support-title">Skill building</span>
+                        <span class="support-desc">Teaching & training</span>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Step 5: Ideal Outcome -->
+                <div id="step-5" class="step-content hidden">
+                <h3>Your Ideal Outcome</h3>
+                
+                <div class="form-group">
+                  <label for="ideal_outcome">If you got that support, what would success look like? <span class="required">*</span></label>
+                  <textarea id="ideal_outcome" name="project[ideal_outcome]" class="input-custom" placeholder="Describe your ideal outcome..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                  <label for="timeline">When would you like to achieve this by? <span class="required">*</span></label>
+                  <input type="date" id="timeline" name="project[timeline]" class="input-custom" required />
+                </div>
+              </div>
+
+              <!-- Step 6: Team Composition -->
+              <div id="step-6" class="step-content hidden">
+                <h3>Are you working on this solo or with a team?</h3>
+                
+                <div class="team-options">
+                  <label class="team-option">
+                    <input type="radio" name="project[team_composition]" value="Solo" required />
+                    <span>Working Solo</span>
+                  </label>
+                  
+                  <label class="team-option">
+                    <input type="radio" name="project[team_composition]" value="Small Team (2-3)" />
+                    <span>Small Team (2-3 people)</span>
+                  </label>
+                  
+                  <label class="team-option">
+                  <label class="team-option">
+                    <input type="radio" name="project[team_composition]" value="Larger Team (4+)" />
+                    <span>Larger Team (4+ people)</span>
+                  </label>
+                </div>
+
+                <div class="info-box">
+                  <p><strong>What happens next?</strong> We'll share your project with our community of peer advisors. Within 48 hours, experienced people in your area will reach out to offer guidance and support.</p>
+                </div>
+              </div>
+
+              <!-- Navigation Buttons -->
+              <div class="form-nav">
+                <button type="button" class="btn-secondary-custom" id="prev-btn">
+                  ← Previous
+                </button>
+                <button type="button" class="btn-primary-custom" id="next-btn">
+                  Next →
+                </button>
+                <button type="submit" class="btn-primary-custom hidden" id="submit-btn">
+                  Submit Project ✓
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openModal() {
+  document.getElementById('projectModal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('projectModal').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+// Modal functions for project cards
+function toggleProjectDetails(projectId) {
+  const details = document.getElementById('project-details-' + projectId);
+  const btn = document.querySelector('.read-more-btn[data-project-id="' + projectId + '"]');
+
+  if (!details) return;
+
+  // Remember current state
+  const wasHidden = details.classList.contains('hidden');
+
+  // Hide all details and reset buttons
+  document.querySelectorAll('.project-full-details').forEach(el => {
+    el.classList.add('hidden');
+  });
+  document.querySelectorAll('.read-more-btn').forEach(b => {
+    b.textContent = 'Read more ↓';
+  });
+
+  // If target was hidden, show it now
+  if (wasHidden) {
+    details.classList.remove('hidden');
+    if (btn) btn.textContent = 'Show less ↑';
+  }
+}
+
+function provideHelp(projectId) {
+  <% if @logged_in %>
+    window.location.href = '/messaging?project_id=' + projectId;
+  <% else %>
+    const confirmed = confirm('To provide help, you need to create an account or sign in. Would you like to continue?');
+    if (confirmed) {
+      window.location.href = '/profile?action_type=help&project_id=' + projectId;
+    }
+  <% end %>
+}
+
+// Form step navigation (same as before)
+document.addEventListener('DOMContentLoaded', function() {
+  let currentStep = 1;
+  const totalSteps = 6;
+
+  const stepLabels = {
+    1: "Step 1: Who You Are",
+    2: "Step 2: Your Challenge",
+    3: "Step 3: What You've Tried",
+    4: "Step 4: Support Needed",
+    5: "Step 5: Your Ideal Outcome",
+    6: "Step 6: Team Composition"
+  };
+
+  function updateProgress() {
+    currentStep = Math.min(Math.max(currentStep, 1), totalSteps);
+    document.getElementById('step-count').textContent = `${currentStep} / ${totalSteps}`;
+    document.getElementById('step-label').textContent = stepLabels[currentStep];
+    document.getElementById('step-progress').style.width = `${(currentStep / totalSteps) * 100}%`;
+
+    for (let i = 1; i <= totalSteps; i++) {
+      const indicator = document.getElementById(`step-${i}-indicator`);
+      if (indicator) {
+        indicator.classList.remove('active', 'completed');
+        if (i < currentStep) {
+          indicator.classList.add('completed');
+        } else if (i === currentStep) {
+          indicator.classList.add('active');
+        }
+      }
+    }
+
+    for (let i = 1; i <= totalSteps; i++) {
+      const el = document.getElementById(`step-${i}`);
+      if (el) {
+        if (i === currentStep) {
+          el.classList.remove('hidden');
+        } else {
+          el.classList.add('hidden');
+        }
+      }
+    }
+
+    document.getElementById('prev-btn').classList.toggle('hidden', currentStep === 1);
+    document.getElementById('next-btn').classList.toggle('hidden', currentStep === totalSteps);
+    document.getElementById('submit-btn').classList.toggle('hidden', currentStep !== totalSteps);
+  }
+
+  window.nextStep = function() {
+    const currentStepEl = document.getElementById(`step-${currentStep}`);
+    const requiredFields = currentStepEl.querySelectorAll('[required]');
+    let isValid = true;
+    
+    requiredFields.forEach(field => {
+      if (!field.value.trim()) {
+        isValid = false;
+        field.style.borderColor = '#E74C3C';
+      } else {
+        field.style.borderColor = '#E5E5E5';
+      }
+    });
+    
+    if (!isValid) {
+      alert('Please fill in all required fields before continuing.');
+      return;
+    }
+    
+    currentStep++;
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  window.previousStep = function() {
+    currentStep--;
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  document.getElementById('next-btn').addEventListener('click', nextStep);
+  document.getElementById('prev-btn').addEventListener('click', previousStep);
+
+  document.getElementById('project-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.textContent = 'Submitting...';
+    submitBtn.disabled = true;
+
+    fetch('/projects', {
+      method: 'POST',
+      headers: {
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+      },
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert('Project submitted successfully!');
+        closeModal();
+        window.location.reload();
+      } else {
+        alert('Error: ' + data.error);
+        submitBtn.textContent = 'Submit Project ✓';
+        submitBtn.disabled = false;
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Something went wrong. Please try again.');
+      submitBtn.textContent = 'Submit Project ✓';
+      submitBtn.disabled = false;
+    });
+  });
+
+  // Ensure read-more buttons reliably toggle a single card (attach listeners)
+  document.querySelectorAll('.read-more-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const pid = this.dataset.projectId;
+      if (pid) toggleProjectDetails(pid);
+    });
+  });
+});
+</script>

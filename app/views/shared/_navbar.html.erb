@@ -1,0 +1,30 @@
+<nav class="navbar-custom" id="topMenu">
+  <div class="flex-1">
+    <a href="/"><img alt="World Pulse" loading="lazy" width="157" height="60" decoding="async" class="navbar-logo" src="<%= asset_path('logo.svg') %>"></a>
+  </div>
+  <div class="styles_spacer"></div>
+  <div class="styles_wrapper">
+    <a class="nav-link <%= 'nav-active' if current_page?('/') %>" href="/">Dashboard</a>
+    <a class="nav-link <%= 'nav-active' if current_page?('/matchmaking') %>" href="/matchmaking">Connect</a>
+    <% if current_user %>
+      <% unread_count = Message.where(receiver_id: current_user.id).count rescue 0 %>
+      <a class="nav-link <%= 'nav-active' if current_page?('/messaging') %>" href="/messaging" aria-label="Messages" title="Messages" style="position:relative;">
+        <span aria-hidden="true" style="font-size:1.4rem;display:inline-block;line-height:1;">💬</span>
+        <% if unread_count.to_i > 0 %>
+          <span style="position:absolute;top:-6px;right:-6px;background:var(--secondary);color:#fff;border-radius:999px;padding:2px 6px;font-size:0.7rem;font-weight:700;"> <%= unread_count %> </span>
+        <% end %>
+      </a>
+    <% else %>
+      <a class="nav-link <%= 'nav-active' if current_page?('/messaging') %>" href="/messaging" aria-label="Messages" title="Messages">
+        <span aria-hidden="true" style="font-size:1.4rem;display:inline-block;line-height:1;">💬</span>
+      </a>
+    <% end %>
+    
+    <!-- Documentation icon only (tooltip via title) -->
+    <a class="nav-link <%= 'nav-active' if current_page?('/documentation') %>" href="/documentation" title="Documentation" aria-label="Documentation">
+      <span aria-hidden="true" style="font-size:1.25rem;display:inline-block;line-height:1;">📖</span>
+    </a>
+    <!-- Community Hub removed -->
+    <!-- <a class="nav-button" href="https://www.worldpulse.org/login?next=/profile/" target="_blank" rel="noopener">Profile</a> -->
+  </div>
+</nav>

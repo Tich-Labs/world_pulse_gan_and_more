@@ -1,0 +1,380 @@
+<% content_for :title, "Training & Events - World Pulse Plus" %>
+<% content_for :head do %>
+  <meta name="turbo" content="false">
+<% end %>
+
+<div class="matchmaking-page">
+  <div class="container mx-auto py-8 px-4">
+    <div class="page-header">
+      <div class="header-text">
+        <h1>📚 Training & Events</h1>
+        <p class="text-muted">Request or offer training sessions to help the community grow.</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn-primary-custom" onclick="openRequestModal()">
+          + Request Training
+        </button>
+        <%# <button class="btn-accent-custom" onclick="openOfferingModal()">
+          + Offer Training
+        </button> %>
+      </div>
+    </div>
+
+    <!-- Training Requests Section -->
+    <div class="projects-grid-section">
+      <h2>Training Requests</h2>
+      <div id="training-requests" class="projects-grid">
+        <div class="col-span-full text-center py-8">
+          <span class="loading loading-spinner loading-lg"></span>
+          <p class="mt-4 text-muted">Loading requests...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Available Trainings Section -->
+    <div class="projects-grid-section">
+      <h2>Available Trainings</h2>
+      <div id="offerings-list" class="projects-grid">
+        <div class="col-span-full text-center py-8">
+          <span class="loading loading-spinner loading-lg"></span>
+          <p class="mt-4 text-muted">Loading offerings...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Request Training Modal -->
+<div id="requestModal" class="modal hidden">
+  <div class="modal-overlay" onclick="closeRequestModal()"></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Request Training</h2>
+      <button class="modal-close" onclick="closeRequestModal()">×</button>
+    </div>
+    <div class="card-custom modal-form">
+      <form id="training-request-form">
+        <div class="form-group">
+          <label class="form-label">Training Topic</label>
+          <input type="text" id="req-topic" class="input-custom w-full" placeholder="e.g., Digital Marketing" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea id="req-desc" class="input-custom w-full" rows="4" placeholder="Tell us what you'd like to learn..." required></textarea>
+        </div>
+        <button type="submit" class="btn-primary-custom w-full">Submit Request</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Offer Training Modal -->
+<div id="offeringModal" class="modal hidden">
+  <div class="modal-overlay" onclick="closeOfferingModal()"></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Offer Training</h2>
+      <button class="modal-close" onclick="closeOfferingModal()">×</button>
+    </div>
+    <div class="card-custom modal-form">
+      <form id="training-offering-form">
+        <div class="form-group">
+          <label class="form-label">Topic/Expertise</label>
+          <input type="text" id="offering-topic" class="input-custom w-full" placeholder="e.g., Digital Marketing" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea id="offering-desc" class="input-custom w-full" rows="3" placeholder="What can you teach?" required></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Availability</label>
+          <select id="offering-availability" class="input-custom w-full" required>
+            <option value="">Select availability</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Bi-weekly">Bi-weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Flexible">Flexible</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-accent-custom w-full">Offer Training</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.vote-count {
+  font-weight: 600;
+  color: var(--primary);
+}
+</style>
+
+<script>
+function openRequestModal() {
+  document.getElementById('requestModal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeRequestModal() {
+  document.getElementById('requestModal').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+function openOfferingModal() {
+  document.getElementById('offeringModal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeOfferingModal() {
+  document.getElementById('offeringModal').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+(function() {
+  const API_DATA_URL = '/training/data';
+  const API_REQUEST_URL = '/training/request';
+  const API_OFFERING_URL = '/training/offering';
+  const API_VOTE_URL = '/training/vote';
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+  }
+
+  function renderRequests(requests) {
+    const container = document.getElementById('training-requests');
+    if (!container) return;
+
+    if (!requests || requests.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">📚</div>
+          <div class="empty-title">No training requests yet</div>
+          <div class="empty-description">Be the first to request a training!</div>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = requests.map(req => `
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-avatar" style="background: linear-gradient(135deg, #E9EBF8 0%, #D4D9F0 100%);">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#6573ed" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="project-info">
+            <h3>${escapeHtml(req.topic)}</h3>
+            <span class="project-location">Status: ${escapeHtml(req.status || 'pending')}</span>
+          </div>
+        </div>
+        <p class="project-description">${escapeHtml(req.description)}</p>
+        <div class="project-actions">
+          <span class="vote-count">⭐ ${req.votes || 0} votes</span>
+          <button class="help-btn" data-id="${req.id}" onclick="voteRequest(this)">👍 Vote</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderOfferings(offerings) {
+    const container = document.getElementById('offerings-list');
+    if (!container) return;
+
+    if (!offerings || offerings.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">🎓</div>
+          <div class="empty-title">No training offerings yet</div>
+          <div class="empty-description">Check back later for available trainings!</div>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = offerings.map(offer => `
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-avatar" style="background: linear-gradient(135deg, #FCE7E0 0%, #F5C4A8 100%);">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#E88452"/>
+            </svg>
+          </div>
+          <div class="project-info">
+            <h3>${escapeHtml(offer.topic)}</h3>
+            <span class="project-location">📅 ${escapeHtml(offer.availability)}</span>
+          </div>
+        </div>
+        <p class="project-description">${escapeHtml(offer.description)}</p>
+        <div class="project-actions">
+          <span class="vote-count">⭐ ${offer.votes || 0} votes</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  async function voteRequest(btn) {
+    const id = btn.getAttribute('data-id');
+    const originalText = btn.textContent;
+    btn.textContent = 'Voting...';
+    btn.disabled = true;
+
+    try {
+      const resp = await fetch(API_VOTE_URL + '/' + id, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = await resp.json();
+
+      if (data.success) {
+        btn.textContent = '✓ Voted!';
+        const voteCountEl = btn.closest('.project-card').querySelector('.vote-count');
+        voteCountEl.textContent = '⭐ ' + data.votes + ' votes';
+        
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.disabled = false;
+        }, 1500);
+      } else {
+        btn.textContent = originalText;
+        btn.disabled = false;
+        alert('Error: ' + (data.error || 'Failed to vote'));
+      }
+    } catch (e) {
+      console.error('Vote failed:', e);
+      btn.textContent = originalText;
+      btn.disabled = false;
+      alert('Failed to vote. Please try again.');
+    }
+  }
+
+  window.voteRequest = voteRequest;
+
+  async function loadData() {
+    try {
+      const resp = await fetch(API_DATA_URL);
+      const data = await resp.json();
+      renderRequests(data.requests);
+      renderOfferings(data.offerings);
+    } catch (e) {
+      console.error('Failed to load training data:', e);
+      document.getElementById('training-requests').innerHTML = '<p class="text-muted text-center py-8">Failed to load data</p>';
+      document.getElementById('offerings-list').innerHTML = '<p class="text-muted text-center py-8">Failed to load data</p>';
+    }
+  }
+
+  document.getElementById('training-request-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = this.querySelector('button[type="submit"]');
+    const originalText = btn.textContent;
+    btn.textContent = 'Submitting...';
+    btn.disabled = true;
+
+    try {
+      const resp = await fetch(API_REQUEST_URL, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          training_request: {
+            topic: document.getElementById('req-topic').value,
+            description: document.getElementById('req-desc').value
+          }
+        })
+      });
+
+      const data = await resp.json();
+
+      if (data.success) {
+        btn.textContent = '✓ Submitted!';
+        this.reset();
+        loadData();
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.disabled = false;
+          closeRequestModal();
+        }, 1500);
+      } else {
+        btn.textContent = originalText;
+        btn.disabled = false;
+        alert('Error: ' + (data.errors || 'Failed to submit'));
+      }
+    } catch (e) {
+      console.error('Submit failed:', e);
+      btn.textContent = originalText;
+      btn.disabled = false;
+      alert('Failed to submit. Please try again.');
+    }
+  });
+
+  document.getElementById('training-offering-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = this.querySelector('button[type="submit"]');
+    const originalText = btn.textContent;
+    btn.textContent = 'Submitting...';
+    btn.disabled = true;
+
+    try {
+      const resp = await fetch(API_OFFERING_URL, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          training_offering: {
+            topic: document.getElementById('offering-topic').value,
+            description: document.getElementById('offering-desc').value,
+            availability: document.getElementById('offering-availability').value
+          }
+        })
+      });
+
+      const data = await resp.json();
+
+      if (data.success) {
+        btn.textContent = '✓ Submitted!';
+        this.reset();
+        loadData();
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.disabled = false;
+          closeOfferingModal();
+        }, 1500);
+      } else {
+        btn.textContent = originalText;
+        btn.disabled = false;
+        alert('Error: ' + (data.errors || 'Failed to submit'));
+      }
+    } catch (e) {
+      console.error('Submit failed:', e);
+      btn.textContent = originalText;
+      btn.disabled = false;
+      alert('Failed to submit. Please try again.');
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', loadData);
+})();
+</script>

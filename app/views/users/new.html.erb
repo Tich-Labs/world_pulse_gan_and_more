@@ -1,0 +1,68 @@
+<% content_for :title, "Create Account - World Pulse Plus" %>
+
+<div class="signup-page">
+  <div class="container mx-auto py-8 px-4">
+    <div class="max-w-lg mx-auto">
+      <div class="text-center mb-8">
+        <h1>Create Your Advisor Account</h1>
+        <p class="text-muted">Join World Pulse Plus to help others with your expertise</p>
+      </div>
+
+      <div class="card-custom">
+        <% if flash[:alert] %>
+          <div class="alert alert-error">
+            <%= flash[:alert] %>
+          </div>
+        <% end %>
+
+        <%= form_with url: users_path, method: :post, class: "signup-form" do |f| %>
+          <%= hidden_field_tag :project_id, @project_id %>
+          
+          <div class="form-group">
+            <%= f.label :name, "Full Name" %>
+            <%= f.text_field :name, class: "input-custom", placeholder: "Your full name", required: true %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :email, "Email Address" %>
+            <%= f.email_field :email, class: "input-custom", placeholder: "your@email.com", required: true %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :password, "Password" %>
+            <%= f.password_field :password, class: "input-custom", placeholder: "Create a password", required: true %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :location, "Location" %>
+            <%= f.text_field :location, class: "input-custom", placeholder: "City, Country" %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :expertise, "Your Expertise" %>
+            <%= f.text_area :expertise, class: "input-custom", placeholder: "What areas can you help in? (e.g., Fundraising, Marketing, Technology)", rows: 3 %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :bio, "Short Bio" %>
+            <%= f.text_area :bio, class: "input-custom", placeholder: "Tell us about yourself and your experience", rows: 3 %>
+          </div>
+
+          <div class="form-actions">
+            <%= f.submit "Create Account", class: "btn-primary-custom w-full" %>
+          </div>
+
+          <p class="text-center mt-4 text-sm text-muted">
+            Already have an account? <a href="<%= new_session_path(project_id: @project_id) %>" class="text-primary">Sign in</a>
+          </p>
+        <% end %>
+      </div>
+
+      <div class="text-center mt-6">
+        <p class="text-muted text-sm">
+          Already a World Pulse member? <a href="#" class="text-primary">Connect your account</a> (Coming soon)
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

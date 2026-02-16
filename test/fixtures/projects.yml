@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  location: MyString
+  description: MyText
+  accomplishment_goal: MyText
+  why_matters: MyText
+  attempts_so_far: MyText
+  what_worked: MyText
+  support_types: MyText
+  ideal_outcome: MyText
+  timeline: 2026-02-15
+  team_composition: MyString
+
+two:
+  name: MyString
+  location: MyString
+  description: MyText
+  accomplishment_goal: MyText
+  why_matters: MyText
+  attempts_so_far: MyText
+  what_worked: MyText
+  support_types: MyText
+  ideal_outcome: MyText
+  timeline: 2026-02-15
+  team_composition: MyString

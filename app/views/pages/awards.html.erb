@@ -1,0 +1,197 @@
+<% content_for :title, "Story Awards - World Pulse Plus" %>
+<% content_for :head do %>
+  <meta name="turbo" content="false">
+<% end %>
+
+<div class="awards-page">
+  <div class="container mx-auto py-8 px-4">
+    <div class="page-header">
+      <div class="header-text">
+        <h1>🏆 Story Awards</h1>
+        <p class="text-muted">Vote for the impact stories that inspire you most.</p>
+      </div>
+    </div>
+    
+
+    <section>
+      <h2 class="text-2xl font-bold text-primary mb-6">Featured Stories</h2>
+      
+      <div class="flex flex-col sm:flex-row gap-4 mb-8">
+        <div class="flex-1">
+          <input type="text" id="search-input" class="input-custom w-full" placeholder="Search stories..." />
+        </div>
+        <div class="sm:w-48">
+          <select id="filter-tag" class="input-custom w-full">
+            <option value="">All Topics</option>
+            <option value="personal">Personal</option>
+            <option value="empowerment">Empowerment</option>
+            <option value="trauma">Trauma</option>
+            <option value="resilience">Resilience</option>
+            <option value="education">Education</option>
+            <option value="gender">Gender</option>
+            <option value="justice">Justice</option>
+            <option value="community">Community</option>
+            <option value="women">Women</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="stories-list" class="grid md:grid-cols-2 gap-6">
+        <div class="col-span-full text-center py-8">
+          <span class="loading loading-spinner loading-lg"></span>
+          <p class="mt-4 text-muted">Loading stories...</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+(function() {
+  const API_STORIES_URL = '/awards/stories';
+  const API_VOTE_URL = '/awards/vote';
+  let allStories = [];
+  let currentSearch = '';
+  let currentFilter = '';
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+  }
+
+  function filterStories() {
+    let filtered = allStories;
+    
+    if (currentSearch) {
+      const search = currentSearch.toLowerCase();
+      filtered = filtered.filter(s => 
+        s.title.toLowerCase().includes(search) || 
+        s.content.toLowerCase().includes(search) ||
+        s.author.toLowerCase().includes(search)
+      );
+    }
+    
+    if (currentFilter) {
+      filtered = filtered.filter(s => s.tags && s.tags.includes(currentFilter));
+    }
+    
+    render(filtered);
+  }
+
+  function render(items) {
+    const container = document.getElementById('stories-list');
+    if (!container) return;
+
+    if (!items || items.length === 0) {
+      container.innerHTML = `
+        <div class="col-span-full text-center py-8">
+          <div class="text-4xl mb-4">📖</div>
+          <p class="text-muted">No stories yet. Check back soon!</p>
+        </div>
+      `;
+      return;
+    }
+
+    const shieldIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#F5A17D"/>
+    </svg>`;
+
+    container.innerHTML = items.map(st => `
+      <div class="story-card">
+        <div class="story-card-icon">
+          ${shieldIcon}
+        </div>
+        <div class="story-card-content">
+          <div class="story-card-title">${escapeHtml(st.title)}</div>
+          <p class="story-card-description">${escapeHtml(st.content)}</p>
+        </div>
+        <hr class="story-card-divider">
+        <div class="story-card-footer">
+          <div class="story-card-meta">
+            <span class="story-card-author">by ${escapeHtml(st.author)}</span>
+            <span class="story-card-votes">⭐ ${st.votes || 0} votes</span>
+          </div>
+          <div class="story-card-actions">
+            <a href="${st.url || '#'}" target="_blank" rel="noopener" class="story-card-link">Read more</a>
+            <button class="story-card-vote-btn" data-id="${st.id}">Vote</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    container.querySelectorAll('.story-card-vote-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = Number(btn.getAttribute('data-id'));
+        vote(id, btn);
+      });
+    });
+  }
+
+  async function loadStories() {
+    try {
+      const resp = await fetch(API_STORIES_URL);
+      const data = await resp.json();
+      allStories = data;
+      filterStories();
+    } catch (e) {
+      console.error('Failed to load stories:', e);
+      const container = document.getElementById('stories-list');
+      container.innerHTML = `
+        <div class="col-span-full text-center py-8">
+          <div class="text-4xl mb-4">⚠️</div>
+          <p class="text-muted">Failed to load stories. Please refresh the page.</p>
+        </div>
+      `;
+    }
+  }
+
+  async function vote(id, btn) {
+    const originalText = btn.textContent;
+    btn.textContent = 'Voting...';
+    btn.disabled = true;
+
+    try {
+      const resp = await fetch(API_VOTE_URL + '/' + id, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = await resp.json();
+
+      if (data.success) {
+        btn.textContent = '✓ Voted!';
+        const voteCountEl = btn.closest('.story-card').querySelector('.story-card-votes');
+        voteCountEl.textContent = '⭐ ' + data.votes + ' votes';
+        
+        setTimeout(() => {
+          btn.textContent = '⭐ Vote';
+          btn.disabled = false;
+        }, 1500);
+      } else {
+        btn.textContent = originalText;
+        btn.disabled = false;
+        alert('Error: ' + (data.error || 'Failed to vote'));
+      }
+    } catch (e) {
+      console.error('Vote failed:', e);
+      btn.textContent = originalText;
+      btn.disabled = false;
+      alert('Failed to vote. Please try again.');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', loadStories);
+
+  document.getElementById('search-input').addEventListener('input', function(e) {
+    currentSearch = e.target.value;
+    filterStories();
+  });
+
+  document.getElementById('filter-tag').addEventListener('change', function(e) {
+    currentFilter = e.target.value;
+    filterStories();
+  });
+})();
+</script>

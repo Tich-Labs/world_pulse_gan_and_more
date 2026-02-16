@@ -1,0 +1,342 @@
+<% content_for :title, "Community Hub - World Pulse Plus" %>
+
+<section class="hero-custom mb-10" role="banner" aria-labelledby="hero-title">
+  <div class="container mx-auto">
+    <div class="max-w-3xl hero-inner mx-auto">
+      <h1 id="hero-title">World Pulse Plus</h1>
+      <p>Connect, contribute, and shape what's next.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="http://localhost:3000/matchmaking" class="btn-primary-custom" role="button" aria-label="Get project advice" tabindex="0">
+          <span> 🤝 </span> Get Project Advice
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-12 bg-gray-50 mt-10">
+  <!-- Community Snapshot -->
+  <div class="container mx-auto px-4">
+    <ul class="community-snapshot" role="list">
+      <li class="snapshot-item" role="listitem">
+        <span class="snapshot-icon" style="background: rgba(107, 91, 136, 0.15);" aria-hidden="true">🗳️</span>
+        <div class="snapshot-content">
+          <span class="snapshot-number" id="total-roadmap">0</span>
+          <span class="snapshot-label">Active Roadmap Proposals</span>
+        </div>
+      </li>
+      <li class="snapshot-item" role="listitem">
+        <span class="snapshot-icon" style="background: rgba(133, 200, 138, 0.15);">📚</span>
+        <div class="snapshot-content">
+          <span class="snapshot-number" id="total-trainings">0</span>
+          <span class="snapshot-label">Trainings Requested</span>
+        </div>
+      </li>
+      <li class="snapshot-item" role="listitem">
+        <span class="snapshot-icon" style="background: rgba(91, 158, 166, 0.15);">💡</span>
+        <div class="snapshot-content">
+          <span class="snapshot-number" id="total-projects">0</span>
+          <span class="snapshot-label">Projects Seeking Support</span>
+        </div>
+      </li>
+      <li class="snapshot-item" role="listitem">
+        <span class="snapshot-icon" style="background: rgba(245, 158, 66, 0.15);">⭐</span>
+        <div class="snapshot-content">
+          <span class="snapshot-number" id="total-votes">0</span>
+          <span class="snapshot-label">Total Votes</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="container mx-auto mt-8 px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <a href="/matchmaking" class="card-custom" aria-label="Project Ideas — View Projects">
+        <div class="card-icon" style="background-color: rgba(91, 158, 166, 0.1);">💡</div>
+        <h3>Project Ideas</h3>
+        <p>Submit or get advice on projects.</p>
+        <span class="card-link">View Projects →</span>
+      </a>
+      <a href="/roadmap" class="card-custom" role="article" aria-label="Shape the Roadmap — Vote Now">
+        <div class="card-icon" style="background-color: rgba(232, 168, 124, 0.15);">🗳️</div>
+        <h3>Shape the Roadmap</h3>
+        <p>Vote on platform feature proposals.</p>
+        <span class="card-link">Vote Now →</span>
+      </a>
+      <a href="/training" class="card-custom" role="article" aria-label="Community Trainings — Join Training">
+        <div class="card-icon" style="background-color: rgba(133, 200, 138, 0.15);">🎓</div>
+        <h3>Community Trainings</h3>
+        <p>Offer or request trainings.</p>
+        <span class="card-link">Join Training →</span>
+      </a>
+      <a href="/awards" class="card-custom" role="article" aria-label="Story Awards — Read Stories">
+        <div class="card-icon" style="background-color: rgba(245, 158, 66, 0.12);">🏆</div>
+        <h3>Story Awards</h3>
+        <p>Vote for impact stories to reward authors.</p>
+        <span class="card-link">Read Stories →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- Community Activity Section -->
+<div id="community-activity" class="container mx-auto mb-12 mt-8 px-4" role="region" aria-labelledby="community-activity-title">
+  <!-- Filter Bar -->
+  <div class="flex flex-col sm:flex-row gap-4 mb-8 items-center justify-between">
+    <h2 id="community-activity-title" class="text-2xl font-bold text-primary">Community Activity</h2>
+    <div class="flex gap-4 items-center">
+      <select id="filter-type" class="input-custom" aria-label="Filter by type">
+        <option value="all">All</option>
+        <option value="roadmap">Roadmap</option>
+        <option value="story">Stories</option>
+        <option value="training">Trainings</option>
+      </select>
+      <select id="sort-by" class="input-custom" aria-label="Sort by">
+        <option value="votes">Most Voted</option>
+        <option value="new">Newest</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Featured - Spotlight Cards -->
+  <div class="section-block mb-12">
+    <h3 class="text-xl font-bold text-primary mb-6">⭐ Featured Across Community</h3>
+    <div id="featured-section" class="featured-grid"></div>
+  </div>
+
+  <!-- Trending Roadmap - Compact Cards -->
+  <div class="section-block mb-12">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-xl font-bold text-primary">🔥 Trending Roadmap</h3>
+      <a href="/roadmap" class="text-primary font-semibold">View All →</a>
+    </div>
+    <div id="trending-roadmap" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+  </div>
+
+  <!-- Popular Trainings -->
+  <div class="section-block-alt mb-12">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-xl font-bold text-primary">📚 Popular Trainings</h3>
+      <a href="/training" class="text-primary font-semibold">View All →</a>
+    </div>
+    <div id="popular-trainings" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+  </div>
+
+  <!-- Impact Stories -->
+  <div class="section-block mb-12">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-xl font-bold text-primary">📖 Impact Stories</h3>
+      <a href="/awards" class="text-primary font-semibold">View All →</a>
+    </div>
+    <div id="impact-stories" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+  </div>
+
+  <!-- Project Ideas -->
+  <div class="section-block-alt mb-12">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-xl font-bold text-primary">💡 Project Ideas</h3>
+      <a href="/matchmaking" class="text-primary font-semibold">View All →</a>
+    </div>
+    <div id="project-ideas" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+  </div>
+</div>
+
+<style>
+.community-snapshot {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .community-snapshot { grid-template-columns: repeat(4, 1fr); }
+}
+.snapshot-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.snapshot-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  font-size: 1.5rem;
+}
+.snapshot-content { display: flex; flex-direction: column; }
+.snapshot-number { font-size: 1.5rem; font-weight: 700; color: #3B3A38; }
+.snapshot-label { font-size: 0.75rem; color: #8B8985; }
+
+.section-block {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.section-block-alt {
+  background: #F7F6F4;
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+.featured-grid { display: grid; gap: 1.5rem; }
+@media (min-width: 768px) { .featured-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.featured-card {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 16px rgba(107, 91, 136, 0.15);
+  border: 2px solid #8B7BA8;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.featured-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: linear-gradient(135deg, #8B7BA8, #6B5B88);
+  color: #fff;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  width: fit-content;
+}
+.featured-card h3 { font-size: 1.25rem; font-weight: 700; color: #3B3A38; margin: 0; }
+.featured-card p { color: #8B8985; font-size: 0.9375rem; line-height: 1.5; flex: 1; }
+.featured-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid #E5E1DD;
+}
+.featured-card .vote-count { font-weight: 700; color: #8B7BA8; font-size: 1rem; }
+.featured-card .read-more-btn {
+  padding: 0.5rem 1rem;
+  background: #8B7BA8;
+  color: #fff;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.featured-card .read-more-btn:hover { background: #6B5B88; }
+
+.compact-card {
+  background: #fff;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  border: 1px solid #E5E1DD;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.compact-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.compact-card-header { display: flex; align-items: center; gap: 0.5rem; }
+.compact-card-badge {
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.compact-card h4 { font-size: 0.9375rem; font-weight: 600; color: #3B3A38; margin: 0; flex: 1; }
+.compact-card p { font-size: 0.8125rem; color: #8B8985; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.compact-card-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 0.5rem; }
+.compact-card .vote-count { font-size: 0.75rem; font-weight: 600; color: #8B7BA8; }
+</style>
+
+<script>
+(function() {
+  const API = { roadmap: '/roadmap/ideas', stories: '/awards/stories', training: '/training/data', projects: '/projects' };
+  let allData = { roadmap: [], stories: [], training: [], projects: [] };
+  let currentFilter = 'all';
+  let currentSort = 'votes';
+
+  function escapeHtml(str) { if (!str) return ''; return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s])); }
+
+  function normalizeRoadmap(item) { return { id: item.id, title: item.name, description: item.user_story, votes: item.votes || 0, created_at: item.created_at, type: 'roadmap', featured: false }; }
+  function normalizeStory(item) { return { id: item.id, title: item.title, description: item.content, votes: item.votes || 0, created_at: item.created_at, type: 'story', featured: false }; }
+  function normalizeTraining(item) { return { id: item.id, title: item.topic, description: item.description, votes: item.votes || 0, created_at: item.created_at, type: 'training', featured: false }; }
+  function normalizeProject(item) { return { id: item.id, title: item.name, description: item.description, votes: item.votes || 0, created_at: item.created_at, type: 'project', featured: false }; }
+
+  const badgeConfig = {
+    roadmap: { bg: 'rgba(232, 168, 124, 0.15)', color: '#e8a87c', label: 'Roadmap' },
+    story: { bg: 'rgba(245, 158, 66, 0.12)', color: '#f59e42', label: 'Story' },
+    training: { bg: 'rgba(133, 200, 138, 0.15)', color: '#85c88a', label: 'Training' },
+    project: { bg: 'rgba(91, 158, 166, 0.1)', color: '#5b9ea6', label: 'Project' }
+  };
+
+  function getLink(type) {
+    if (type === 'roadmap') return '/roadmap';
+    if (type === 'training') return '/training';
+    if (type === 'story') return '/awards';
+    if (type === 'project') return '/matchmaking';
+    return '#';
+  }
+
+  function renderFeaturedCard(item) {
+    const badge = badgeConfig[item.type];
+    return `<div class="featured-card"><span class="featured-badge">⭐ Featured ${badge.label}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description)}</p><div class="featured-footer"><span class="vote-count">⭐ ${item.votes} votes</span><a href="${getLink(item.type)}" class="read-more-btn">View Details →</a></div></div>`;
+  }
+
+  function renderCompactCard(item) {
+    const badge = badgeConfig[item.type];
+    return `<div class="compact-card"><div class="compact-card-header"><span class="compact-card-badge" style="background:${badge.bg};color:${badge.color}">${badge.label}</span></div><h4>${escapeHtml(item.title)}</h4><p>${escapeHtml(item.description)}</p><div class="compact-card-footer"><span class="vote-count">⭐ ${item.votes}</span></div></div>`;
+  }
+
+  function renderFeatured() {
+    const container = document.getElementById('featured-section');
+    if (!container) return;
+    const items = [...allData.roadmap, ...allData.stories, ...allData.training, ...allData.projects].sort((a, b) => b.votes - a.votes).slice(0, 4);
+    container.innerHTML = items.length ? items.map(renderFeaturedCard).join('') : '<p class="text-muted">No featured items yet.</p>';
+  }
+
+  function renderSection(id, items, limit) {
+    const container = document.getElementById(id);
+    if (!container) return;
+    container.innerHTML = items.slice(0, limit).map(renderCompactCard).join('') || '<p class="text-muted">No items yet.</p>';
+  }
+
+  function updateMetrics() {
+    const totalRoadmap = allData.roadmap.length;
+    const totalTrainings = allData.training.length;
+    const totalProjects = allData.projects.length || 0;
+    const totalVotes = (allData.roadmap.reduce((s, i) => s + (i.votes || 0), 0)) + (allData.stories.reduce((s, i) => s + (i.votes || 0), 0)) + (allData.training.reduce((s, i) => s + (i.votes || 0), 0)) + (allData.projects.reduce((s, i) => s + (i.votes || 0), 0));
+    document.getElementById('total-roadmap').textContent = totalRoadmap;
+    document.getElementById('total-trainings').textContent = totalTrainings;
+    document.getElementById('total-projects').textContent = totalProjects;
+    document.getElementById('total-votes').textContent = totalVotes;
+  }
+
+  async function loadAllData() {
+    try {
+      const [roadmapRes, storiesRes, trainingRes, projectsRes] = await Promise.all([fetch(API.roadmap), fetch(API.stories), fetch(API.training), fetch(API.projects)]);
+      allData.roadmap = (await roadmapRes.json()).map(normalizeRoadmap);
+      allData.stories = (await storiesRes.json()).map(normalizeStory);
+      const trainingData = await trainingRes.json();
+      allData.training = (trainingData.requests || []).map(normalizeTraining);
+      allData.projects = (await projectsRes.json()).map(normalizeProject);
+      updateMetrics();
+      renderFeatured();
+      renderSection('trending-roadmap', allData.roadmap, 4);
+      renderSection('popular-trainings', allData.training, 4);
+      renderSection('impact-stories', allData.stories, 4);
+      renderSection('project-ideas', allData.projects, 4);
+    } catch (e) { console.error('Failed to load data:', e); }
+  }
+
+  document.getElementById('filter-type').addEventListener('change', function(e) { currentFilter = e.target.value; renderFeatured(); });
+  document.getElementById('sort-by').addEventListener('change', function(e) { currentSort = e.target.value; renderFeatured(); });
+  document.addEventListener('DOMContentLoaded', loadAllData);
+})();
+</script>

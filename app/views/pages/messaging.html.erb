@@ -1,0 +1,146 @@
+<% content_for :title, "Messages - World Pulse Plus" %>
+
+<%
+project = Project.find_by(id: params[:project_id]) if params[:project_id].present?
+project_ids = []
+if current_user
+  project_ids = Message.where("sender_id = ? OR receiver_id = ?", current_user.id, current_user.id).distinct.pluck(:project_id).compact.uniq
+end
+@conversations = Project.where(id: project_ids).order(created_at: :desc)
+%>
+
+<div class="messaging-page">
+  <div class="container mx-auto py-8 px-4">
+    <div class="messaging-layout">
+      <!-- Conversations Sidebar -->
+      <div class="conversation-list">
+        <h3>Your Conversations</h3>
+        <% if @conversations.any? %>
+          <% @conversations.each do |conv| %>
+            <a href="/messaging?project_id=<%= conv.id %>" class="conversation-item <%= project&.id == conv.id ? 'active' : '' %>">
+              <div class="conversation-avatar">
+                <%= conv.name.first.upcase %>
+              </div>
+              <div class="conversation-info">
+                <span class="conversation-name"><%= conv.name %></span>
+                <span class="conversation-preview"><%= conv.location %></span>
+              </div>
+            </a>
+          <% end %>
+        <% else %>
+          <div class="empty-conversations">
+            <p>No conversations yet.</p>
+          </div>
+        <% end %>
+        <div class="sidebar-footer">
+          <a href="/matchmaking" class="btn-secondary-custom w-full">Browse Projects</a>
+        </div>
+      </div>
+
+      <!-- Chat Area -->
+      <div class="chat-area">
+        <% if project %>
+          <!-- Project Banner -->
+          <div class="chat-project-banner">
+            <div class="project-mini-info">
+              <div class="project-mini-avatar"><%= project.name.first.upcase %></div>
+              <div class="project-mini-details">
+                <span class="project-mini-name"><%= project.name %></span>
+                <span class="project-mini-location">📍 <%= project.location %></span>
+              </div>
+            </div>
+            <div class="project-support-tags">
+              <% project.support_types_array.each do |type| %>
+                <span class="support-tag"><%= type %></span>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Messages -->
+          <div class="chat-messages" id="chat-messages" data-project-id="<%= project.id %>">
+            <div class="message system">
+              <div class="message-content">
+                <p class="message-highlight">📋 Project Details</p>
+                <p class="mb-2"><%= project.description %></p>
+                <div class="detail-item">
+                  <strong>Challenge:</strong> <%= project.accomplishment_goal %>
+                </div>
+                <div class="detail-item">
+                  <strong>What they tried:</strong> <%= project.attempts_so_far.truncate(100) %>
+                </div>
+                <div class="detail-item">
+                  <strong>Looking for:</strong> <%= project.support_types_array.join(", ") %>
+                </div>
+                <div class="detail-item">
+                  <strong>Goal:</strong> <%= project.ideal_outcome %>
+                </div>
+              </div>
+            </div>
+            
+            <% project_messages = Message.where(project_id: project.id).order(created_at: :asc) %>
+            <% project_messages.each do |msg| %>
+              <div class="message <%= current_user && msg.sender_id == current_user.id ? 'sent' : 'received' %>">
+                <div class="message-content">
+                  <p><%= msg.content %></p>
+                  <span class="message-time"><%= msg.created_at.strftime("%b %d, %I:%M %p") %></span>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Input -->
+          <div class="chat-input">
+            <form id="message-form" data-project-id="<%= project.id %>">
+              <textarea id="message-content" placeholder="Type your message..." rows="2"></textarea>
+              <button type="submit" class="btn-primary-custom">Send</button>
+            </form>
+          </div>
+        <% else %>
+          <div class="no-chat-selected">
+            <div class="no-chat-icon">💬</div>
+            <p>Select a conversation or browse projects to start helping</p>
+            <a href="/matchmaking" class="btn-primary-custom">Browse Projects</a>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('message-form');
+  if (form) {
+    const chatMessages = document.getElementById('chat-messages');
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const content = document.getElementById('message-content').value;
+      const projectId = form.dataset.projectId;
+      
+      if (!content.trim()) return;
+
+      const formData = new FormData();
+      formData.append('message[project_id]', projectId);
+      formData.append('message[content]', content);
+
+      fetch('/messages', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById('message-content').value = '';
+          location.reload();
+        }
+      });
+    });
+  }
+});
+</script>

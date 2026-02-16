@@ -1,0 +1,92 @@
+<% if @projects.any? %>
+  <% @projects.each do |project| %>
+    <div class="project-card" data-project-id="<%= project.id %>">
+      <div class="project-header">
+        <h3><%= project.name %></h3>
+        <span class="project-location"><%= project.location %></span>
+      </div>
+      <p class="project-description"><%= truncate(project.description, length: 100) %></p>
+      <div class="project-meta">
+        <% if project.support_types_array.any? %>
+          <div class="support-tags">
+            <% project.support_types_array.first(3).each do |type| %>
+              <span class="support-tag"><%= type %></span>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <div class="project-actions">
+        <button class="read-more-btn" onclick="toggleProjectDetails(<%= project.id %>)">Read more ↓</button>
+        <button class="help-btn" onclick="provideHelp(<%= project.id %>)">Provide Help 🤝</button>
+      </div>
+      
+      <!-- Hidden full details -->
+      <div id="project-details-<%= project.id %>" class="project-full-details hidden">
+        <div class="detail-section">
+          <h4>Project Description</h4>
+          <p><%= project.description %></p>
+        </div>
+        
+        <div class="detail-section">
+          <h4>Challenge</h4>
+          <p><strong>Goal:</strong> <%= project.accomplishment_goal %></p>
+          <p><strong>Why it matters:</strong> <%= project.why_matters %></p>
+        </div>
+        
+        <div class="detail-section">
+          <h4>What They've Tried</h4>
+          <p><strong>Attempts:</strong> <%= project.attempts_so_far %></p>
+          <p><strong>What worked:</strong> <%= project.what_worked %></p>
+        </div>
+        
+        <div class="detail-section">
+          <h4>Support Needed</h4>
+          <div class="support-tags">
+            <% project.support_types_array.each do |type| %>
+              <span class="support-tag"><%= type %></span>
+            <% end %>
+          </div>
+        </div>
+        
+        <div class="detail-section">
+          <h4>Ideal Outcome</h4>
+          <p><%= project.ideal_outcome %></p>
+          <p><strong>Timeline:</strong> <%= project.timeline.strftime("%B %d, %Y") if project.timeline %></p>
+        </div>
+        
+        <div class="detail-section">
+          <h4>Team</h4>
+          <p><%= project.team_composition %></p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <div class="empty-state">
+    <div class="empty-icon">📋</div>
+    <div class="empty-title">No projects yet</div>
+    <div class="empty-description">Share your project to get started!</div>
+  </div>
+<% end %>
+
+<script>
+function toggleProjectDetails(projectId) {
+  const details = document.getElementById('project-details-' + projectId);
+  const btn = document.querySelector('[data-project-id="' + projectId + '"] .read-more-btn');
+  
+  if (details.classList.contains('hidden')) {
+    details.classList.remove('hidden');
+    btn.textContent = 'Show less ↑';
+  } else {
+    details.classList.add('hidden');
+    btn.textContent = 'Read more ↓';
+  }
+}
+
+function provideHelp(projectId) {
+  const confirmed = confirm('To provide help, you need to create an account or sign in. Would you like to continue?');
+  if (confirmed) {
+    window.location.href = '/profile?action_type=help&project_id=' + projectId;
+  }
+}
+</script>
