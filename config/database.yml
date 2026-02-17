@@ -86,4 +86,8 @@ test:
 #
 production:
   <<: *default
-  url: <%= ENV["DATABASE_URL"] %>
+  host: <%= ENV["DB_HOST"] || "ep-cool-glade-agdmf82g-pooler.c-2.eu-central-1.aws.neon.tech" %>
+  database: <%= ENV["DB_NAME"] || "neondb" %>
+  username: <%= ENV["DB_USER"] || "neondb_owner" %>
+  password: <%= ENV["DB_PASSWORD"] || "npg_Yt8dkXBcF3qm" %>
+  sslmode: <%= ENV["DB_SSLMODE"] || "require" %>
