@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_17_153738) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_17_154809) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -110,6 +110,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_17_153738) do
     t.text "why_matters"
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.bigint "match_id", null: false
+    t.integer "rating"
+    t.bigint "reviewer_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["match_id"], name: "index_reviews_on_match_id"
+    t.index ["reviewer_id"], name: "index_reviews_on_reviewer_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
   create_table "roadmap_ideas", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "idea_type"
@@ -182,6 +195,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_17_153738) do
   add_foreign_key "profile_fields", "match_types"
   add_foreign_key "profiles", "match_types"
   add_foreign_key "profiles", "users"
+  add_foreign_key "reviews", "matches"
+  add_foreign_key "reviews", "users"
+  add_foreign_key "reviews", "users", column: "reviewer_id"
   add_foreign_key "users", "accounts"
   add_foreign_key "users", "match_types"
 end

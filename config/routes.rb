@@ -31,6 +31,8 @@ Rails.application.routes.draw do
     resources :messages, only: [ :create ]
   end
 
+  resources :reviews, only: [ :create, :show ]
+
   get "up" => "rails/health#show", :as => :rails_health_check
 
   root "pages#index"

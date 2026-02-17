@@ -1,0 +1,43 @@
+<% content_for :title, "Reviews for #{@user.name} - Mentorship Matchmaker" %>
+
+<div class="container mx-auto py-8 px-4">
+  <div class="max-w-2xl mx-auto">
+    <div class="mb-8 text-center">
+      <div class="w-20 h-20 rounded-full bg-primary-custom flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">
+        <%= @user.name.first.upcase %>
+      </div>
+      <h1 class="text-2xl font-bold"><%= @user.name %></h1>
+      <% if @reviews.any? %>
+        <div class="flex items-center justify-center mt-2">
+          <span class="text-yellow-500 text-xl mr-1">★</span>
+          <span class="text-xl font-semibold"><%= @user.average_rating %></span>
+          <span class="text-gray-500 ml-1">(<%= @user.total_reviews %> reviews)</span>
+        </div>
+      <% else %>
+        <p class="text-gray-500 mt-2">No reviews yet</p>
+      <% end %>
+    </div>
+
+    <div class="space-y-4">
+      <% @reviews.each do |review| %>
+        <div class="bg-white rounded-lg shadow p-4">
+          <div class="flex justify-between items-start mb-2">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-white text-sm font-bold">
+                <%= review.reviewer.name.first.upcase %>
+              </div>
+              <span class="font-medium"><%= review.reviewer.name %></span>
+            </div>
+            <div class="text-yellow-500">
+              <% review.rating.times do %>★<% end %><% (5 - review.rating).times do %><span class="text-gray-300">★</span><% end %>
+            </div>
+          </div>
+          <% if review.comment.present? %>
+            <p class="text-gray-600 mt-2"><%= review.comment %></p>
+          <% end %>
+          <p class="text-xs text-gray-400 mt-2"><%= review.created_at.strftime('%B %d, %Y') %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
