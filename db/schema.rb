@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_17_152801) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_17_153738) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -21,6 +21,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_17_152801) do
     t.string "plan"
     t.string "slug"
     t.datetime "updated_at", null: false
+  end
+
+  create_table "conversations", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "match_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_conversations_on_account_id"
+    t.index ["match_id"], name: "index_conversations_on_match_id"
   end
 
   create_table "match_types", force: :cascade do |t|
@@ -51,11 +60,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_17_152801) do
 
   create_table "messages", force: :cascade do |t|
     t.text "content"
+    t.bigint "conversation_id"
     t.datetime "created_at", null: false
     t.integer "project_id"
+    t.datetime "read_at"
     t.integer "receiver_id"
     t.integer "sender_id"
     t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
   create_table "profile_fields", force: :cascade do |t|
@@ -159,11 +171,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_17_152801) do
     t.index ["match_type_id"], name: "index_users_on_match_type_id"
   end
 
+  add_foreign_key "conversations", "accounts"
+  add_foreign_key "conversations", "matches"
   add_foreign_key "match_types", "accounts"
   add_foreign_key "matches", "accounts"
   add_foreign_key "matches", "match_types"
   add_foreign_key "matches", "users", column: "user_a_id"
   add_foreign_key "matches", "users", column: "user_b_id"
+  add_foreign_key "messages", "conversations"
   add_foreign_key "profile_fields", "match_types"
   add_foreign_key "profiles", "match_types"
   add_foreign_key "profiles", "users"
