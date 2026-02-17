@@ -1,0 +1,34 @@
+<% content_for :title, "Training Requests - Admin" %>
+
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6">Training Requests</h1>
+
+  <div class="bg-white rounded-lg shadow overflow-x-auto">
+    <table class="min-w-full">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Topic</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Votes</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Created</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <% @training_requests.each do |request| %>
+          <tr>
+            <td class="px-6 py-4"><%= request.id %></td>
+            <td class="px-6 py-4"><%= truncate(request.topic, length: 30) %></td>
+            <td class="px-6 py-4"><%= truncate(request.description, length: 40) %></td>
+            <td class="px-6 py-4"><%= request.votes %></td>
+            <td class="px-6 py-4"><%= request.created_at.strftime("%Y-%m-%d") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-4">
+    <a href="/admin" class="text-blue-600 hover:underline">&larr; Back to Admin</a>
+  </div>
+</div>

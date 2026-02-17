@@ -12,7 +12,6 @@ Rails.application.routes.draw do
   get "/roadmap", to: "pages#roadmap"
   get "/roadmap/ideas", to: "roadmap#index"
   post "/roadmap/vote/:id", to: "roadmap#vote"
-  # Community hub removed
   get "/matchmaking", to: "pages#matchmaking"
   get "/messaging", to: "pages#messaging"
   get "/documentation", to: "pages#documentation"
@@ -27,4 +26,18 @@ Rails.application.routes.draw do
   post "/training/offering", to: "training#create_offering"
   post "/training/vote/:id", to: "training#vote_request"
   get "/profile", to: "pages#profile"
+
+  # Admin routes
+  get "/admin", to: "admin#index"
+  resources :admin do
+    collection do
+      get :users
+      get :projects
+      get :stories
+      get :messages
+      get :roadmap_ideas
+      get :training_requests
+      get :training_offerings
+    end
+  end
 end

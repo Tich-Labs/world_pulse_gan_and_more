@@ -1,0 +1,32 @@
+<% content_for :title, "Roadmap Ideas - Admin" %>
+
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6">Roadmap Ideas</h1>
+
+  <div class="bg-white rounded-lg shadow overflow-x-auto">
+    <table class="min-w-full">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Title</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Created</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <% @roadmap_ideas.each do |idea| %>
+          <tr>
+            <td class="px-6 py-4"><%= idea.id %></td>
+            <td class="px-6 py-4"><%= truncate(idea.title, length: 50) %></td>
+            <td class="px-6 py-4"><%= truncate(idea.description, length: 50) %></td>
+            <td class="px-6 py-4"><%= idea.created_at.strftime("%Y-%m-%d") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-4">
+    <a href="/admin" class="text-blue-600 hover:underline">&larr; Back to Admin</a>
+  </div>
+</div>
