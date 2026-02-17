@@ -1,6 +1,6 @@
 <% content_for :title, "Users - Admin" %>
 
-<div class="container mx-auto px-4 py-8">
+<div class="p-8">
   <h1 class="text-3xl font-bold mb-6">Users</h1>
 
   <div class="bg-white rounded-lg shadow overflow-x-auto">
@@ -15,7 +15,7 @@
       </thead>
       <tbody class="divide-y divide-gray-200">
         <% @users.each do |user| %>
-          <tr>
+          <tr class="hover:bg-gray-50">
             <td class="px-6 py-4"><%= user.id %></td>
             <td class="px-6 py-4"><%= user.email %></td>
             <td class="px-6 py-4"><%= user.name %></td>
@@ -24,9 +24,5 @@
         <% end %>
       </tbody>
     </table>
-  </div>
-
-  <div class="mt-4">
-    <a href="/admin" class="text-blue-600 hover:underline">&larr; Back to Admin</a>
   </div>
 </div>

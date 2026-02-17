@@ -1,6 +1,6 @@
 <% content_for :title, "Messages - Admin" %>
 
-<div class="container mx-auto px-4 py-8">
+<div class="p-8">
   <h1 class="text-3xl font-bold mb-6">Messages</h1>
 
   <div class="bg-white rounded-lg shadow overflow-x-auto">
@@ -16,7 +16,7 @@
       </thead>
       <tbody class="divide-y divide-gray-200">
         <% @messages.each do |message| %>
-          <tr>
+          <tr class="hover:bg-gray-50">
             <td class="px-6 py-4"><%= message.id %></td>
             <td class="px-6 py-4"><%= message.sender_id %></td>
             <td class="px-6 py-4"><%= message.recipient_id %></td>
@@ -26,9 +26,5 @@
         <% end %>
       </tbody>
     </table>
-  </div>
-
-  <div class="mt-4">
-    <a href="/admin" class="text-blue-600 hover:underline">&larr; Back to Admin</a>
   </div>
 </div>

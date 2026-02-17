@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Admin - World Pulse Plus" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= yield :head %>
+    <link rel="icon" href="/icon.png" type="image/png">
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-gray-100">
+    <div class="flex h-screen">
+      <!-- Sidebar -->
+      <aside class="w-64 bg-gray-900 text-white flex-shrink-0">
+        <div class="p-6">
+          <h1 class="text-xl font-bold">Admin Panel</h1>
+        </div>
+        <nav class="mt-4">
+          <a href="/admin" class="block px-6 py-3 hover:bg-gray-800 <%= current_page?('/admin') ? 'bg-gray-800 border-l-4 border-blue-500' : '' %>">
+            📊 Dashboard
+          </a>
+          <a href="/admin/users" class="block px-6 py-3 hover:bg-gray-800 <%= current_page?('/admin/users') ? 'bg-gray-800 border-l-4 border-blue-500' : '' %>">
+            👥 Users
+          </a>
+          <a href="/admin/projects" class="block px-6 py-3 hover:bg-gray-800 <%= current_page?('/admin/projects') ? 'bg-gray-800 border-l-4 border-blue-500' : '' %>">
+            📁 Projects
+          </a>
+          <a href="/admin/stories" class="block px-6 py-3 hover:bg-gray-800 <%= current_page?('/admin/stories') ? 'bg-gray-800 border-l-4 border-blue-500' : '' %>">
+            📖 Stories
+          </a>
+          <a href="/admin/roadmap_ideas" class="block px-6 py-3 hover:bg-gray-800 <%= current_page?('/admin/roadmap_ideas') ? 'bg-gray-800 border-l-4 border-blue-500' : '' %>">
+            💡 Roadmap Ideas
+          </a>
+          <a href="/admin/training_requests" class="block px-6 py-3 hover:bg-gray-800 <%= current_page?('/admin/training_requests') ? 'bg-gray-800 border-l-4 border-blue-500' : '' %>">
+            📚 Training Requests
+          </a>
+          <a href="/admin/training_offerings" class="block px-6 py-3 hover:bg-gray-800 <%= current_page?('/admin/training_offerings') ? 'bg-gray-800 border-l-4 border-blue-500' : '' %>">
+            🎓 Training Offerings
+          </a>
+          <a href="/admin/messages" class="block px-6 py-3 hover:bg-gray-800 <%= current_page?('/admin/messages') ? 'bg-gray-800 border-l-4 border-blue-500' : '' %>">
+            💬 Messages
+          </a>
+          <hr class="border-gray-700 my-4">
+          <a href="/" class="block px-6 py-3 hover:bg-gray-800">
+            ← Back to Site
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 overflow-y-auto">
+        <%= yield %>
+      </main>
+    </div>
+  </body>
+</html>

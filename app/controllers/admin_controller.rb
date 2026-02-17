@@ -1,4 +1,6 @@
 class AdminController < ApplicationController
+  layout "admin"
+
   def index
     @user_count = User.count
     @project_count = Project.count
@@ -35,5 +37,41 @@ class AdminController < ApplicationController
 
   def training_offerings
     @training_offerings = TrainingOffering.all.order(created_at: :desc)
+  end
+
+  def import_roadmap_ideas
+    if request.post?
+      file = params[:csv_file]
+      if file.present?
+        CSV.foreach(file.path, headers: true) do |row|
+          RoadmapIdea.create!(
+            title: row["title"],
+            description: row["description"],
+            category: row["category"] || "general"
+          )
+        end
+        redirect_to admin_roadmap_ideas_path, notice: "Successfully imported roadmap ideas!"
+      else
+        redirect_to admin_roadmap_ideas_path, alert: "Please select a CSV file"
+      end
+    end
+  end
+
+  def import_stories
+    if request.post?
+      file = params[:csv_file]
+      if file.present?
+        CSV.foreach(file.path, headers: true) do |row|
+          Story.create!(
+            title: row["title"],
+            content: row["content"],
+            author: row["author"] || "Anonymous"
+          )
+        end
+        redirect_to admin_stories_path, notice: "Successfully imported stories!"
+      else
+        redirect_to admin_stories_path, alert: "Please select a CSV file"
+      end
+    end
   end
 end

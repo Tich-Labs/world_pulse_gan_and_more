@@ -38,6 +38,8 @@ Rails.application.routes.draw do
       get :roadmap_ideas
       get :training_requests
       get :training_offerings
+      post :import_roadmap_ideas
+      post :import_stories
     end
   end
 end
