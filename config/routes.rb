@@ -28,18 +28,16 @@ Rails.application.routes.draw do
   get "/profile", to: "pages#profile"
 
   # Admin routes
-  get "/admin", to: "admin#index"
-  resources :admin do
-    collection do
-      get :users
-      get :projects
-      get :stories
-      get :messages
-      get :roadmap_ideas
-      get :training_requests
-      get :training_offerings
-      post :import_roadmap_ideas
-      post :import_stories
-    end
+  namespace :admin do
+    get "/", to: "index"
+    get "/users", to: "users"
+    get "/projects", to: "projects"
+    get "/stories", to: "stories"
+    get "/messages", to: "messages"
+    get "/roadmap-ideas", to: "roadmap_ideas"
+    get "/training-requests", to: "training_requests"
+    get "/training-offerings", to: "training_offerings"
+    post "/import-stories", to: "import_stories"
+    post "/import-roadmap-ideas", to: "import_roadmap_ideas"
   end
 end
