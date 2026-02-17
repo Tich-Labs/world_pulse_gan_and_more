@@ -1,41 +1,39 @@
 <% content_for :title, "Admin Dashboard - World Pulse Plus" %>
 
-<h1 class="text-3xl font-bold mb-8">Admin Dashboard</h1>
-
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-  <a href="/admin/users" class="block p-6 bg-white rounded-lg shadow hover:shadow-lg transition border-l-4 border-blue-500">
-    <div class="text-4xl font-bold text-blue-600"><%= @user_count %></div>
-    <div class="text-gray-600 mt-2 font-semibold">Users</div>
+  <a href="/admin/users" aria-label="<%= @user_count %> users" class="block p-4 bg-white rounded-lg shadow hover:shadow-lg transition flex flex-col items-center justify-center gap-2 h-28 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style="border-left:4px solid #5B9EA6;">
+    <div class="w-28 text-center px-3 py-1 rounded-md text-2xl font-extrabold" style="background-color: rgba(91,158,166,0.18); color: #155a5e;" aria-hidden="true"><%= @user_count %></div>
+    <div class="text-gray-800 mt-2 font-bold">Users</div>
   </a>
   
-  <a href="/admin/projects" class="block p-6 bg-white rounded-lg shadow hover:shadow-lg transition border-l-4 border-green-500">
-    <div class="text-4xl font-bold text-green-600"><%= @project_count %></div>
-    <div class="text-gray-600 mt-2 font-semibold">Projects</div>
+  <a href="/admin/projects" aria-label="<%= @project_count %> projects" class="block p-4 bg-white rounded-lg shadow hover:shadow-lg transition flex flex-col items-center justify-center gap-2 h-28 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style="border-left:4px solid #85C88A;">
+    <div class="w-28 text-center px-3 py-1 rounded-md text-2xl font-extrabold" style="background-color: rgba(133,200,138,0.18); color: #11601d;" aria-hidden="true"><%= @project_count %></div>
+    <div class="text-gray-800 mt-2 font-bold">Projects</div>
   </a>
   
-  <a href="/admin/stories" class="block p-6 bg-white rounded-lg shadow hover:shadow-lg transition border-l-4 border-purple-500">
-    <div class="text-4xl font-bold text-purple-600"><%= @story_count %></div>
-    <div class="text-gray-600 mt-2 font-semibold">Stories</div>
+  <a href="/admin/stories" aria-label="<%= @story_count %> stories" class="block p-4 bg-white rounded-lg shadow hover:shadow-lg transition flex flex-col items-center justify-center gap-2 h-28 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style="border-left:4px solid #E8A87C;">
+    <div class="w-28 text-center px-3 py-1 rounded-md text-2xl font-extrabold" style="background-color: rgba(232,168,124,0.18); color: #6b2f07;" aria-hidden="true"><%= @story_count %></div>
+    <div class="text-gray-800 mt-2 font-bold">Stories</div>
   </a>
   
-  <a href="/admin/messages" class="block p-6 bg-white rounded-lg shadow hover:shadow-lg transition border-l-4 border-orange-500">
-    <div class="text-4xl font-bold text-orange-600"><%= @message_count %></div>
-    <div class="text-gray-600 mt-2 font-semibold">Messages</div>
+  <a href="/admin/messages" aria-label="<%= @message_count %> messages" class="block p-4 bg-white rounded-lg shadow hover:shadow-lg transition flex flex-col items-center justify-center gap-2 h-28 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style="border-left:4px solid #5B9EA6;">
+    <div class="w-28 text-center px-3 py-1 rounded-md text-2xl font-extrabold" style="background-color: rgba(91,158,166,0.18); color: #155a5e;" aria-hidden="true"><%= @message_count %></div>
+    <div class="text-gray-800 mt-2 font-bold">Messages</div>
   </a>
   
-  <a href="/admin/roadmap-ideas" class="block p-6 bg-white rounded-lg shadow hover:shadow-lg transition border-l-4 border-red-500">
-    <div class="text-4xl font-bold text-red-600"><%= @roadmap_idea_count %></div>
-    <div class="text-gray-600 mt-2 font-semibold">Roadmap Ideas</div>
+  <a href="/admin/roadmap-ideas" aria-label="<%= @roadmap_idea_count %> roadmap ideas" class="block p-4 bg-white rounded-lg shadow hover:shadow-lg transition flex flex-col items-center justify-center gap-2 h-28 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style="border-left:4px solid #E8A87C;">
+    <div class="w-28 text-center px-3 py-1 rounded-md text-2xl font-extrabold" style="background-color: rgba(232,168,124,0.18); color: #6b2f07;" aria-hidden="true"><%= @roadmap_idea_count %></div>
+    <div class="text-gray-800 mt-2 font-bold">Roadmap Ideas</div>
   </a>
   
-  <a href="/admin/training-requests" class="block p-6 bg-white rounded-lg shadow hover:shadow-lg transition border-l-4 border-teal-500">
-    <div class="text-4xl font-bold text-teal-600"><%= @training_request_count %></div>
-    <div class="text-gray-600 mt-2 font-semibold">Training Requests</div>
+  <a href="/admin/training-requests" aria-label="<%= @training_request_count %> training requests" class="block p-4 bg-white rounded-lg shadow hover:shadow-lg transition flex flex-col items-center justify-center gap-2 h-28 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style="border-left:4px solid #85C88A;">
+    <div class="w-28 text-center px-3 py-1 rounded-md text-2xl font-extrabold" style="background-color: rgba(133,200,138,0.18); color: #0c5a17;" aria-hidden="true"><%= @training_request_count %></div>
+    <div class="text-gray-800 mt-2 font-bold">Training Requests</div>
   </a>
   
-  <a href="/admin/training-offerings" class="block p-6 bg-white rounded-lg shadow hover:shadow-lg transition border-l-4 border-indigo-500">
-    <div class="text-4xl font-bold text-indigo-600"><%= @training_offering_count %></div>
-    <div class="text-gray-600 mt-2 font-semibold">Training Offerings</div>
+  <a href="/admin/training-offerings" aria-label="<%= @training_offering_count %> training offerings" class="block p-4 bg-white rounded-lg shadow hover:shadow-lg transition flex flex-col items-center justify-center gap-2 h-28 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2" style="border-left:4px solid #5B9EA6;">
+    <div class="w-28 text-center px-3 py-1 rounded-md text-2xl font-extrabold" style="background-color: rgba(91,158,166,0.18); color: #155a5e;" aria-hidden="true"><%= @training_offering_count %></div>
+    <div class="text-gray-800 mt-2 font-bold">Training Offerings</div>
   </a>
 </div>
 
@@ -52,7 +50,7 @@
           <input type="file" name="csv_file" accept=".csv" required class="block w-full border rounded px-3 py-2">
         </div>
         <p class="text-xs text-gray-500 mb-4">CSV columns: title, content, author</p>
-        <button type="submit" class="w-full bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Import Stories</button>
+        <button type="submit" class="w-full text-white px-4 py-2 rounded hover:opacity-90" style="background-color: #5B9EA6;">Import Stories</button>
       </form>
     </div>
 
@@ -66,7 +64,7 @@
           <input type="file" name="csv_file" accept=".csv" required class="block w-full border rounded px-3 py-2">
         </div>
         <p class="text-xs text-gray-500 mb-4">CSV columns: title, description, category</p>
-        <button type="submit" class="w-full bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Import Roadmap Ideas</button>
+        <button type="submit" class="w-full text-white px-4 py-2 rounded hover:opacity-90" style="background-color: #E8A87C;">Import Roadmap Ideas</button>
       </form>
     </div>
   </div>

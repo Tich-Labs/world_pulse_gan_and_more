@@ -1,8 +1,10 @@
 <% content_for :title, "Training Offerings - Admin" %>
 
-<h1 class="text-3xl font-bold mb-6">Training Offerings</h1>
+<%= render 'admin/search_form', placeholder: 'Search training offerings...', width: 'w-64', show_button: true %>
 
-<div class="bg-white rounded-lg shadow overflow-x-auto">
+<%= pagy_tailwind_nav(@pagy) if defined?(@pagy) %>
+
+<div class="bg-white rounded-lg shadow max-h-[calc(100vh-14rem)] overflow-auto">
   <table class="min-w-full">
     <thead class="bg-gray-50">
       <tr>
@@ -17,10 +19,12 @@
         <tr class="hover:bg-gray-50">
           <td class="px-6 py-4"><%= offering.id %></td>
           <td class="px-6 py-4"><%= truncate(offering.topic, length: 40) %></td>
-          <td class="px-6 py-4"><%= offering.instructor_name %></td>
+          <td class="px-6 py-4"><%= offering.availability || 'N/A' %></td>
           <td class="px-6 py-4"><%= offering.created_at.strftime("%Y-%m-%d") %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
+
+<%= pagy_tailwind_nav(@pagy) if defined?(@pagy) %>

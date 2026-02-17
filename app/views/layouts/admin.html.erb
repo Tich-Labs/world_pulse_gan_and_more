@@ -11,50 +11,105 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-gray-100">
-    <div class="flex min-h-screen">
-      <!-- Sidebar -->
-      <aside class="w-64 bg-gray-900 text-white flex-shrink-0 fixed h-full">
-        <div class="p-6 border-b border-gray-700">
+  <body class="bg-gray-100 min-h-screen flex flex-col">
+    <div class="flex-1 flex md:flex-row">
+      <!-- Mobile top bar -->
+      <header class="bg-white border-b md:hidden flex items-center justify-between px-4 py-3">
+        <div class="flex items-center gap-3">
+          <button id="sidebarToggle" aria-label="Toggle navigation" class="text-gray-700 focus:outline-none">
+            ☰
+          </button>
+          <h1 class="text-lg font-semibold">WP+ Admin</h1>
+        </div>
+        <div>
+          <a href="/" class="text-sm text-gray-600">Back to site</a>
+        </div>
+      </header>
+
+      <!-- Sidebar (classic) -->
+      <aside id="adminSidebar" class="fixed inset-y-0 left-0 w-64 bg-teal-600 text-white transform -translate-x-full md:translate-x-0 transition-transform duration-200 z-20 flex flex-col" style="background-color: #5B9EA6;">
+        <div class="p-6 border-b border-white/20">
           <h1 class="text-xl font-bold">WP+ Admin</h1>
         </div>
-        <nav class="mt-4">
-          <a href="/admin" class="block px-6 py-3 hover:bg-gray-800 <%= request.path == '/admin' ? 'bg-gray-800 border-l-4 border-blue-500' : '' %>">
-            📊 Dashboard
-          </a>
-          <a href="/admin/users" class="block px-6 py-3 hover:bg-gray-800 <%= request.path.include?('/admin/users') ? 'bg-gray-800 border-l-4 border-blue-500' : '' %>">
-            👥 Users
-          </a>
-          <a href="/admin/projects" class="block px-6 py-3 hover:bg-gray-800 <%= request.path.include?('/admin/projects') ? 'bg-gray-800 border-l-4 border-blue-500' : '' %>">
-            📁 Projects
-          </a>
-          <a href="/admin/stories" class="block px-6 py-3 hover:bg-gray-800 <%= request.path.include?('/admin/stories') ? 'bg-gray-800 border-l-4 border-blue-500' : '' %>">
-            📖 Stories
-          </a>
-          <a href="/admin/roadmap-ideas" class="block px-6 py-3 hover:bg-gray-800 <%= request.path.include?('/admin/roadmap-ideas') ? 'bg-gray-800 border-l-4 border-blue-500' : '' %>">
-            💡 Roadmap Ideas
-          </a>
-          <a href="/admin/training-requests" class="block px-6 py-3 hover:bg-gray-800 <%= request.path.include?('/admin/training-requests') ? 'bg-gray-800 border-l-4 border-blue-500' : '' %>">
-            📚 Training Requests
-          </a>
-          <a href="/admin/training-offerings" class="block px-6 py-3 hover:bg-gray-800 <%= request.path.include?('/admin/training-offerings') ? 'bg-gray-800 border-l-4 border-blue-500' : '' %>">
-            🎓 Training Offerings
-          </a>
-          <a href="/admin/messages" class="block px-6 py-3 hover:bg-gray-800 <%= request.path.include?('/admin/messages') ? 'bg-gray-800 border-l-4 border-blue-500' : '' %>">
-            💬 Messages
-          </a>
-          <div class="border-t border-gray-700 mt-4 pt-4">
-            <a href="/" class="block px-6 py-3 hover:bg-gray-800">
-              ← Back to Site
-            </a>
-          </div>
+        <nav class="mt-4 flex-1 overflow-auto" role="navigation" aria-label="Admin navigation">
+          <%= link_to '📊 Dashboard', '/admin', class: "block px-6 py-3 hover:opacity-80 #{'bg-teal-700 border-l-4 border-orange-400 pl-5' if request.path == '/admin'}", aria: { current: (request.path == '/admin') ? 'page' : nil } %>
+          <%= link_to '👥 Users', '/admin/users', class: "block px-6 py-3 hover:opacity-80 #{'bg-teal-700 border-l-4 border-orange-400 pl-5' if request.path.include?('/admin/users')}", aria: { current: (request.path.include?('/admin/users')) ? 'page' : nil } %>
+          <%= link_to '📁 Projects', '/admin/projects', class: "block px-6 py-3 hover:opacity-80 #{'bg-teal-700 border-l-4 border-orange-400 pl-5' if request.path.include?('/admin/projects')}", aria: { current: (request.path.include?('/admin/projects')) ? 'page' : nil } %>
+          <%= link_to '📖 Stories', '/admin/stories', class: "block px-6 py-3 hover:opacity-80 #{'bg-teal-700 border-l-4 border-orange-400 pl-5' if request.path.include?('/admin/stories')}", aria: { current: (request.path.include?('/admin/stories')) ? 'page' : nil } %>
+          <%= link_to '💡 Roadmap Ideas', '/admin/roadmap-ideas', class: "block px-6 py-3 hover:opacity-80 #{'bg-teal-700 border-l-4 border-orange-400 pl-5' if request.path.include?('/admin/roadmap-ideas')}", aria: { current: (request.path.include?('/admin/roadmap-ideas')) ? 'page' : nil } %>
+          <%= link_to '📚 Training Requests', '/admin/training-requests', class: "block px-6 py-3 hover:opacity-80 #{'bg-teal-700 border-l-4 border-orange-400 pl-5' if request.path.include?('/admin/training-requests')}", aria: { current: (request.path.include?('/admin/training-requests')) ? 'page' : nil } %>
+          <%= link_to '🎓 Training Offerings', '/admin/training-offerings', class: "block px-6 py-3 hover:opacity-80 #{'bg-teal-700 border-l-4 border-orange-400 pl-5' if request.path.include?('/admin/training-offerings')}", aria: { current: (request.path.include?('/admin/training-offerings')) ? 'page' : nil } %>
+          <%= link_to '💬 Messages', '/admin/messages', class: "block px-6 py-3 hover:opacity-80 #{'bg-teal-700 border-l-4 border-orange-400 pl-5' if request.path.include?('/admin/messages')}", aria: { current: (request.path.include?('/admin/messages')) ? 'page' : nil } %>
         </nav>
+        <div class="border-t border-white/20 mt-4 pt-4">
+          <%= link_to '← Back to Site', '/', class: 'block px-6 py-3 hover:opacity-80 text-sm', style: 'color: rgba(255,255,255,0.8);' %>
+        </div>
       </aside>
 
+      <!-- Overlay for mobile when sidebar open -->
+      <div id="sidebarOverlay" class="fixed inset-0 bg-black opacity-50 hidden z-10 md:hidden"></div>
+
       <!-- Main Content -->
-      <main class="ml-64 flex-1 p-8">
-        <%= yield %>
+      <main class="flex-1 md:ml-64 py-4 md:py-6 px-4 md:px-6 w-full min-h-0 overflow-auto">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <% page_heading = if content_for?(:title)
+                 # derive short heading from title, stripping any " - Site" suffix
+                 yield(:title).to_s.split(' - ').first
+               else
+                 "Admin"
+               end %>
+            <h2 class="text-2xl font-semibold text-gray-800"><%= page_heading %></h2>
+            <p class="text-sm text-gray-500 mt-1"><%= content_for?(:subtitle) ? yield(:subtitle) : request.path.gsub('/admin','').presence || "Dashboard" %></p>
+          </div>
+          <div class="flex items-center gap-4">
+            <% if defined?(current_user) && current_user %>
+              <span class="text-sm text-gray-600">Signed in as <strong><%= current_user.email %></strong></span>
+              <%= link_to 'Sign out', session_path, method: :delete, class: 'text-sm text-red-600 hover:underline' %>
+            <% else %>
+              <%= link_to 'Sign in', new_session_path, class: 'text-sm text-blue-600 hover:underline' %>
+            <% end %>
+          </div>
+        </div>
+
+        <% flash.each do |type, message| %>
+          <div class="mb-4 p-4 rounded border <%=
+            case type.to_s
+            when 'notice' then 'bg-green-50 border-green-200 text-green-800'
+            when 'alert' then 'bg-red-50 border-red-200 text-red-800'
+            else 'bg-gray-50 border-gray-200 text-gray-800'
+            end
+          %>">
+            <%= message %>
+          </div>
+        <% end %>
+
+        <div class="bg-white rounded-md shadow-sm p-4 min-h-0 w-full">
+          <%= yield %>
+        </div>
       </main>
+
     </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function(){
+        var toggle = document.getElementById('sidebarToggle');
+        var sidebar = document.getElementById('adminSidebar');
+        var overlay = document.getElementById('sidebarOverlay');
+        if(toggle){
+          toggle.addEventListener('click', function(){
+            var hidden = sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+          });
+        }
+        if(overlay){
+          overlay.addEventListener('click', function(){
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+          });
+        }
+      });
+    </script>
+    <%= render 'shared/footer' %>
   </body>
 </html>

@@ -1,8 +1,10 @@
 <% content_for :title, "Users - Admin" %>
 
-<h1 class="text-3xl font-bold mb-6">Users</h1>
+<%= render 'admin/search_form', placeholder: 'Search users...', width: 'w-64' %>
 
-<div class="bg-white rounded-lg shadow overflow-x-auto">
+<%= pagy_tailwind_nav(@pagy) if defined?(@pagy) %>
+
+<div class="bg-white rounded-lg shadow max-h-[calc(100vh-14rem)] overflow-auto">
   <table class="min-w-full">
     <thead class="bg-gray-50">
       <tr>
@@ -24,3 +26,5 @@
     </tbody>
   </table>
 </div>
+
+<%= pagy_tailwind_nav(@pagy) if defined?(@pagy) %>

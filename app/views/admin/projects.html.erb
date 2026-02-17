@@ -1,8 +1,10 @@
 <% content_for :title, "Projects - Admin" %>
 
-<h1 class="text-3xl font-bold mb-6">Projects</h1>
+<%= render 'admin/search_form', placeholder: 'Search projects...', width: 'w-64', show_button: true %>
 
-<div class="bg-white rounded-lg shadow overflow-x-auto">
+<%= pagy_tailwind_nav(@pagy) if defined?(@pagy) %>
+
+<div class="bg-white rounded-lg shadow max-h-[calc(100vh-14rem)] overflow-auto">
   <table class="min-w-full">
     <thead class="bg-gray-50">
       <tr>
@@ -17,7 +19,7 @@
       <% @projects.each do |project| %>
         <tr class="hover:bg-gray-50">
           <td class="px-6 py-4"><%= project.id %></td>
-          <td class="px-6 py-4"><%= project.title %></td>
+          <td class="px-6 py-4"><%= project.name %></td>
           <td class="px-6 py-4"><%= truncate(project.description, length: 50) %></td>
           <td class="px-6 py-4"><%= project.votes %></td>
           <td class="px-6 py-4"><%= project.created_at.strftime("%Y-%m-%d") %></td>
@@ -26,3 +28,5 @@
     </tbody>
   </table>
 </div>
+
+<%= pagy_tailwind_nav(@pagy) if defined?(@pagy) %>

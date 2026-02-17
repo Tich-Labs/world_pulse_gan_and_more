@@ -1,10 +1,12 @@
 <% content_for :title, "Stories - Admin" %>
 
-<div class="flex justify-between items-center mb-6">
-  <h1 class="text-3xl font-bold">Stories</h1>
-  
+<div class="flex items-center justify-between mb-4">
+  <form method="get" class="flex items-center gap-2">
+    <input name="q" value="<%= params[:q] %>" placeholder="Search stories..." class="border rounded px-3 py-1" />
+    <button type="submit" class="bg-purple-600 text-white px-3 py-1 rounded">Search</button>
+  </form>
   <!-- Import Form -->
-  <form action="/admin/import-stories" method="post" enctype="multipart/form-data" class="flex items-center gap-2">
+  <form action="/admin/import-stories" method="post" enctype="multipart/form-data" data-turbo="false" class="flex items-center gap-2">
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
     <input type="file" name="csv_file" accept=".csv" required class="border rounded px-2 py-1 text-sm">
     <button type="submit" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 text-sm">Import CSV</button>
@@ -19,7 +21,9 @@
   <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"><%= alert %></div>
 <% end %>
 
-<div class="bg-white rounded-lg shadow overflow-x-auto">
+<%= pagy_tailwind_nav(@pagy) if defined?(@pagy) %>
+
+<div class="bg-white rounded-lg shadow max-h-[calc(100vh-14rem)] overflow-auto">
   <table class="min-w-full">
     <thead class="bg-gray-50">
       <tr>
@@ -43,3 +47,5 @@
     </tbody>
   </table>
 </div>
+
+<%= pagy_tailwind_nav(@pagy) if defined?(@pagy) %>

@@ -1,8 +1,20 @@
 <% content_for :title, "Training Requests - Admin" %>
 
-<h1 class="text-3xl font-bold mb-6">Training Requests</h1>
+<% extra_html = capture do %>
+  <select name="status" class="border rounded px-2 py-1">
+    <option value="">All</option>
+    <% TrainingRequest.distinct.pluck(:status).compact.each do |s| %>
+      <option value="<%= s %>" <%= 'selected' if params[:status] == s %>><%= s %></option>
+    <% end %>
+  </select>
+  <button type="submit" style="background-color:#5B9EA6;color:#fff;" class="px-3 py-1 rounded">Filter</button>
+<% end %>
 
-<div class="bg-white rounded-lg shadow overflow-x-auto">
+<%= render 'admin/search_form', placeholder: 'Search training requests...', width: 'w-64', show_button: true, extra_html: extra_html %>
+
+<%= pagy_tailwind_nav(@pagy) if defined?(@pagy) %>
+
+<div class="bg-white rounded-lg shadow max-h-[calc(100vh-14rem)] overflow-auto">
   <table class="min-w-full">
     <thead class="bg-gray-50">
       <tr>
@@ -26,3 +38,5 @@
     </tbody>
   </table>
 </div>
+
+<%= pagy_tailwind_nav(@pagy) if defined?(@pagy) %>
