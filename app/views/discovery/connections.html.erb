@@ -1,0 +1,67 @@
+<% content_for :title, "My Connections - Mentorship Matchmaker" %>
+
+<div class="container mx-auto py-8 px-4">
+  <div class="mb-8">
+    <h1 class="text-2xl font-bold">My Connections</h1>
+    <p class="text-gray-600">Manage your connection requests</p>
+  </div>
+
+  <div class="grid gap-8">
+    <!-- Pending Requests -->
+    <div>
+      <h2 class="text-xl font-semibold mb-4">Pending Requests</h2>
+      <% if @pending.any? %>
+        <div class="space-y-4">
+          <% @pending.each do |match| %>
+            <% other_user = match.other_user(current_user) %>
+            <div class="bg-white rounded-lg shadow p-4 flex justify-between items-center">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-primary-custom flex items-center justify-center text-white font-bold">
+                  <%= other_user.name.first.upcase %>
+                </div>
+                <div>
+                  <h3 class="font-semibold"><%= other_user.name %></h3>
+                  <p class="text-sm text-gray-500">Pending since <%= match.created_at.strftime('%b %d') %></p>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <%= button_to "Accept", "#", class: "btn-primary-custom text-sm py-2 px-4" %>
+                <%= button_to "Decline", "#", class: "btn-secondary-custom text-sm py-2 px-4" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-gray-500">No pending requests</p>
+      <% end %>
+    </div>
+
+    <!-- Accepted Connections -->
+    <div>
+      <h2 class="text-xl font-semibold mb-4">Active Connections</h2>
+      <% if @accepted.any? %>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <% @accepted.each do |match| %>
+            <% other_user = match.other_user(current_user) %>
+            <div class="bg-white rounded-lg shadow p-4">
+              <div class="flex items-center space-x-3 mb-3">
+                <div class="w-10 h-10 rounded-full bg-primary-custom flex items-center justify-center text-white font-bold">
+                  <%= other_user.name.first.upcase %>
+                </div>
+                <div>
+                  <h3 class="font-semibold"><%= other_user.name %></h3>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <%= link_to "Message", "/messaging?user_id=#{other_user.id}", class: "flex-1 btn-primary-custom text-sm py-2 text-center" %>
+                <%= link_to "View Profile", "/profiles/#{other_user.id}", class: "flex-1 btn-secondary-custom text-sm py-2 text-center" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-gray-500">No active connections yet</p>
+      <% end %>
+    </div>
+  </div>
+</div>

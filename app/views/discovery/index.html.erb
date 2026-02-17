@@ -1,0 +1,88 @@
+<% content_for :title, "Discover Matches - Mentorship Matchmaker" %>
+
+<div class="container mx-auto py-8 px-4">
+  <div class="mb-8">
+    <h1 class="text-2xl font-bold">Discover <%= @match_type.name_b.pluralize %></h1>
+    <p class="text-gray-600">Find and connect with <%= @match_type.name_b.downcase %>s that match your needs</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <!-- Filters Sidebar -->
+    <div class="lg:col-span-1">
+      <div class="bg-white rounded-lg shadow p-4 sticky top-4">
+        <h2 class="font-semibold mb-4">Filters</h2>
+        
+        <%= form_tag search_discovery_index_path, method: :get, id: "filter-form", remote: true do %>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+              <%= text_field_tag :q, params[:q], placeholder: "Search...", class: "w-full rounded-md border-gray-300 shadow-sm focus:border-primary-custom focus:ring-primary-custom" %>
+            </div>
+
+            <% @search_fields.each do |field| %>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"><%= field.name %></label>
+                <% if field.field_type == 'select' %>
+                  <%= select_tag "filters[#{field.name}]", 
+                      options_for_select(['All'] + field.options, @current_filters[field.name]),
+                      class: "w-full rounded-md border-gray-300 shadow-sm focus:border-primary-custom focus:ring-primary-custom" %>
+                <% elsif field.field_type == 'number' %>
+                  <div class="grid grid-cols-2 gap-2">
+                    <%= number_field_tag "filters[#{field.name}_min]", @current_filters["#{field.name}_min"], 
+                        placeholder: "Min", class: "w-full rounded-md border-gray-300 shadow-sm focus:border-primary-custom" %>
+                    <%= number_field_tag "filters[#{field.name}_max]", @current_filters["#{field.name}_max"], 
+                        placeholder: "Max", class: "w-full rounded-md border-gray-300 shadow-sm focus:border-primary-custom" %>
+                  </div>
+                <% else %>
+                  <%= text_field_tag "filters[#{field.name}]", @current_filters[field.name], 
+                      placeholder: "Filter by #{field.name}", class: "w-full rounded-md border-gray-300 shadow-sm focus:border-primary-custom" %>
+                <% end %>
+              </div>
+            <% end %>
+
+            <div class="flex gap-2">
+              <%= submit_tag "Apply", class: "flex-1 btn-primary-custom text-sm py-2" %>
+              <%= link_to "Clear", discovery_index_path, class: "flex-1 btn-secondary-custom text-sm py-2 text-center" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="lg:col-span-3">
+      <div id="matches-results">
+        <%= render 'match_cards', matches: @matches %>
+      </div>
+      
+      <div class="mt-6">
+        <%= paginate @matches %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  let debounceTimer;
+  const form = document.getElementById('filter-form');
+  
+  form.querySelectorAll('input, select').forEach(input => {
+    input.addEventListener('change', function() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        const formData = new FormData(form);
+        const params = new URLSearchParams(formData).toString();
+        fetch(`/discovery/search?${params}`, {
+          headers: { 'Accept': 'text/vnd.turbo-stream.html' }
+        })
+        .then(response => response.text())
+        .then(html => {
+          const results = document.getElementById('matches-results');
+          results.innerHTML = html;
+        });
+      }, 300);
+    });
+  });
+});
+</script>

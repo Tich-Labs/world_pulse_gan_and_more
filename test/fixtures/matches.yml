@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  account: one
+  match_type: one
+  user_a: one
+  user_b: one
+  score: 1
+  status: MyString
+
+two:
+  account: two
+  match_type: two
+  user_a: two
+  user_b: two
+  score: 1
+  status: MyString

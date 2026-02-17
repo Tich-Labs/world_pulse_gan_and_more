@@ -19,6 +19,14 @@ Rails.application.routes.draw do
     resources :match_types, only: [ :new, :create, :edit, :update, :destroy ]
   end
 
+  resources :discovery, only: [ :index ] do
+    collection do
+      get :search
+      post :connect
+      get :connections
+    end
+  end
+
   get "up" => "rails/health#show", :as => :rails_health_check
 
   root "pages#index"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_17_140919) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_17_152801) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -32,6 +32,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_17_140919) do
     t.string "name_b"
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_match_types_on_account_id"
+  end
+
+  create_table "matches", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "match_type_id", null: false
+    t.integer "score"
+    t.string "status"
+    t.datetime "updated_at", null: false
+    t.bigint "user_a_id", null: false
+    t.bigint "user_b_id", null: false
+    t.index ["account_id"], name: "index_matches_on_account_id"
+    t.index ["match_type_id"], name: "index_matches_on_match_type_id"
+    t.index ["user_a_id"], name: "index_matches_on_user_a_id"
+    t.index ["user_b_id"], name: "index_matches_on_user_b_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -145,6 +160,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_17_140919) do
   end
 
   add_foreign_key "match_types", "accounts"
+  add_foreign_key "matches", "accounts"
+  add_foreign_key "matches", "match_types"
+  add_foreign_key "matches", "users", column: "user_a_id"
+  add_foreign_key "matches", "users", column: "user_b_id"
   add_foreign_key "profile_fields", "match_types"
   add_foreign_key "profiles", "match_types"
   add_foreign_key "profiles", "users"

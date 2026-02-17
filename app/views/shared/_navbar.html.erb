@@ -6,6 +6,10 @@
   <div class="styles_wrapper">
     <a class="nav-link <%= 'nav-active' if current_page?('/') %>" href="/">Dashboard</a>
     <a class="nav-link <%= 'nav-active' if current_page?('/matchmaking') %>" href="/matchmaking">Connect</a>
+    <% if current_user && current_user.match_type %>
+      <a class="nav-link <%= 'nav-active' if current_page?('/discovery') %>" href="/discovery">Discover</a>
+      <a class="nav-link <%= 'nav-active' if current_page?('/discovery/connections') %>" href="/discovery/connections">Connections</a>
+    <% end %>
     <% if current_user %>
       <% unread_count = Message.where(receiver_id: current_user.id).count rescue 0 %>
       <a class="nav-link <%= 'nav-active' if current_page?('/messaging') %>" href="/messaging" aria-label="Messages" title="Messages" style="position:relative;">
