@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  match_type: one
+  side: MyString
+  name: MyString
+  field_type: MyString
+  options_json: MyText
+  required: false
+  order: 1
+
+two:
+  match_type: two
+  side: MyString
+  name: MyString
+  field_type: MyString
+  options_json: MyText
+  required: false
+  order: 1

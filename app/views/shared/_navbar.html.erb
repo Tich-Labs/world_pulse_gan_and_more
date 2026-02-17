@@ -24,6 +24,11 @@
     <a class="nav-link <%= 'nav-active' if current_page?('/documentation') %>" href="/documentation" title="Documentation" aria-label="Documentation">
       <span aria-hidden="true" style="font-size:1.25rem;display:inline-block;line-height:1;">📖</span>
     </a>
+    <% if current_user %>
+      <a class="nav-link" href="/profiles/<%= current_user.id %>" title="Your Profile" aria-label="Your Profile">
+        <span aria-hidden="true" style="font-size:1.25rem;display:inline-block;line-height:1;">👤</span>
+      </a>
+    <% end %>
     <!-- Community Hub removed -->
     <!-- <a class="nav-button" href="https://www.worldpulse.org/login?next=/profile/" target="_blank" rel="noopener">Profile</a> -->
   </div>

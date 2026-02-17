@@ -1,3 +1,108 @@
+# Multi-tenant Matchmaking Seed Data
+account = Account.find_or_create_by!(name: "World Pulse Plus") do |a|
+  a.slug = "worldpulse-plus"
+  a.plan = "free"
+end
+
+puts "Created account: #{account.name}"
+
+# Create a default MatchType for mentorship/community
+mentorship = MatchType.find_or_create_by!(name: "Mentorship") do |m|
+  m.account = account
+  m.name_a = "Mentee"
+  m.name_b = "Mentor"
+  m.description = "Connect seekers with experienced advisors"
+end
+
+puts "Created match type: #{mentorship.name} (#{mentorship.name_a}/#{mentorship.name_b})"
+
+# Create profile fields for Mentees (side a)
+mentee_fields = [
+  { name: "Industry", field_type: "select", options_json: '["Technology", "Healthcare", "Education", "Agriculture", "Finance", "Social Impact", "Other"]'.to_json, required: true, order: 1 },
+  { name: "Goals", field_type: "textarea", required: true, order: 2 },
+  { name: "Experience Level", field_type: "select", options_json: '["Beginner", "Intermediate", "Advanced"]'.to_json, required: true, order: 3 },
+  { name: "Looking For", field_type: "multiselect", options_json: '["Career Guidance", "Technical Skills", "Business Skills", "Leadership", "Networking"]'.to_json, required: true, order: 4 }
+]
+
+mentee_fields.each do |field|
+  ProfileField.find_or_create_by!(match_type: mentorship, name: field[:name]) do |f|
+    f.side = "a"
+    f.field_type = field[:field_type]
+    f.options_json = field[:options_json]
+    f.required = field[:required]
+    f.order = field[:order]
+  end
+end
+
+# Create profile fields for Mentors (side b)
+mentor_fields = [
+  { name: "Expertise Areas", field_type: "multiselect", options_json: '["Technology", "Healthcare", "Education", "Agriculture", "Finance", "Social Impact", "Business Strategy", "Marketing"]'.to_json, required: true, order: 1 },
+  { name: "Years of Experience", field_type: "number", required: true, order: 2 },
+  { name: "Bio", field_type: "textarea", required: true, order: 3 },
+  { name: "Availability", field_type: "select", options_json: '["1-2 hours/week", "3-5 hours/week", "5+ hours/week"]'.to_json, required: true, order: 4 }
+]
+
+mentor_fields.each do |field|
+  ProfileField.find_or_create_by!(match_type: mentorship, name: field[:name]) do |f|
+    f.side = "b"
+    f.field_type = field[:field_type]
+    f.options_json = field[:options_json]
+    f.required = field[:required]
+    f.order = field[:order]
+  end
+end
+
+puts "Created #{ProfileField.count} profile fields for #{mentorship.name}"
+
+# Create a second MatchType for Influencer/Business
+influencer = MatchType.find_or_create_by!(name: "Influencer Marketing") do |m|
+  m.account = account
+  m.name_a = "Business Owner"
+  m.name_b = "Influencer"
+  m.description = "Connect brands with influencers for promotional partnerships"
+end
+
+puts "Created match type: #{influencer.name} (#{influencer.name_a}/#{influencer.name_b})"
+
+# Create profile fields for Business Owners
+business_fields = [
+  { name: "Company Name", field_type: "text", required: true, order: 1 },
+  { name: "Industry", field_type: "select", options_json: '["Technology", "Fashion", "Food & Beverage", "Health & Wellness", "Travel", "Education", "Finance", "Other"]'.to_json, required: true, order: 2 },
+  { name: "Target Audience", field_type: "textarea", required: true, order: 3 },
+  { name: "Budget Range", field_type: "select", options_json: '["$500-$1,000", "$1,000-$5,000", "$5,000-$10,000", "$10,000+"]'.to_json, required: true, order: 4 }
+]
+
+business_fields.each do |field|
+  ProfileField.find_or_create_by!(match_type: influencer, name: field[:name]) do |f|
+    f.side = "a"
+    f.field_type = field[:field_type]
+    f.options_json = field[:options_json]
+    f.required = field[:required]
+    f.order = field[:order]
+  end
+end
+
+# Create profile fields for Influencers
+influencer_fields = [
+  { name: "Platforms", field_type: "multiselect", options_json: '["Instagram", "TikTok", "YouTube", "LinkedIn", "Twitter/X", "Facebook"]'.to_json, required: true, order: 1 },
+  { name: "Follower Count", field_type: "number", required: true, order: 2 },
+  { name: "Engagement Rate", field_type: "text", required: false, order: 3 },
+  { name: "Hourly Rate", field_type: "number", required: false, order: 4 },
+  { name: "Bio", field_type: "textarea", required: true, order: 5 }
+]
+
+influencer_fields.each do |field|
+  ProfileField.find_or_create_by!(match_type: influencer, name: field[:name]) do |f|
+    f.side = "b"
+    f.field_type = field[:field_type]
+    f.options_json = field[:options_json]
+    f.required = field[:required]
+    f.order = field[:order]
+  end
+end
+
+puts "Created #{ProfileField.count} total profile fields"
+
 # Roadmap Ideas Seed Data
 roadmap_ideas = [
   { name: "Peer Advisory Matching Algorithm", submitter: "Alex Rivera", idea_type: "Feature", user_story: "As a seeker, I want automatic matches with advisors so I can get help faster.", votes: 42 },

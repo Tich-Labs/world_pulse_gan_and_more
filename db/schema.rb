@@ -10,9 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_15_160001) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_17_140919) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.text "config_json"
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.string "plan"
+    t.string "slug"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "match_types", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "name"
+    t.string "name_a"
+    t.string "name_b"
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_match_types_on_account_id"
+  end
 
   create_table "messages", force: :cascade do |t|
     t.text "content"
@@ -21,6 +41,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_15_160001) do
     t.integer "receiver_id"
     t.integer "sender_id"
     t.datetime "updated_at", null: false
+  end
+
+  create_table "profile_fields", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "field_type"
+    t.bigint "match_type_id", null: false
+    t.string "name"
+    t.text "options_json"
+    t.integer "order"
+    t.boolean "required"
+    t.string "side"
+    t.datetime "updated_at", null: false
+    t.index ["match_type_id"], name: "index_profile_fields_on_match_type_id"
+  end
+
+  create_table "profiles", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "data_json"
+    t.bigint "match_type_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["match_type_id"], name: "index_profiles_on_match_type_id"
+    t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -84,14 +127,27 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_15_160001) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.bigint "account_id"
     t.text "bio"
     t.datetime "created_at", null: false
     t.string "email"
     t.text "expertise"
     t.boolean "is_advisor"
     t.string "location"
+    t.bigint "match_type_id"
     t.string "name"
     t.string "password_digest"
+    t.string "role"
+    t.string "side"
     t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_users_on_account_id"
+    t.index ["match_type_id"], name: "index_users_on_match_type_id"
   end
+
+  add_foreign_key "match_types", "accounts"
+  add_foreign_key "profile_fields", "match_types"
+  add_foreign_key "profiles", "match_types"
+  add_foreign_key "profiles", "users"
+  add_foreign_key "users", "accounts"
+  add_foreign_key "users", "match_types"
 end

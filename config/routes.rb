@@ -5,6 +5,19 @@ Rails.application.routes.draw do
   resource :session, only: [ :new, :create, :destroy ]
   resources :projects, only: [ :create, :index ]
   resources :messages, only: [ :create, :index ]
+  resources :profiles, only: [ :show, :edit, :update ] do
+    member do
+      get :complete
+    end
+  end
+
+  resources :match_types, only: [ :index, :show ] do
+    resources :profiles, only: [ :new, :create ]
+  end
+
+  resources :accounts, only: [] do
+    resources :match_types, only: [ :new, :create, :edit, :update, :destroy ]
+  end
 
   get "up" => "rails/health#show", :as => :rails_health_check
 

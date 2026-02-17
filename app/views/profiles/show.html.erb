@@ -1,0 +1,33 @@
+<% content_for :title, "Your Profile - Mentorship Matchmaker" %>
+
+<div class="container mx-auto py-8 px-4">
+  <div class="max-w-2xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+      <div>
+        <h1 class="text-2xl font-bold">Your Profile</h1>
+        <p class="text-gray-600">as <%= current_user.side_label(@profile.match_type) %></p>
+      </div>
+      <%= link_to "Edit Profile", edit_profile_path, class: "btn-secondary-custom" %>
+    </div>
+
+    <% if @fields.empty? %>
+      <div class="bg-yellow-50 border border-yellow-200 rounded-md p-4">
+        <p class="text-yellow-800">No profile fields configured yet.</p>
+        <%= link_to "Complete your profile later", root_path, class: "text-primary-custom underline" %>
+      </div>
+    <% else %>
+      <div class="bg-white shadow rounded-lg overflow-hidden">
+        <dl>
+          <% @fields.each do |field| %>
+            <div class="<%= cycle('bg-gray-50', 'bg-white') %> px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500"><%= field.name %></dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <%= render_profile_field_readonly(field, @profile.data) %>
+              </dd>
+            </div>
+          <% end %>
+        </dl>
+      </div>
+    <% end %>
+  </div>
+</div>
