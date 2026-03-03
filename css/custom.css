@@ -4,6 +4,7 @@
 
 :root {
   --font-sans: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+  --font-size-base: 22.4px;
   --rounded-xl: 0.75rem;
   --rounded-2xl: 1rem;
   --rounded-3xl: 1.25rem;
@@ -44,6 +45,7 @@ body {
   background: linear-gradient(135deg, #FAFAF8 0%, #F5F3F0 100%);
   color: var(--text-primary);
   font-family: var(--font-sans);
+  font-size: var(--font-size-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: flex;
@@ -165,6 +167,56 @@ p {
   transition: all var(--transition-normal) cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+}
+
+/* Make cards stretch and support equal-height grid rows */
+.card-custom {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* Ensure cards inside grid layout stretch to same height */
+.grid > .card-custom,
+.grid > a.card-custom,
+.grid > .card-custom a {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Consistent icon sizing for card tiles */
+.card-icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  font-size: 1.25rem;
+  flex: 0 0 auto;
+}
+
+/* Improve touch targets for primary buttons and read-more links */
+.btn-primary-custom,
+.read-more-btn {
+  padding: 0.75rem 1rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Keyboard focus styles for interactive cards */
+.card-custom:focus,
+.card-custom:focus-visible,
+a.card-custom:focus,
+a.card-custom:focus-visible {
+  outline: 3px solid rgba(139, 123, 168, 0.18);
+  outline-offset: 3px;
+  box-shadow: 0 8px 20px rgba(107,91,136,0.06);
 }
 
 /* Special styling for idea cards */
@@ -360,6 +412,25 @@ select.input-custom {
   padding-right: 2.5rem;
   appearance: none;
 }
+
+/* Ensure select text is visible and accessible */
+select.input-custom {
+  color: var(--text-primary) !important;
+  background-color: #F9F8F7;
+  min-width: 140px;
+  line-height: 1.5;
+  padding-left: 0.75rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+select.input-custom option {
+  color: var(--text-primary);
+}
+
+/* For WebKit-based browsers ensure internal text color is applied */
+select.input-custom::-webkit-input-placeholder { color: var(--text-muted); }
+select.input-custom::-webkit-text-fill-color { color: var(--text-primary); }
 
 .form-group {
   margin-bottom: 1.5rem;
@@ -707,6 +778,68 @@ select.input-custom {
   animation: softBounce 0.6s ease-in-out;
 }
 
+/* ----------------------------- */
+/* Hero, Snapshot & Activity Fixes */
+/* ----------------------------- */
+
+/* Hero section: centered, roomy, responsive */
+.hero-custom {
+  padding: 3.5rem 0;
+  background: linear-gradient(180deg, rgba(139,123,168,0.03) 0%, rgba(245,241,239,0.00) 100%);
+}
+.hero-custom .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.hero-custom h1 {
+  margin: 0 0 0.5rem 0;
+  line-height: 1.05;
+}
+.hero-custom p {
+  margin: 0 0 1rem 0;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+@media (min-width: 768px) {
+  .hero-custom { padding: 5rem 0; }
+  .hero-custom h1 { font-size: 2.5rem; }
+}
+
+/* Community snapshot: equal height tiles and stretch across grid */
+.community-snapshot {
+  display: grid;
+  gap: 1rem;
+  grid-auto-rows: 1fr;
+}
+@media (min-width: 768px) {
+  .community-snapshot { grid-template-columns: repeat(4, 1fr); }
+}
+.community-snapshot .snapshot-item {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+/* Community activity header: keep title and controls aligned */
+#community-activity .flex {
+  align-items: center;
+  gap: 0.75rem;
+}
+#community-activity h2 { margin: 0; }
+#community-activity .input-custom { min-width: 140px; }
+
+/* Small polish: ensure featured grid items align properly */
+.featured-grid > .featured-card,
+.featured-grid > .featured-card * {
+  box-sizing: border-box;
+}
+
+
 .animate-spin {
   animation: spin 1s linear infinite;
 }
@@ -948,7 +1081,7 @@ select.input-custom {
 
 .navbar-logo {
   background: inherit !important;
-  height: 40px;
+  height: 60px;
   width: auto;
   border: none;
 }
@@ -1399,4 +1532,145 @@ html {
 
 .profile-type-stats .stat-label {
   font-size: 0.75rem;
+}
+
+/* Story Awards Card */
+.story-card {
+  background: #fff;
+  border-radius: var(--rounded-2xl);
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid var(--base-300);
+}
+
+.story-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(107, 91, 136, 0.15);
+  border-color: var(--primary);
+}
+
+.story-card-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #E9EBF8 0%, #D4D9F0 100%);
+  border-radius: 50%;
+}
+
+.story-card-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.story-card-content {
+  flex: 1;
+  text-align: center;
+}
+
+.story-card-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.story-card-description {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.story-card-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--base-300), transparent);
+  margin: 0;
+}
+
+.story-card-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.story-card-meta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.75rem;
+}
+
+.story-card-author {
+  color: var(--text-muted);
+}
+
+.story-card-votes {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+.story-card-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.story-card-link {
+  flex: 1;
+  text-align: center;
+  padding: 0.75rem 1rem;
+  background: var(--base-200);
+  border: 2px solid transparent;
+  color: var(--text-primary);
+  border-radius: var(--rounded-xl);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.story-card-link:hover {
+  background: var(--base-300);
+  border-color: var(--primary);
+}
+
+.story-card-vote-btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-focus) 100%);
+  border: none;
+  color: #fff;
+  border-radius: var(--rounded-xl);
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(245, 161, 125, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.story-card-vote-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 161, 125, 0.4);
+}
+
+.story-card-vote-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
